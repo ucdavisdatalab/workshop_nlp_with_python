@@ -1,0 +1,6 @@
+format: jb-book
+root: index
+options:
+  numbered: true
+chapters:
+- file: 01_logistics.ipynb

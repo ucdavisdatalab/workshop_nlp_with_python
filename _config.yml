@@ -1,0 +1,24 @@
+title: YOUR TITLE
+author: YOUR NAME
+copyright: THE YEAR
+logo: img/datalab-logo-full-color-rgb.png
+only_build_toc_files: true
+
+repository:
+  url: GITHUB URL
+
+parse:
+  myst_enable_extensions:
+    - colon_fence
+    - dollarmath
+    - html_image
+    - linkify
+    - substitution
+
+execute:
+  execute_notebooks: force
+  timeout: 120
+
+html:
+  use_repository_button: true
+
