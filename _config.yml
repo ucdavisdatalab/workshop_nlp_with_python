@@ -1,11 +1,11 @@
-title: YOUR TITLE
-author: YOUR NAME
-copyright: THE YEAR
+title: Natural Language Processing with Python
+author: Tyler Shoemaker and Carl Stahmer
+copyright: "2022"
 logo: img/datalab-logo-full-color-rgb.png
 only_build_toc_files: true
 
 repository:
-  url: GITHUB URL
+  url: https://github.com/ucdavisdatalab/workshop_nlp_with_python
 
 parse:
   myst_enable_extensions:
