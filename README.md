@@ -20,8 +20,8 @@ informatics to the humanities.
 
 ## Common Links
 
-* [Reader](https://ucdavisdatalab.github.io/workshop_nlp_with_python/intro.html)
-* [Event Page](EVENT_PAGE)
+* [Reader](https://ucdavisdatalab.github.io/workshop_nlp_with_python/)
+* [Event Page](https://datalab.ucdavis.edu/eventscalendar/natural-language-processing-with-python-3-part-series-3/)
 
 
 ## Contributing
