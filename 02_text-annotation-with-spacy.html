@@ -1,0 +1,1055 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2. Text Annotation &#8212; Natural Language Processing with Python</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >let toggleHintShow = 'Click to show';</script>
+    <script >let toggleHintHide = 'Click to hide';</script>
+    <script >let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="1. TBD" href="01_logistics.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/datalab-logo-full-color-rgb.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Natural Language Processing with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_logistics.html">
+   1. TBD
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2. Text Annotation
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/02_text-annotation-with-spacy.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/ucdavisdatalab/workshop_nlp_with_python"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/ucdavisdatalab/workshop_nlp_with_python/master?urlpath=tree/02_text-annotation-with-spacy.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spacy-language-models">
+   2.1. spaCy Language Models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#text-annotations">
+   2.2. Text Annotations
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#document">
+     2.2.1. Document
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tokens">
+     2.2.2. Tokens
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependency-parsing">
+   2.3. Dependency Parsing
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="text-annotation">
+<h1><span class="section-number">2. </span>Text Annotation<a class="headerlink" href="#text-annotation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="spacy-language-models">
+<h2><span class="section-number">2.1. </span>spaCy Language Models<a class="headerlink" href="#spacy-language-models" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_md&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="text-annotations">
+<h2><span class="section-number">2.2. </span>Text Annotations<a class="headerlink" href="#text-annotations" title="Permalink to this headline">¶</a></h2>
+<p>To annotate text with the <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model, simply run it through the core function, <code class="docutils literal notranslate"><span class="pre">nlp()</span></code>. We’ll do so with a short poem by Gertrude Stein</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/session_one/stein_carafe.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">carafe</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    
+<span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">carafe</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With this done, we can inspect the result…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A kind in glass and a cousin, a spectacle and nothing strange a single hurt color and an arrangement in a system to pointing. All this and not ordinary, not unordered in not resembling. The difference is spreading.
+</pre></div>
+</div>
+</div>
+</div>
+<p>…which seems to be no different from a string representation! This output is a bit misleading, however. Our <code class="docutils literal notranslate"><span class="pre">doc</span></code> object actually has a ton of extra information associated with it, even though, on the surface, it appears to be a plain old string.</p>
+<p>If you’d like, you can inspect all these attributes and methods with:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We won’t show them all here, but suffice it to say, there are a lot!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of attributes in a SpaCy doc:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of attributes in a SpaCy doc: 51
+</pre></div>
+</div>
+</div>
+</div>
+<p>This high number of attributes indicates an important point to keep in mind when working with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>: as opposed to other forms of text preprocessing, like changing the case of tokens, removing punctuation, or stemming a corpus, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> aims to <strong>maximally preserve information</strong> about your text. It keeps texts intact and in fact adds much more information about them than Python’s base string methods have. In this sense, we might say that <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> is additive in nature, whereas text mining methods are subtractive, or reductive.</p>
+<div class="section" id="document">
+<h3><span class="section-number">2.2.1. </span>Document<a class="headerlink" href="#document" title="Permalink to this headline">¶</a></h3>
+<p>So, while the base representation of <code class="docutils literal notranslate"><span class="pre">doc</span></code> looks like a string, under the surface there are all sorts of annotations about it. To access them, we use the attributes counted above. For example, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> adds extra segmentation information about a text, like which parts of it belong to different sentences. We can check to see whether this information has been attached to our text with the <code class="docutils literal notranslate"><span class="pre">has_annotation()</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="o">.</span><span class="n">has_annotation</span><span class="p">(</span><span class="s1">&#39;SENT_START&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use the same method to check for a few other annotations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotation_types</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Dependencies&#39;</span><span class="p">:</span> <span class="s1">&#39;DEP&#39;</span><span class="p">,</span> <span class="s1">&#39;Entities&#39;</span><span class="p">:</span> <span class="s1">&#39;ENT_IOB&#39;</span><span class="p">,</span> <span class="s1">&#39;Tags&#39;</span><span class="p">:</span> <span class="s1">&#39;TAG&#39;</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">annotation_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">has_annotation</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dependencies: True
+    Entities: True
+        Tags: True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s look at sentences. We can access them with <code class="docutils literal notranslate"><span class="pre">sents</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="o">.</span><span class="n">sents</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator at 0x1184cbf48&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>…but you can see that there’s a small complication here: <code class="docutils literal notranslate"><span class="pre">sents</span></code> returns a generator, not a list. The reason has to do with memory efficiency. Because <code class="docutils literal notranslate"><span class="pre">SpaCy</span></code> adds so much extra information about your text, this information could slow down your code or overwhelm your computer if the library didn’t store it in an efficient manner. Of course this isn’t a problem with our small poem, but you can imagine how it could become one with a big corpus.</p>
+<p>To access the actual sentences in <code class="docutils literal notranslate"><span class="pre">doc</span></code>, we’ll need to convert the generator to a list.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">Want to learn more about generators?</p>
+<p>The DataLab has a workshop on them.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sentences</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A kind in glass and a cousin, a spectacle and nothing strange a single hurt color and an arrangement in a system to pointing.
+All this and not ordinary, not unordered in not resembling.
+The difference is spreading.
+</pre></div>
+</div>
+</div>
+</div>
+<p>One very useful attribute is <code class="docutils literal notranslate"><span class="pre">noun_chunks</span></code>. It returns nouns and compound nouns in a text.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">noun_chunks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">noun</span> <span class="ow">in</span> <span class="n">noun_chunks</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">noun</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A kind
+glass
+a cousin
+a spectacle
+nothing
+a single hurt color
+an arrangement
+a system
+The difference
+</pre></div>
+</div>
+</div>
+</div>
+<p>See how this picks up not only nouns, but articles and compound information? Articles could be helpful if you wanted to track singular/plural relationships, or whereas compound nouns might tell you something about the way a text refers to the entities therein. The latter might have repeating patterns, for example, and you might imagine how you could use noun chunks to create and count n-gram tokens and feed that into a classifier.</p>
+<p>Consider this example from <em>The Odyssey</em>. Homer used many epithets and repeating phrases throughout his epic. According to some theories, these act as mnemonic devices, helping a performer keep everything in their head during an oral performance. Using <code class="docutils literal notranslate"><span class="pre">noun_chunks</span></code> in conjunction with a Python <code class="docutils literal notranslate"><span class="pre">Counter</span></code>, we might be able to identify these in Homer’s text. Below, we’ll do so with Book XI.</p>
+<p>First, let’s load and model the text.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/session_one/odyssey_book_11.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">book_eleven</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    
+<span class="n">odyssey</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">book_eleven</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we’ll import a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> and initialize it. Then we’ll get the noun chunks from the text and add them to the counter dictionary. Be sure to only grab the text! We’ll explain why in a little while.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+<span class="n">odyssey_noun_chunks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">odyssey</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">odyssey_noun_chunks</span><span class="p">:</span>
+    <span class="n">c</span><span class="p">[</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With that done, let’s look for repeating noun chunks with three or more words.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">What we’re doing here…</p>
+<p>For every noun chunk in the counter:</p>
+<ol class="simple">
+<li><p>Split the chunk</p></li>
+<li><p>Check if the length of the chunk is more than two and the count is more than one</p></li>
+<li><p>If so, join the chunk back together and print it along with the chunk</p></li>
+</ol>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Phrase&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">23</span><span class="p">),</span> <span class="s2">&quot;| Count</span><span class="se">\n</span><span class="s2">-------------------------------&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">chunk</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">joined</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">joined</span><span class="si">:</span><span class="s2">&lt;24</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Phrase                  | Count
+-------------------------------
+the sea shore               2
+a fair wind                 2
+the poor feckless ghosts    2
+the same time               2
+the other side              2
+his golden sceptre          2
+your own house              2
+her own son                 2
+the Achaean land            2
+her own husband             2
+my wicked wife              2
+all the Danaans             2
+the poor creature           2
+</pre></div>
+</div>
+</div>
+</div>
+<p>Excellent! Looks like we turned up a few: “the poor feckless ghosts,” “my wicked wife,” and “all the Danaans” are likely the kind of repeating phrases scholars think of in Homer’s text.</p>
+<p>Another way to look at entities in a text is with <code class="docutils literal notranslate"><span class="pre">ents</span></code>. <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> uses <strong>named-entity recognition</strong> to extract significant objects, or entities, in a text. In general, anything that has a proper name associated with it is considered an entity. Here are the first five from Book XI above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">entities</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">odyssey</span><span class="o">.</span><span class="n">ents</span><span class="p">)</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">entities</span><span class="p">[</span><span class="n">count</span><span class="p">])</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Circe
+Oceanus
+Cimmerians
+Circe
+Perimedes
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="tokens">
+<h3><span class="section-number">2.2.2. </span>Tokens<a class="headerlink" href="#tokens" title="Permalink to this headline">¶</a></h3>
+<p>In addition to storing all of this information about texts, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> creates a substantial amount of annotations for each of the tokens in that text. The same logic as above applies to accessing this information.</p>
+<p>Let’s return to the Stein poem. Indexing <code class="docutils literal notranslate"><span class="pre">doc</span></code> will return individual tokens:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>glass
+</pre></div>
+</div>
+</div>
+</div>
+<p>Like <code class="docutils literal notranslate"><span class="pre">doc</span></code>, each one has several attributes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">token_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of token attributes:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">token_attributes</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of token attributes: 94
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wow! That’s a lot.</p>
+<p>These attributes range from simple booleans, like whether a token is an alphabetic character:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">is_alpha</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>…or whether it is a stop word:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">is_stop</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+<p>…to more complex pieces of information, like part of speech tags:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;NOUN&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>…sentiment scores:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">sentiment</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>…and even vector space representations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-1.4859e-01, -1.7940e-01,  4.3666e-02,  1.5748e-01,  1.3568e-01,
+       -9.3666e-01, -6.8430e-01,  4.7692e-01, -4.1391e-01,  9.3575e-01,
+       -1.6360e-01,  6.7553e-02, -2.7843e-01, -5.6125e-01,  1.3088e-01,
+       -1.0006e-01,  7.0374e-03,  2.6217e+00,  5.4600e-02, -5.8931e-01,
+        2.5739e-04, -2.6791e-01,  4.6093e-01, -5.9145e-02, -1.0330e-01,
+       -3.7589e-01, -2.5343e-01,  1.4790e-02, -4.8031e-01, -4.4314e-01,
+        2.4685e-01, -8.6519e-04, -1.2361e-01,  9.1683e-02, -1.5880e-01,
+       -4.5974e-01,  3.3017e-01, -4.4124e-01,  3.3604e-01, -3.0438e-01,
+        4.4664e-01,  2.2697e-01,  2.9327e-02, -2.7025e-01,  3.1813e-01,
+       -1.5890e-01, -4.1371e-01, -9.0721e-01, -2.0866e-01,  3.6400e-01,
+        5.6862e-02, -2.6824e-01, -2.9722e-01,  6.2107e-02, -4.7908e-01,
+       -5.8164e-01, -1.4302e-01,  7.0109e-02, -1.2735e-01,  3.6194e-02,
+       -1.6634e-01, -2.2135e-01, -5.0446e-02,  4.3839e-01, -5.5363e-01,
+       -4.4219e-01, -1.3657e-01, -2.8472e-01, -5.0637e-01,  7.9913e-01,
+        3.8253e-02, -2.9499e-01,  4.3688e-01,  8.3770e-02, -1.4432e-01,
+        6.6395e-01, -2.1807e-01,  5.4256e-02, -3.6963e-01,  3.3715e-02,
+       -2.0889e-01,  3.8404e-01, -3.3217e-02,  6.1296e-05, -8.7465e-01,
+       -4.6473e-01,  9.2310e-01,  1.8017e+00, -6.3421e-01, -7.6744e-02,
+        1.8829e-01, -7.6714e-02,  5.7521e-01,  4.8993e-01,  4.5188e-01,
+       -3.1280e-01,  3.0696e-01, -1.8402e-01, -8.0179e-02,  1.0587e-01,
+        6.2712e-01,  2.5180e-02,  1.3250e-02,  2.0200e-01, -4.9301e-01,
+       -7.0543e-01,  1.7630e-01, -3.8573e-01,  1.4884e-01,  1.1469e-01,
+       -2.4512e-01,  4.0795e-01,  4.0503e-01, -7.7637e-01,  2.9981e-01,
+        8.6308e-02, -3.4265e-01, -1.0283e-01,  6.5428e-01,  1.0040e+00,
+        7.9215e-02,  1.4525e-01,  2.6923e-01,  3.0525e-01,  2.4649e-01,
+       -4.8161e-01,  3.2354e-01, -4.3063e-01,  1.3162e-01,  3.0885e-01,
+        2.8071e-02,  2.0262e-01,  5.5863e-02,  1.2160e-01,  9.4541e-02,
+        3.6149e-01, -2.4719e-01,  4.8192e-01,  1.7732e-02, -2.5866e-01,
+       -2.0020e+00,  3.9600e-01,  2.7223e-01,  2.7166e-01, -2.8302e-01,
+       -3.3678e-01, -5.5586e-01,  1.2634e-01,  6.2432e-01, -3.5482e-01,
+        1.2412e-01,  2.3334e-01,  1.4205e-01,  1.8260e-01, -2.7955e-01,
+       -2.7223e-01,  2.6309e-01,  1.9212e-01,  2.0547e-02,  4.1270e-01,
+       -9.5296e-02, -2.0779e-01, -4.3821e-01,  6.5274e-01,  5.6938e-01,
+       -3.7614e-01,  2.0610e-02, -2.3933e-01, -4.5018e-02,  7.8979e-01,
+       -5.6471e-02, -6.9630e-01, -3.7204e-01,  4.7623e-01, -4.0311e-01,
+       -2.2279e-01,  2.9097e-01, -3.1518e-02,  1.8166e-01, -1.2901e+00,
+        1.7859e-02,  1.4502e-01,  2.5328e-01,  1.4368e-01, -2.8549e-01,
+       -2.8093e-01,  3.4198e-01,  4.3326e-01, -1.8720e-01, -2.0026e-02,
+       -5.1639e-01, -1.8429e-01,  2.6677e-01, -5.4715e-01,  1.3708e-01,
+        8.5359e-01, -3.3253e-02,  6.5259e-02,  6.3762e-03, -2.0237e-01,
+       -2.0636e-01,  2.5313e-01,  2.4637e-01, -1.5723e-01,  1.2737e-01,
+       -1.3642e-01, -5.0911e-02,  8.9525e-02, -1.7082e-02, -1.1004e-02,
+       -3.0895e-01,  1.2306e-02,  2.2061e-01, -7.4971e-01,  5.6255e-01,
+        1.8285e-01,  1.0815e-01, -3.0618e-01, -2.2243e-01, -2.0343e-01,
+       -3.2494e-01, -5.1475e-02,  2.5458e-01,  4.1998e-01,  2.2291e-01,
+        2.6603e-01, -5.2339e-01, -2.4402e-01, -3.4416e-01,  1.7581e-01,
+       -1.6235e-01,  1.0313e-01, -7.9232e-02,  4.2340e-02, -2.1850e-01,
+        5.7816e-02,  5.7152e-01,  3.3476e-01,  4.1512e-01, -2.9936e-01,
+        6.5527e-01,  8.0372e-01,  7.6235e-02, -2.4887e-02,  3.0213e-01,
+        3.9550e-01,  6.1762e-02,  2.9353e-02, -3.6386e-01, -3.3995e-02,
+        4.1919e-01, -1.9895e-01, -1.2398e-02, -2.9315e-01,  2.4226e-01,
+        3.4726e-01,  3.7107e-03, -2.3358e-01,  5.1316e-02,  1.9872e-01,
+        4.9645e-01,  6.8326e-01,  1.9632e-01,  1.3301e-01,  1.4365e-01,
+        2.1953e-01, -3.8584e-01,  7.6862e-02, -3.8999e-01, -3.7050e-01,
+       -4.5012e-01,  2.6216e-02,  3.0185e-01, -4.0049e-01,  3.3771e-01,
+        7.1870e-02, -1.3996e-01,  1.5457e-01,  2.2269e-01, -1.5383e-02,
+        5.0255e-02,  1.2920e-01,  8.6803e-02,  1.0577e-01, -1.1371e-01,
+       -2.5309e-01,  5.2190e-01,  2.1234e-01, -3.2938e-02,  4.0497e-01,
+       -5.4544e-01,  1.2056e-01,  2.9463e-01,  1.4404e-01, -2.9775e-01,
+        4.5954e-01, -2.8968e-01,  2.5130e-01,  2.2969e-01,  4.5593e-01],
+      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll discuss some of these more complex annotations later on, both in this session and others. For now, let’s collect some simple information about each of the tokens in our text. We’ll use list comprehension to do so. We’ll also use the <code class="docutils literal notranslate"><span class="pre">text</span></code> attribute for each token, since we only want the text representation (otherwise, we’d be creating a list of generators, where each generator has all those attribute for every token!).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">]</span>
+<span class="n">punctuation</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_punct</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Words</span><span class="se">\n</span><span class="s2">-----</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Puncuation</span><span class="se">\n</span><span class="s2">----------</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">punctuation</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Words
+-----
+A kind in glass and a cousin a spectacle and nothing strange a single hurt color and an arrangement in a system to pointing All this and not ordinary not unordered in not resembling The difference is spreading 
+
+Puncuation
+----------
+, . , . .
+</pre></div>
+</div>
+</div>
+</div>
+<p>Want some linguistic information? We can get that too. For example, here are prefixes and suffixes:</p>
+<div class="margin sidebar">
+<p class="sidebar-title">You might be wondering about those underscores…</p>
+<p>The syntax conventions of <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> use an underscore to access the actual attribute information for a token. Using an attribute without the underscore will return an id, which the library uses internally to piece together output.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prefix_suffix</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">prefix_</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">suffix_</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prefix_suffix</span><span class="p">:</span>
+    <span class="n">text</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Text: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="se">\n</span><span class="s2">Prefix: </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="se">\n</span><span class="s2">Suffix: </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text: A
+Prefix: A
+Suffix: A
+
+Text: kind
+Prefix: k
+Suffix: ind
+
+Text: in
+Prefix: i
+Suffix: in
+
+Text: glass
+Prefix: g
+Suffix: ass
+
+Text: and
+Prefix: a
+Suffix: and
+
+Text: a
+Prefix: a
+Suffix: a
+
+Text: cousin
+Prefix: c
+Suffix: sin
+
+Text: a
+Prefix: a
+Suffix: a
+
+Text: spectacle
+Prefix: s
+Suffix: cle
+
+Text: and
+Prefix: a
+Suffix: and
+
+Text: nothing
+Prefix: n
+Suffix: ing
+
+Text: strange
+Prefix: s
+Suffix: nge
+
+Text: a
+Prefix: a
+Suffix: a
+
+Text: single
+Prefix: s
+Suffix: gle
+
+Text: hurt
+Prefix: h
+Suffix: urt
+
+Text: color
+Prefix: c
+Suffix: lor
+
+Text: and
+Prefix: a
+Suffix: and
+
+Text: an
+Prefix: a
+Suffix: an
+
+Text: arrangement
+Prefix: a
+Suffix: ent
+
+Text: in
+Prefix: i
+Suffix: in
+
+Text: a
+Prefix: a
+Suffix: a
+
+Text: system
+Prefix: s
+Suffix: tem
+
+Text: to
+Prefix: t
+Suffix: to
+
+Text: pointing
+Prefix: p
+Suffix: ing
+
+Text: All
+Prefix: A
+Suffix: All
+
+Text: this
+Prefix: t
+Suffix: his
+
+Text: and
+Prefix: a
+Suffix: and
+
+Text: not
+Prefix: n
+Suffix: not
+
+Text: ordinary
+Prefix: o
+Suffix: ary
+
+Text: not
+Prefix: n
+Suffix: not
+
+Text: unordered
+Prefix: u
+Suffix: red
+
+Text: in
+Prefix: i
+Suffix: in
+
+Text: not
+Prefix: n
+Suffix: not
+
+Text: resembling
+Prefix: r
+Suffix: ing
+
+Text: The
+Prefix: T
+Suffix: The
+
+Text: difference
+Prefix: d
+Suffix: nce
+
+Text: is
+Prefix: i
+Suffix: is
+
+Text: spreading
+Prefix: s
+Suffix: ing
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here are lemmas:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lemmas</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">lemma_</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lemmas</span><span class="p">:</span>
+    <span class="n">text</span><span class="p">,</span> <span class="n">lemma</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Text: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="se">\n</span><span class="s2">Lemma: </span><span class="si">{</span><span class="n">lemma</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text: A
+Lemma: a
+
+Text: kind
+Lemma: kind
+
+Text: in
+Lemma: in
+
+Text: glass
+Lemma: glass
+
+Text: and
+Lemma: and
+
+Text: a
+Lemma: a
+
+Text: cousin
+Lemma: cousin
+
+Text: a
+Lemma: a
+
+Text: spectacle
+Lemma: spectacle
+
+Text: and
+Lemma: and
+
+Text: nothing
+Lemma: nothing
+
+Text: strange
+Lemma: strange
+
+Text: a
+Lemma: a
+
+Text: single
+Lemma: single
+
+Text: hurt
+Lemma: hurt
+
+Text: color
+Lemma: color
+
+Text: and
+Lemma: and
+
+Text: an
+Lemma: an
+
+Text: arrangement
+Lemma: arrangement
+
+Text: in
+Lemma: in
+
+Text: a
+Lemma: a
+
+Text: system
+Lemma: system
+
+Text: to
+Lemma: to
+
+Text: pointing
+Lemma: point
+
+Text: All
+Lemma: all
+
+Text: this
+Lemma: this
+
+Text: and
+Lemma: and
+
+Text: not
+Lemma: not
+
+Text: ordinary
+Lemma: ordinary
+
+Text: not
+Lemma: not
+
+Text: unordered
+Lemma: unordere
+
+Text: in
+Lemma: in
+
+Text: not
+Lemma: not
+
+Text: resembling
+Lemma: resemble
+
+Text: The
+Lemma: the
+
+Text: difference
+Lemma: difference
+
+Text: is
+Lemma: be
+
+Text: spreading
+Lemma: spread
+</pre></div>
+</div>
+</div>
+</div>
+<p>With such attributes at your disposal, you might imagine how you could work <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> into a text mining pipeline. Instead of using separate functions to clean your text, those stepps could all be accomplished by accessing attributes.</p>
+<p>Before you do this, however, you should consider two things: 1) whether the increased computational/memory overhead is worthwhile for your project; and 2) whether <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s base models will work for the kind of text you’re using. This second point is especially important. While <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s base models are incredibly powerful, they are built for general purpose applications and may struggle with domain-specific language. Medical texts or early modern print are two such examples of where the base models interpret your text in unexpected ways, thereby complicating, if not ruining parts of a text mining pipeline that relies on them. Sometimes, in other words, it’s just best to stick with a text mining pipeline that you know is effective.</p>
+<p>That all said, there are ways to train your own <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model on a specific domain. This can be an extensive process, one which exceeds the limits of our short workshop, but if you want to learn more about doing so, you can visit <a class="reference external" href="https://spacy.io/usage/training">this page</a>. There are also <a class="reference external" href="https://spacy.io/universe/category/models">third party models</a> available, which you might find useful, though your milage may vary.</p>
+</div>
+</div>
+<div class="section" id="dependency-parsing">
+<h2><span class="section-number">2.3. </span>Dependency Parsing<a class="headerlink" href="#dependency-parsing" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "nlp"
+        },
+        kernelOptions: {
+            kernelName: "nlp",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'nlp'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="01_logistics.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title"><span class="section-number">1. </span>TBD</p>
+            </div>
+        </a>
+    </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Tyler Shoemaker and Carl Stahmer<br/>
+        
+            &copy; Copyright 2022.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

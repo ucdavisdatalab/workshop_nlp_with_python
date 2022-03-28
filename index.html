@@ -37,9 +37,12 @@
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/togglebutton.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script >let toggleHintShow = 'Click to show';</script>
+    <script >let toggleHintHide = 'Click to hide';</script>
+    <script >let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -96,6 +99,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="01_logistics.html">
    1. TBD
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_text-annotation-with-spacy.html">
+   2. Text Annotation
   </a>
  </li>
 </ul>
@@ -202,7 +210,7 @@
         
               <div>
                 
-  <div class="section" id="overview">
+  <div class="tex2jax_ignore mathjax_ignore section" id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <p>This three-part workshop series introduces participants to natural language processing (NLP) with Python. It builds
 on our text mining series, <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/">“Getting Started with Textual Data”</a>, by extending the scope of data-inflected text
