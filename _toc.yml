@@ -4,3 +4,4 @@ options:
   numbered: true
 chapters:
 - file: 01_logistics.ipynb
+- file: 02_text-annotation-with-spacy.ipynb
