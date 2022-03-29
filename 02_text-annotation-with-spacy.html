@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2. Text Annotation &#8212; Natural Language Processing with Python</title>
+    <title>2. Text Annotation with spaCy &#8212; Natural Language Processing with Python</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -103,7 +103,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2. Text Annotation
+   2. Text Annotation with spaCy
   </a>
  </li>
 </ul>
@@ -213,26 +213,48 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#text-annotations">
-   2.2. Text Annotations
+  <a class="reference internal nav-link" href="#annotations">
+   2.2. Annotations
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#document">
-     2.2.1. Document
+    <a class="reference internal nav-link" href="#document-annotations">
+     2.2.1. Document Annotations
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tokens">
-     2.2.2. Tokens
+    <a class="reference internal nav-link" href="#token-annotations">
+     2.2.2. Token Annotations
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dependency-parsing">
-   2.3. Dependency Parsing
+  <a class="reference internal nav-link" href="#part-of-speech-tagging">
+   2.3. Part-of-Speech Tagging
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dependency-parsing">
+   2.4. Dependency Parsing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#putting-everything-together">
+   2.5. Putting Everything Together
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#finding-lemmas">
+     2.5.1. Finding lemmas
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#verb-subject-relations">
+     2.5.2. Verb-subject relations
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -245,8 +267,9 @@
         
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="text-annotation">
-<h1><span class="section-number">2. </span>Text Annotation<a class="headerlink" href="#text-annotation" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="text-annotation-with-spacy">
+<h1><span class="section-number">2. </span>Text Annotation with spaCy<a class="headerlink" href="#text-annotation-with-spacy" title="Permalink to this headline">¶</a></h1>
+<p>TODO: introduce language models and spaCy’s take on them</p>
 <div class="section" id="spacy-language-models">
 <h2><span class="section-number">2.1. </span>spaCy Language Models<a class="headerlink" href="#spacy-language-models" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
@@ -259,15 +282,15 @@
 </div>
 </div>
 </div>
-<div class="section" id="text-annotations">
-<h2><span class="section-number">2.2. </span>Text Annotations<a class="headerlink" href="#text-annotations" title="Permalink to this headline">¶</a></h2>
-<p>To annotate text with the <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model, simply run it through the core function, <code class="docutils literal notranslate"><span class="pre">nlp()</span></code>. We’ll do so with a short poem by Gertrude Stein</p>
+<div class="section" id="annotations">
+<h2><span class="section-number">2.2. </span>Annotations<a class="headerlink" href="#annotations" title="Permalink to this headline">¶</a></h2>
+<p>To annotate a document with the <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model, simply run it through the core function, <code class="docutils literal notranslate"><span class="pre">nlp()</span></code>. We’ll do so with a short poem by Gertrude Stein.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/session_one/stein_carafe.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">carafe</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">stein_poem</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     
-<span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">carafe</span><span class="p">)</span>
+<span class="n">carafe</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">stein_poem</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -275,7 +298,7 @@
 <p>With this done, we can inspect the result…</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span>
 </pre></div>
 </div>
 </div>
@@ -285,11 +308,11 @@
 </div>
 </div>
 </div>
-<p>…which seems to be no different from a string representation! This output is a bit misleading, however. Our <code class="docutils literal notranslate"><span class="pre">doc</span></code> object actually has a ton of extra information associated with it, even though, on the surface, it appears to be a plain old string.</p>
+<p>…which seems to be no different from a string representation! This output is a bit misleading, however. Our <code class="docutils literal notranslate"><span class="pre">carafe</span></code> object actually has a ton of extra information associated with it, even though, on the surface, it appears to be a plain old string.</p>
 <p>If you’d like, you can inspect all these attributes and methods with:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">carafe</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -307,13 +330,13 @@
 </div>
 </div>
 </div>
-<p>This high number of attributes indicates an important point to keep in mind when working with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>: as opposed to other forms of text preprocessing, like changing the case of tokens, removing punctuation, or stemming a corpus, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> aims to <strong>maximally preserve information</strong> about your text. It keeps texts intact and in fact adds much more information about them than Python’s base string methods have. In this sense, we might say that <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> is additive in nature, whereas text mining methods are subtractive, or reductive.</p>
-<div class="section" id="document">
-<h3><span class="section-number">2.2.1. </span>Document<a class="headerlink" href="#document" title="Permalink to this headline">¶</a></h3>
-<p>So, while the base representation of <code class="docutils literal notranslate"><span class="pre">doc</span></code> looks like a string, under the surface there are all sorts of annotations about it. To access them, we use the attributes counted above. For example, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> adds extra segmentation information about a text, like which parts of it belong to different sentences. We can check to see whether this information has been attached to our text with the <code class="docutils literal notranslate"><span class="pre">has_annotation()</span></code> method.</p>
+<p>This high number of attributes indicates an important point to keep in mind when working with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>: as opposed to other forms of text preprocessing, like changing the case of tokens, removing punctuation, or stemming a corpus, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> aims to <strong>maximally preserve information</strong> about your document. It keeps documents intact and in fact adds much more information about them than Python’s base string methods have. In this sense, we might say that <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> is additive in nature, whereas text mining methods are subtractive, or reductive.</p>
+<div class="section" id="document-annotations">
+<h3><span class="section-number">2.2.1. </span>Document Annotations<a class="headerlink" href="#document-annotations" title="Permalink to this headline">¶</a></h3>
+<p>So, while the base representation of <code class="docutils literal notranslate"><span class="pre">carafe</span></code> looks like a string, under the surface there are all sorts of annotations about it. To access them, we use the attributes counted above. For example, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> adds extra segmentation information about a document, like which parts of it belong to different sentences. We can check to see whether this information has been attached to our text with the <code class="docutils literal notranslate"><span class="pre">.has_annotation()</span></code> method.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="o">.</span><span class="n">has_annotation</span><span class="p">(</span><span class="s1">&#39;SENT_START&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="o">.</span><span class="n">has_annotation</span><span class="p">(</span><span class="s1">&#39;SENT_START&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -329,7 +352,7 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotation_types</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Dependencies&#39;</span><span class="p">:</span> <span class="s1">&#39;DEP&#39;</span><span class="p">,</span> <span class="s1">&#39;Entities&#39;</span><span class="p">:</span> <span class="s1">&#39;ENT_IOB&#39;</span><span class="p">,</span> <span class="s1">&#39;Tags&#39;</span><span class="p">:</span> <span class="s1">&#39;TAG&#39;</span><span class="p">}</span>
 <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">annotation_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">has_annotation</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">carafe</span><span class="o">.</span><span class="n">has_annotation</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -342,45 +365,48 @@
 </div>
 </div>
 </div>
-<p>Let’s look at sentences. We can access them with <code class="docutils literal notranslate"><span class="pre">sents</span></code>.</p>
+<p>Let’s look at sentences. We can access them with <code class="docutils literal notranslate"><span class="pre">.sents</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="o">.</span><span class="n">sents</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="o">.</span><span class="n">sents</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator at 0x1184cbf48&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator at 0x11dc6bae8&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>…but you can see that there’s a small complication here: <code class="docutils literal notranslate"><span class="pre">sents</span></code> returns a generator, not a list. The reason has to do with memory efficiency. Because <code class="docutils literal notranslate"><span class="pre">SpaCy</span></code> adds so much extra information about your text, this information could slow down your code or overwhelm your computer if the library didn’t store it in an efficient manner. Of course this isn’t a problem with our small poem, but you can imagine how it could become one with a big corpus.</p>
-<p>To access the actual sentences in <code class="docutils literal notranslate"><span class="pre">doc</span></code>, we’ll need to convert the generator to a list.</p>
+<p>…but you can see that there’s a small complication here: <code class="docutils literal notranslate"><span class="pre">.sents</span></code> returns a generator, not a list. The reason has to do with memory efficiency. Because <code class="docutils literal notranslate"><span class="pre">SpaCy</span></code> adds so much extra information about your document, this information could slow down your code or overwhelm your computer if the library didn’t store it in an efficient manner. Of course this isn’t a problem with our small poem, but you can imagine how it could become one with a big corpus.</p>
+<p>To access the actual sentences in <code class="docutils literal notranslate"><span class="pre">carafe</span></code>, we’ll need to convert the generator to a list.</p>
 <div class="margin sidebar">
 <p class="sidebar-title">Want to learn more about generators?</p>
-<p>The DataLab has a workshop on them.</p>
+<p>The DataLab has a workshop about them. See <a class="reference external" href="https://datalab.ucdavis.edu/eventscalendar/intermediate-python-iterator-generator-crash-course/">this link</a>.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sentences</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="n">sentences</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">carafe</span><span class="o">.</span><span class="n">sents</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A kind in glass and a cousin, a spectacle and nothing strange a single hurt color and an arrangement in a system to pointing.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A kind in glass and a cousin, a spectacle and nothing strange a single hurt color and an [...]
 All this and not ordinary, not unordered in not resembling.
 The difference is spreading.
 </pre></div>
 </div>
 </div>
 </div>
-<p>One very useful attribute is <code class="docutils literal notranslate"><span class="pre">noun_chunks</span></code>. It returns nouns and compound nouns in a text.</p>
+<p>One very useful attribute is <code class="docutils literal notranslate"><span class="pre">.noun_chunks</span></code>. It returns nouns and compound nouns in a document.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">noun_chunks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">noun_chunks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">carafe</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">noun</span> <span class="ow">in</span> <span class="n">noun_chunks</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">noun</span><span class="p">)</span>
@@ -401,8 +427,8 @@ The difference
 </div>
 </div>
 </div>
-<p>See how this picks up not only nouns, but articles and compound information? Articles could be helpful if you wanted to track singular/plural relationships, or whereas compound nouns might tell you something about the way a text refers to the entities therein. The latter might have repeating patterns, for example, and you might imagine how you could use noun chunks to create and count n-gram tokens and feed that into a classifier.</p>
-<p>Consider this example from <em>The Odyssey</em>. Homer used many epithets and repeating phrases throughout his epic. According to some theories, these act as mnemonic devices, helping a performer keep everything in their head during an oral performance. Using <code class="docutils literal notranslate"><span class="pre">noun_chunks</span></code> in conjunction with a Python <code class="docutils literal notranslate"><span class="pre">Counter</span></code>, we might be able to identify these in Homer’s text. Below, we’ll do so with Book XI.</p>
+<p>See how this picks up not only nouns, but articles and compound information? Articles could be helpful if you wanted to track singular/plural relationships, while compound nouns might tell you something about the way a document refers to the entities therein. The latter could have repeating patterns, and you might imagine how you could use noun chunks to create and count n-gram tokens and feed that into a classifier.</p>
+<p>Consider this example from <em>The Odyssey</em>. Homer used many epithets and repeating phrases throughout his epic. According to some theories, these act as mnemonic devices, helping a performer keep everything in their head during an oral performance (the poem wasn’t written down in Homer’s day). Using <code class="docutils literal notranslate"><span class="pre">.noun_chunks</span></code> in conjunction with a Python <code class="docutils literal notranslate"><span class="pre">Counter</span></code>, we may be able to identify these in Homer’s text. Below, we’ll do so with <em>The Odyssey</em> Book XI.</p>
 <p>First, let’s load and model the text.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -414,16 +440,12 @@ The difference
 </div>
 </div>
 </div>
-<p>Now we’ll import a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> and initialize it. Then we’ll get the noun chunks from the text and add them to the counter dictionary. Be sure to only grab the text! We’ll explain why in a little while.</p>
+<p>Now we’ll import a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> and initialize it. Then we’ll get the noun chunks from the document and populate them in the count dictionary with a list comprehension line. Be sure to only grab the text from each token. We’ll explain why in a little while.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
 
-<span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
-<span class="n">odyssey_noun_chunks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">odyssey</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">odyssey_noun_chunks</span><span class="p">:</span>
-    <span class="n">c</span><span class="p">[</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">noun_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">([</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">odyssey</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -440,12 +462,13 @@ The difference
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Phrase&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">23</span><span class="p">),</span> <span class="s2">&quot;| Count</span><span class="se">\n</span><span class="s2">-------------------------------&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">chunk</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Phrase                  | Count&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">31</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">chunk</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">noun_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">joined</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">joined</span><span class="si">:</span><span class="s2">&lt;24</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">count</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">joined</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}{</span><span class="n">count</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -470,7 +493,7 @@ the poor creature           2
 </div>
 </div>
 <p>Excellent! Looks like we turned up a few: “the poor feckless ghosts,” “my wicked wife,” and “all the Danaans” are likely the kind of repeating phrases scholars think of in Homer’s text.</p>
-<p>Another way to look at entities in a text is with <code class="docutils literal notranslate"><span class="pre">ents</span></code>. <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> uses <strong>named-entity recognition</strong> to extract significant objects, or entities, in a text. In general, anything that has a proper name associated with it is considered an entity. Here are the first five from Book XI above.</p>
+<p>Another way to look at entities in a text is with <code class="docutils literal notranslate"><span class="pre">.ents</span></code>. <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> uses <strong>named-entity recognition</strong> to extract significant objects, or entities, in a document. In general, anything that has a proper name associated with it is considered an entity, but things expressions of time and geographic location are also often tagged. Here are the first five from Book XI above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">entities</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">odyssey</span><span class="o">.</span><span class="n">ents</span><span class="p">)</span>
@@ -492,14 +515,88 @@ Perimedes
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="tokens">
-<h3><span class="section-number">2.2.2. </span>Tokens<a class="headerlink" href="#tokens" title="Permalink to this headline">¶</a></h3>
-<p>In addition to storing all of this information about texts, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> creates a substantial amount of annotations for each of the tokens in that text. The same logic as above applies to accessing this information.</p>
-<p>Let’s return to the Stein poem. Indexing <code class="docutils literal notranslate"><span class="pre">doc</span></code> will return individual tokens:</p>
+<p>You can select particular entities using the <code class="docutils literal notranslate"><span class="pre">.label_</span></code> attribute. Here are all the temporal entities in Book XI.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">odyssey</span><span class="o">.</span><span class="n">ents</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">label_</span> <span class="o">==</span> <span class="s1">&#39;TIME&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;all night&#39;, &#39;to-morrow morning&#39;, &#39;the light of day&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>And here is a unique listing of all the people.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">How many labels are there?</p>
+<p>This will depend on the model. Here’s the <a class="reference external" href="https://spacy.io/models/en#en_core_web_md-labels">label scheme</a> for the one we’re using.</p>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">odyssey</span><span class="o">.</span><span class="n">ents</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">label_</span> <span class="o">==</span> <span class="s1">&#39;PERSON&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;Achilles&#39;,
+ &#39;Aeson&#39;,
+ &#39;Alcinous&#39;,
+ &#39;Arete&#39;,
+ &#39;Ariadne&#39;,
+ &#39;Cassandra&#39;,
+ &#39;Chloris&#39;,
+ &#39;Circe&#39;,
+ &#39;Clytemnestra&#39;,
+ &#39;Diana&#39;,
+ &#39;Echeneus&#39;,
+ &#39;Epicaste&#39;,
+ &#39;Eriphyle&#39;,
+ &#39;Eurylochus&#39;,
+ &#39;Helen&#39;,
+ &#39;Iphicles&#39;,
+ &#39;Iphimedeia&#39;,
+ &#39;Jove&#39;,
+ &#39;Leda&#39;,
+ &#39;Leto&#39;,
+ &#39;Maera&#39;,
+ &#39;Megara&#39;,
+ &#39;Memnon&#39;,
+ &#39;Minerva&#39;,
+ &#39;Neleus&#39;,
+ &#39;Neoptolemus&#39;,
+ &#39;Nestor&#39;,
+ &#39;OEdipodes&#39;,
+ &#39;Orestes&#39;,
+ &#39;Ossa&#39;,
+ &#39;Periclymenus&#39;,
+ &#39;Perimedes&#39;,
+ &#39;Pero&#39;,
+ &#39;Pollux&#39;,
+ &#39;Priam&#39;,
+ &#39;Proserpine&#39;,
+ &#39;Pylos&#39;,
+ &#39;Pytho&#39;,
+ &#39;Queen&#39;,
+ &#39;Scyros&#39;,
+ &#39;Sisyphus&#39;,
+ &#39;Teiresias&#39;,
+ &#39;Telemachus&#39;,
+ &#39;Theban Teiresias&#39;,
+ &#39;Ulysses&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="token-annotations">
+<h3><span class="section-number">2.2.2. </span>Token Annotations<a class="headerlink" href="#token-annotations" title="Permalink to this headline">¶</a></h3>
+<p>In addition to storing all of this information about texts, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> creates a substantial amount of annotations for each of the tokens in that document. The same logic as above applies to accessing this information.</p>
+<p>Let’s return to the Stein poem. Indexing <code class="docutils literal notranslate"><span class="pre">carafe</span></code> will return individual tokens:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -509,10 +606,10 @@ Perimedes
 </div>
 </div>
 </div>
-<p>Like <code class="docutils literal notranslate"><span class="pre">doc</span></code>, each one has several attributes:</p>
+<p>Like <code class="docutils literal notranslate"><span class="pre">carafe</span></code>, each one has several attributes:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">token_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">token_attributes</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">carafe</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of token attributes:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">token_attributes</span><span class="p">))</span>
 </pre></div>
@@ -524,11 +621,11 @@ Perimedes
 </div>
 </div>
 </div>
-<p>Wow! That’s a lot.</p>
+<p>That’s a lot!</p>
 <p>These attributes range from simple booleans, like whether a token is an alphabetic character:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">is_alpha</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">is_alpha</span>
 </pre></div>
 </div>
 </div>
@@ -541,7 +638,7 @@ Perimedes
 <p>…or whether it is a stop word:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">is_stop</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">is_stop</span>
 </pre></div>
 </div>
 </div>
@@ -551,15 +648,15 @@ Perimedes
 </div>
 </div>
 </div>
-<p>…to more complex pieces of information, like part of speech tags:</p>
+<p>…to more complex pieces of information, like tracking back to the sentence this token is part of:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">sent</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;NOUN&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A kind in glass and a cousin, a spectacle and nothing strange a single hurt color and an arrangement in a system to pointing.
 </pre></div>
 </div>
 </div>
@@ -567,7 +664,7 @@ Perimedes
 <p>…sentiment scores:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">sentiment</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">sentiment</span>
 </pre></div>
 </div>
 </div>
@@ -578,9 +675,9 @@ Perimedes
 </div>
 </div>
 <p>…and even vector space representations:</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">vector</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">vector</span>
 </pre></div>
 </div>
 </div>
@@ -650,15 +747,160 @@ Perimedes
 </div>
 </div>
 </div>
-<p>We’ll discuss some of these more complex annotations later on, both in this session and others. For now, let’s collect some simple information about each of the tokens in our text. We’ll use list comprehension to do so. We’ll also use the <code class="docutils literal notranslate"><span class="pre">text</span></code> attribute for each token, since we only want the text representation (otherwise, we’d be creating a list of generators, where each generator has all those attribute for every token!).</p>
+<p>Here’s a listing of some attributes you might want to know about when text mining.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">]</span>
-<span class="n">punctuation</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_punct</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">sample_attributes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">carafe</span><span class="p">:</span>
+    <span class="n">sample_attributes</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;TEXT&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+        <span class="s1">&#39;INDEX&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">i</span><span class="p">,</span>
+        <span class="s1">&#39;LOWERCASE&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">lower_</span><span class="p">,</span>
+        <span class="s1">&#39;ALPHABETIC&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">,</span>
+        <span class="s1">&#39;DIGIT&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">is_digit</span><span class="p">,</span>
+        <span class="s1">&#39;PUNCTUATION&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">is_punct</span><span class="p">,</span>
+        <span class="s1">&#39;STARTS SENTENCE&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">is_sent_start</span><span class="p">,</span>
+        <span class="s1">&#39;LIKE URL&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">like_url</span>
+    <span class="p">})</span>
+
+<span class="n">sample_attributes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sample_attributes</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">sample_attributes</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_caa1f_">
+  <thead>
+    <tr>
+      <th class="col_heading level0 col0" >TEXT</th>
+      <th class="col_heading level0 col1" >INDEX</th>
+      <th class="col_heading level0 col2" >LOWERCASE</th>
+      <th class="col_heading level0 col3" >ALPHABETIC</th>
+      <th class="col_heading level0 col4" >DIGIT</th>
+      <th class="col_heading level0 col5" >PUNCTUATION</th>
+      <th class="col_heading level0 col6" >STARTS SENTENCE</th>
+      <th class="col_heading level0 col7" >LIKE URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_caa1f_row0_col0" class="data row0 col0" >A</td>
+      <td id="T_caa1f_row0_col1" class="data row0 col1" >0</td>
+      <td id="T_caa1f_row0_col2" class="data row0 col2" >a</td>
+      <td id="T_caa1f_row0_col3" class="data row0 col3" >True</td>
+      <td id="T_caa1f_row0_col4" class="data row0 col4" >False</td>
+      <td id="T_caa1f_row0_col5" class="data row0 col5" >False</td>
+      <td id="T_caa1f_row0_col6" class="data row0 col6" >True</td>
+      <td id="T_caa1f_row0_col7" class="data row0 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row1_col0" class="data row1 col0" >kind</td>
+      <td id="T_caa1f_row1_col1" class="data row1 col1" >1</td>
+      <td id="T_caa1f_row1_col2" class="data row1 col2" >kind</td>
+      <td id="T_caa1f_row1_col3" class="data row1 col3" >True</td>
+      <td id="T_caa1f_row1_col4" class="data row1 col4" >False</td>
+      <td id="T_caa1f_row1_col5" class="data row1 col5" >False</td>
+      <td id="T_caa1f_row1_col6" class="data row1 col6" >False</td>
+      <td id="T_caa1f_row1_col7" class="data row1 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row2_col0" class="data row2 col0" >in</td>
+      <td id="T_caa1f_row2_col1" class="data row2 col1" >2</td>
+      <td id="T_caa1f_row2_col2" class="data row2 col2" >in</td>
+      <td id="T_caa1f_row2_col3" class="data row2 col3" >True</td>
+      <td id="T_caa1f_row2_col4" class="data row2 col4" >False</td>
+      <td id="T_caa1f_row2_col5" class="data row2 col5" >False</td>
+      <td id="T_caa1f_row2_col6" class="data row2 col6" >False</td>
+      <td id="T_caa1f_row2_col7" class="data row2 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row3_col0" class="data row3 col0" >glass</td>
+      <td id="T_caa1f_row3_col1" class="data row3 col1" >3</td>
+      <td id="T_caa1f_row3_col2" class="data row3 col2" >glass</td>
+      <td id="T_caa1f_row3_col3" class="data row3 col3" >True</td>
+      <td id="T_caa1f_row3_col4" class="data row3 col4" >False</td>
+      <td id="T_caa1f_row3_col5" class="data row3 col5" >False</td>
+      <td id="T_caa1f_row3_col6" class="data row3 col6" >False</td>
+      <td id="T_caa1f_row3_col7" class="data row3 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row4_col0" class="data row4 col0" >and</td>
+      <td id="T_caa1f_row4_col1" class="data row4 col1" >4</td>
+      <td id="T_caa1f_row4_col2" class="data row4 col2" >and</td>
+      <td id="T_caa1f_row4_col3" class="data row4 col3" >True</td>
+      <td id="T_caa1f_row4_col4" class="data row4 col4" >False</td>
+      <td id="T_caa1f_row4_col5" class="data row4 col5" >False</td>
+      <td id="T_caa1f_row4_col6" class="data row4 col6" >False</td>
+      <td id="T_caa1f_row4_col7" class="data row4 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row5_col0" class="data row5 col0" >a</td>
+      <td id="T_caa1f_row5_col1" class="data row5 col1" >5</td>
+      <td id="T_caa1f_row5_col2" class="data row5 col2" >a</td>
+      <td id="T_caa1f_row5_col3" class="data row5 col3" >True</td>
+      <td id="T_caa1f_row5_col4" class="data row5 col4" >False</td>
+      <td id="T_caa1f_row5_col5" class="data row5 col5" >False</td>
+      <td id="T_caa1f_row5_col6" class="data row5 col6" >False</td>
+      <td id="T_caa1f_row5_col7" class="data row5 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row6_col0" class="data row6 col0" >cousin</td>
+      <td id="T_caa1f_row6_col1" class="data row6 col1" >6</td>
+      <td id="T_caa1f_row6_col2" class="data row6 col2" >cousin</td>
+      <td id="T_caa1f_row6_col3" class="data row6 col3" >True</td>
+      <td id="T_caa1f_row6_col4" class="data row6 col4" >False</td>
+      <td id="T_caa1f_row6_col5" class="data row6 col5" >False</td>
+      <td id="T_caa1f_row6_col6" class="data row6 col6" >False</td>
+      <td id="T_caa1f_row6_col7" class="data row6 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row7_col0" class="data row7 col0" >,</td>
+      <td id="T_caa1f_row7_col1" class="data row7 col1" >7</td>
+      <td id="T_caa1f_row7_col2" class="data row7 col2" >,</td>
+      <td id="T_caa1f_row7_col3" class="data row7 col3" >False</td>
+      <td id="T_caa1f_row7_col4" class="data row7 col4" >False</td>
+      <td id="T_caa1f_row7_col5" class="data row7 col5" >True</td>
+      <td id="T_caa1f_row7_col6" class="data row7 col6" >False</td>
+      <td id="T_caa1f_row7_col7" class="data row7 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row8_col0" class="data row8 col0" >a</td>
+      <td id="T_caa1f_row8_col1" class="data row8 col1" >8</td>
+      <td id="T_caa1f_row8_col2" class="data row8 col2" >a</td>
+      <td id="T_caa1f_row8_col3" class="data row8 col3" >True</td>
+      <td id="T_caa1f_row8_col4" class="data row8 col4" >False</td>
+      <td id="T_caa1f_row8_col5" class="data row8 col5" >False</td>
+      <td id="T_caa1f_row8_col6" class="data row8 col6" >False</td>
+      <td id="T_caa1f_row8_col7" class="data row8 col7" >False</td>
+    </tr>
+    <tr>
+      <td id="T_caa1f_row9_col0" class="data row9 col0" >spectacle</td>
+      <td id="T_caa1f_row9_col1" class="data row9 col1" >9</td>
+      <td id="T_caa1f_row9_col2" class="data row9 col2" >spectacle</td>
+      <td id="T_caa1f_row9_col3" class="data row9 col3" >True</td>
+      <td id="T_caa1f_row9_col4" class="data row9 col4" >False</td>
+      <td id="T_caa1f_row9_col5" class="data row9 col5" >False</td>
+      <td id="T_caa1f_row9_col6" class="data row9 col6" >False</td>
+      <td id="T_caa1f_row9_col7" class="data row9 col7" >False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>We’ll discuss some of the more complex annotations later on, both in this session and others. For now, let’s collect some simple information about each of the tokens in our document. We’ll use list comprehension to do so. We’ll also use the <code class="docutils literal notranslate"><span class="pre">.text</span></code> attribute for each token, since we only want the text representation. Otherwise, we’d be creating a list of generators, where each generator has all those attribute for every token! (This is why we made sure to only use <code class="docutils literal notranslate"><span class="pre">.text</span></code> in our work with <em>The Odyssey</em> above.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">carafe</span> <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">])</span>
+<span class="n">punctuation</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">carafe</span> <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_punct</span><span class="p">])</span>
 
 <span class="nb">print</span><span class="p">(</span>
-    <span class="sa">f</span><span class="s2">&quot;Words</span><span class="se">\n</span><span class="s2">-----</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Puncuation</span><span class="se">\n</span><span class="s2">----------</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">punctuation</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;Words</span><span class="se">\n</span><span class="s2">-----</span><span class="se">\n</span><span class="si">{</span><span class="n">textwrap</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Punctuation</span><span class="se">\n</span><span class="s2">-----------</span><span class="se">\n</span><span class="si">{</span><span class="n">punctuation</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -666,10 +908,10 @@ Perimedes
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Words
 -----
-A kind in glass and a cousin a spectacle and nothing strange a single hurt color and an arrangement in a system to pointing All this and not ordinary not unordered in not resembling The difference is spreading 
+A kind in glass and a cousin a spectacle and nothing strange a single hurt color and an [...] 
 
-Puncuation
-----------
+Punctuation
+-----------
 , . , . .
 </pre></div>
 </div>
@@ -680,312 +922,1044 @@ Puncuation
 <p class="sidebar-title">You might be wondering about those underscores…</p>
 <p>The syntax conventions of <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> use an underscore to access the actual attribute information for a token. Using an attribute without the underscore will return an id, which the library uses internally to piece together output.</p>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prefix_suffix</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">prefix_</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">suffix_</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prefix_suffix</span> <span class="o">=</span> <span class="p">[(</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">token</span><span class="o">.</span><span class="n">prefix_</span><span class="p">,</span> <span class="n">token</span><span class="o">.</span><span class="n">suffix_</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">carafe</span> <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">]</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prefix_suffix</span><span class="p">:</span>
     <span class="n">text</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Text: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="se">\n</span><span class="s2">Prefix: </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="se">\n</span><span class="s2">Suffix: </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;Text: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="se">\n</span><span class="s2">+ Prefix: </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="se">\n</span><span class="s2">+ Suffix: </span><span class="si">{</span><span class="n">suffix</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text: A
-Prefix: A
-Suffix: A
++ Prefix: A
++ Suffix: A
 
 Text: kind
-Prefix: k
-Suffix: ind
++ Prefix: k
++ Suffix: ind
 
 Text: in
-Prefix: i
-Suffix: in
++ Prefix: i
++ Suffix: in
 
 Text: glass
-Prefix: g
-Suffix: ass
++ Prefix: g
++ Suffix: ass
 
 Text: and
-Prefix: a
-Suffix: and
++ Prefix: a
++ Suffix: and
 
 Text: a
-Prefix: a
-Suffix: a
++ Prefix: a
++ Suffix: a
 
 Text: cousin
-Prefix: c
-Suffix: sin
++ Prefix: c
++ Suffix: sin
 
 Text: a
-Prefix: a
-Suffix: a
++ Prefix: a
++ Suffix: a
 
 Text: spectacle
-Prefix: s
-Suffix: cle
++ Prefix: s
++ Suffix: cle
 
 Text: and
-Prefix: a
-Suffix: and
++ Prefix: a
++ Suffix: and
 
 Text: nothing
-Prefix: n
-Suffix: ing
++ Prefix: n
++ Suffix: ing
 
 Text: strange
-Prefix: s
-Suffix: nge
++ Prefix: s
++ Suffix: nge
 
 Text: a
-Prefix: a
-Suffix: a
++ Prefix: a
++ Suffix: a
 
 Text: single
-Prefix: s
-Suffix: gle
++ Prefix: s
++ Suffix: gle
 
 Text: hurt
-Prefix: h
-Suffix: urt
++ Prefix: h
++ Suffix: urt
 
 Text: color
-Prefix: c
-Suffix: lor
++ Prefix: c
++ Suffix: lor
 
 Text: and
-Prefix: a
-Suffix: and
++ Prefix: a
++ Suffix: and
 
 Text: an
-Prefix: a
-Suffix: an
++ Prefix: a
++ Suffix: an
 
 Text: arrangement
-Prefix: a
-Suffix: ent
++ Prefix: a
++ Suffix: ent
 
 Text: in
-Prefix: i
-Suffix: in
++ Prefix: i
++ Suffix: in
 
 Text: a
-Prefix: a
-Suffix: a
++ Prefix: a
++ Suffix: a
 
 Text: system
-Prefix: s
-Suffix: tem
++ Prefix: s
++ Suffix: tem
 
 Text: to
-Prefix: t
-Suffix: to
++ Prefix: t
++ Suffix: to
 
 Text: pointing
-Prefix: p
-Suffix: ing
++ Prefix: p
++ Suffix: ing
 
 Text: All
-Prefix: A
-Suffix: All
++ Prefix: A
++ Suffix: All
 
 Text: this
-Prefix: t
-Suffix: his
++ Prefix: t
++ Suffix: his
 
 Text: and
-Prefix: a
-Suffix: and
++ Prefix: a
++ Suffix: and
 
 Text: not
-Prefix: n
-Suffix: not
++ Prefix: n
++ Suffix: not
 
 Text: ordinary
-Prefix: o
-Suffix: ary
++ Prefix: o
++ Suffix: ary
 
 Text: not
-Prefix: n
-Suffix: not
++ Prefix: n
++ Suffix: not
 
 Text: unordered
-Prefix: u
-Suffix: red
++ Prefix: u
++ Suffix: red
 
 Text: in
-Prefix: i
-Suffix: in
++ Prefix: i
++ Suffix: in
 
 Text: not
-Prefix: n
-Suffix: not
++ Prefix: n
++ Suffix: not
 
 Text: resembling
-Prefix: r
-Suffix: ing
++ Prefix: r
++ Suffix: ing
 
 Text: The
-Prefix: T
-Suffix: The
++ Prefix: T
++ Suffix: The
 
 Text: difference
-Prefix: d
-Suffix: nce
++ Prefix: d
++ Suffix: nce
 
 Text: is
-Prefix: i
-Suffix: is
++ Prefix: i
++ Suffix: is
 
 Text: spreading
-Prefix: s
-Suffix: ing
++ Prefix: s
++ Suffix: ing
 </pre></div>
 </div>
 </div>
 </div>
 <p>And here are lemmas:</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lemmas</span> <span class="o">=</span> <span class="p">[(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">lemma_</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lemmas</span> <span class="o">=</span> <span class="p">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">carafe</span> <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">}</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lemmas</span><span class="p">:</span>
-    <span class="n">text</span><span class="p">,</span> <span class="n">lemma</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Text         | Lemma&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">lemma</span> <span class="ow">in</span> <span class="n">lemmas</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Text: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="se">\n</span><span class="s2">Lemma: </span><span class="si">{</span><span class="n">lemma</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">text</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}{</span><span class="n">lemma</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text: A
-Lemma: a
-
-Text: kind
-Lemma: kind
-
-Text: in
-Lemma: in
-
-Text: glass
-Lemma: glass
-
-Text: and
-Lemma: and
-
-Text: a
-Lemma: a
-
-Text: cousin
-Lemma: cousin
-
-Text: a
-Lemma: a
-
-Text: spectacle
-Lemma: spectacle
-
-Text: and
-Lemma: and
-
-Text: nothing
-Lemma: nothing
-
-Text: strange
-Lemma: strange
-
-Text: a
-Lemma: a
-
-Text: single
-Lemma: single
-
-Text: hurt
-Lemma: hurt
-
-Text: color
-Lemma: color
-
-Text: and
-Lemma: and
-
-Text: an
-Lemma: an
-
-Text: arrangement
-Lemma: arrangement
-
-Text: in
-Lemma: in
-
-Text: a
-Lemma: a
-
-Text: system
-Lemma: system
-
-Text: to
-Lemma: to
-
-Text: pointing
-Lemma: point
-
-Text: All
-Lemma: all
-
-Text: this
-Lemma: this
-
-Text: and
-Lemma: and
-
-Text: not
-Lemma: not
-
-Text: ordinary
-Lemma: ordinary
-
-Text: not
-Lemma: not
-
-Text: unordered
-Lemma: unordere
-
-Text: in
-Lemma: in
-
-Text: not
-Lemma: not
-
-Text: resembling
-Lemma: resemble
-
-Text: The
-Lemma: the
-
-Text: difference
-Lemma: difference
-
-Text: is
-Lemma: be
-
-Text: spreading
-Lemma: spread
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text         | Lemma
+----------------------------
+A              a
+kind           kind
+in             in
+glass          glass
+and            and
+a              a
+cousin         cousin
+spectacle      spectacle
+nothing        nothing
+strange        strange
+single         single
+hurt           hurt
+color          color
+an             an
+arrangement    arrangement
+system         system
+to             to
+pointing       point
+All            all
+this           this
+not            not
+ordinary       ordinary
+unordered      unordere
+resembling     resemble
+The            the
+difference     difference
+is             be
+spreading      spread
 </pre></div>
 </div>
 </div>
 </div>
-<p>With such attributes at your disposal, you might imagine how you could work <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> into a text mining pipeline. Instead of using separate functions to clean your text, those stepps could all be accomplished by accessing attributes.</p>
-<p>Before you do this, however, you should consider two things: 1) whether the increased computational/memory overhead is worthwhile for your project; and 2) whether <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s base models will work for the kind of text you’re using. This second point is especially important. While <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s base models are incredibly powerful, they are built for general purpose applications and may struggle with domain-specific language. Medical texts or early modern print are two such examples of where the base models interpret your text in unexpected ways, thereby complicating, if not ruining parts of a text mining pipeline that relies on them. Sometimes, in other words, it’s just best to stick with a text mining pipeline that you know is effective.</p>
+<p>With such attributes at your disposal, you might imagine how you could work <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> into a text mining pipeline. Instead of using separate functions to clean your corpus, those steps could all be accomplished by accessing attributes.</p>
+<p>Before you do this, however, you should consider two things: 1) whether the increased computational/memory overhead is worthwhile for your project; and 2) whether <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s base models will work for the kind of text you’re using. This second point is especially important. While <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s base models are incredibly powerful, they are built for general purpose applications and may struggle with domain-specific language. Medical text and early modern print are two such examples of where the base models interpret your documents in unexpected ways, thereby complicating, maybe even ruining, parts of a text mining pipeline that relies on them. Sometimes, in other words, it’s just best to stick with a text mining pipeline that you know to be effective.</p>
 <p>That all said, there are ways to train your own <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model on a specific domain. This can be an extensive process, one which exceeds the limits of our short workshop, but if you want to learn more about doing so, you can visit <a class="reference external" href="https://spacy.io/usage/training">this page</a>. There are also <a class="reference external" href="https://spacy.io/universe/category/models">third party models</a> available, which you might find useful, though your milage may vary.</p>
 </div>
 </div>
+<div class="section" id="part-of-speech-tagging">
+<h2><span class="section-number">2.3. </span>Part-of-Speech Tagging<a class="headerlink" href="#part-of-speech-tagging" title="Permalink to this headline">¶</a></h2>
+<p>One of the most common tasks in NLP involves assigning <strong>part-of-speech, or POS, tags</strong> to each token in a document. As we saw in the text mining series, these tags are a necessary step for certain text cleaning process, like lemmatization; you might also use them to identify subsets of your data, which you could separate out and model. Beyond text cleaning, POS tags can be useful for tasks like <strong>word sense disambiguation</strong>, where you try to determine which particular facet of meaning a given token represents.</p>
+<p>Regardless of the task, the process of getting POS tags from <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> will be the same. Each token in a document has an associated tag, which is accessible as an attribute.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">pos_</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">carafe</span><span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Text        | POS Tag&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">21</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">pos</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">text</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}{</span><span class="n">tag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text        | POS Tag
+---------------------
+A              DET
+kind           NOUN
+in             ADP
+glass          NOUN
+and            CCONJ
+a              DET
+cousin         NOUN
+,              PUNCT
+spectacle      NOUN
+nothing        PRON
+strange        ADJ
+single         ADJ
+hurt           NOUN
+color          NOUN
+an             DET
+arrangement    NOUN
+system         NOUN
+to             ADP
+pointing       VERB
+.              PUNCT
+All            DET
+this           DET
+not            PART
+ordinary       ADJ
+unordered      VERB
+resembling     VERB
+The            DET
+difference     NOUN
+is             AUX
+spreading      VERB
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you don’t know what a tag means, you can use <code class="docutils literal notranslate"><span class="pre">spacy.explain()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="s1">&#39;CCONJ&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;coordinating conjunction&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">spaCy</span></code> actually has two types of POS tags. The ones accessible with the <code class="docutils literal notranslate"><span class="pre">.pos_</span></code> attribute are the basic tags, whereas those under <code class="docutils literal notranslate"><span class="pre">.tag_</span></code> are more detailed (these come from the <a class="reference external" href="https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html">Penn Treebank project</a>). We’ll print them out below, along with information about what they mean.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">detailed_tags</span> <span class="o">=</span> <span class="p">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">tag_</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">carafe</span><span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Text        | POS Tag | Explanation&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">74</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">detailed_tags</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">explanation</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">text</span><span class="si">:</span><span class="s2">&lt;16</span><span class="si">}{</span><span class="n">tag</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}{</span><span class="n">explanation</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text        | POS Tag | Explanation
+--------------------------------------------------------------------------
+A               DT      determiner
+kind            NN      noun, singular or mass
+in              IN      conjunction, subordinating or preposition
+glass           NN      noun, singular or mass
+and             CC      conjunction, coordinating
+a               DT      determiner
+cousin          NN      noun, singular or mass
+,               ,       punctuation mark, comma
+spectacle       NN      noun, singular or mass
+nothing         NN      noun, singular or mass
+strange         JJ      adjective (English), other noun-modifier (Chinese)
+single          JJ      adjective (English), other noun-modifier (Chinese)
+hurt            NN      noun, singular or mass
+color           NN      noun, singular or mass
+an              DT      determiner
+arrangement     NN      noun, singular or mass
+system          NN      noun, singular or mass
+to              IN      conjunction, subordinating or preposition
+pointing        VBG     verb, gerund or present participle
+.               .       punctuation mark, sentence closer
+All             PDT     predeterminer
+this            DT      determiner
+not             RB      adverb
+ordinary        JJ      adjective (English), other noun-modifier (Chinese)
+unordered       VBN     verb, past participle
+resembling      VBG     verb, gerund or present participle
+The             DT      determiner
+difference      NN      noun, singular or mass
+is              VBZ     verb, 3rd person singular present
+spreading       VBG     verb, gerund or present participle
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is all well and good in the abstract, but the power of POS tags lies in how they support other kinds of analysis. We’ll do a quick word sense disambiguation task here but will return to do something more complex in a little while.</p>
+<p>Between the two strings:</p>
+<ol class="simple">
+<li><p>“I am not going to bank on that happening.”</p></li>
+<li><p>“I went down to the river bank.”</p></li>
+</ol>
+<p>How can we tell which sense of the word “bank” is being used? Well, we can model each with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> and see whether the POS tags for these two tokens match. If they don’t match, this will indicate that the tokens represent two different senses of the word “bank.”</p>
+<p>All this can be accomplished with a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop and <code class="docutils literal notranslate"><span class="pre">nlp.pipe()</span></code>. The latter function enables you to process different documents with the <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model all at once. This can be great for working with a large corpus, though note that, because <code class="docutils literal notranslate"><span class="pre">.pipe()</span></code> is meant to work on text at scale, it will return a generator.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">banks</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;I am not going to bank on that happening.&quot;</span><span class="p">,</span> <span class="s2">&quot;I went down to the river bank.&quot;</span><span class="p">]</span>
+
+<span class="n">nlp</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">banks</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object Language.pipe at 0x127272e58&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">banks</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;bank&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="se">\n</span><span class="s2">+ </span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">tag_</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>I am not going to bank on that happening.
++ bank: VB (verb, base form)
+
+I went down to the river bank.
++ bank: NN (noun, singular or mass)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="section" id="dependency-parsing">
-<h2><span class="section-number">2.3. </span>Dependency Parsing<a class="headerlink" href="#dependency-parsing" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.4. </span>Dependency Parsing<a class="headerlink" href="#dependency-parsing" title="Permalink to this headline">¶</a></h2>
+<p>TODO: a discussion of dependency parsing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spacy</span> <span class="kn">import</span> <span class="n">displacy</span>
+
+<span class="n">to_render</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">carafe</span><span class="o">.</span><span class="n">sents</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">displacy</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">to_render</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;dep&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="10600ff57ea64ded820aad995db6996e-0" class="displacy" width="750" height="312.0" direction="ltr" style="max-width: none; height: 312.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
+    <tspan class="displacy-word" fill="currentColor" x="50">The</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">DET</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
+    <tspan class="displacy-word" fill="currentColor" x="225">difference</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="225">NOUN</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
+    <tspan class="displacy-word" fill="currentColor" x="400">is</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="400">AUX</tspan>
+</text>
+
+<text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
+    <tspan class="displacy-word" fill="currentColor" x="575">spreading.</tspan>
+    <tspan class="displacy-tag" dy="2em" fill="currentColor" x="575">VERB</tspan>
+</text>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-10600ff57ea64ded820aad995db6996e-0-0" stroke-width="2px" d="M70,177.0 C70,89.5 220.0,89.5 220.0,177.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-10600ff57ea64ded820aad995db6996e-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M70,179.0 L62,167.0 78,167.0" fill="currentColor"/>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-10600ff57ea64ded820aad995db6996e-0-1" stroke-width="2px" d="M245,177.0 C245,2.0 575.0,2.0 575.0,177.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-10600ff57ea64ded820aad995db6996e-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M245,179.0 L237,167.0 253,167.0" fill="currentColor"/>
+</g>
+
+<g class="displacy-arrow">
+    <path class="displacy-arc" id="arrow-10600ff57ea64ded820aad995db6996e-0-2" stroke-width="2px" d="M420,177.0 C420,89.5 570.0,89.5 570.0,177.0" fill="none" stroke="currentColor"/>
+    <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
+        <textPath xlink:href="#arrow-10600ff57ea64ded820aad995db6996e-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">aux</textPath>
+    </text>
+    <path class="displacy-arrowhead" d="M420,179.0 L412,167.0 428,167.0" fill="currentColor"/>
+</g>
+</svg></span></div></div>
+</div>
+<p>Seeing these relationships are quite useful in and of themselves, but the real power of dependency parsing comes in all the extra data it can provide about a token. Using this technique, you can link tokens back to their heads, or find local groupings of tokens that all refer to the same head.</p>
+<p>Here’s how you could formalize that with a dataframe. Given this sentence:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sentence</span> <span class="o">=</span> <span class="n">odyssey</span><span class="p">[</span><span class="mi">2246</span><span class="p">:</span><span class="mi">2260</span><span class="p">]</span>
+<span class="n">sentence</span><span class="o">.</span><span class="n">text</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;Then I tried to find some way of embracing my mother&#39;s ghost.&quot;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can construct a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop, which rolls through each token and retrieves its dependency info.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sentence</span><span class="p">:</span>
+    <span class="n">dependencies</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;INDEX&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">i</span><span class="p">,</span>
+        <span class="s1">&#39;TOKEN&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+        <span class="s1">&#39;DEPENDENCY_SHORTCODE&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="p">,</span>
+        <span class="s1">&#39;DEPENDENCY&#39;</span><span class="p">:</span> <span class="n">spacy</span><span class="o">.</span><span class="n">explain</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="p">),</span>
+        <span class="s1">&#39;HEAD_INDEX&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">i</span><span class="p">,</span>
+        <span class="s1">&#39;HEAD&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">head</span>
+    <span class="p">})</span>
+    
+<span class="n">dependencies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dependencies</span><span class="p">)</span>
+<span class="n">dependencies</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_24622_">
+  <thead>
+    <tr>
+      <th class="col_heading level0 col0" >INDEX</th>
+      <th class="col_heading level0 col1" >TOKEN</th>
+      <th class="col_heading level0 col2" >DEPENDENCY_SHORTCODE</th>
+      <th class="col_heading level0 col3" >DEPENDENCY</th>
+      <th class="col_heading level0 col4" >HEAD_INDEX</th>
+      <th class="col_heading level0 col5" >HEAD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_24622_row0_col0" class="data row0 col0" >2246</td>
+      <td id="T_24622_row0_col1" class="data row0 col1" >Then</td>
+      <td id="T_24622_row0_col2" class="data row0 col2" >advmod</td>
+      <td id="T_24622_row0_col3" class="data row0 col3" >adverbial modifier</td>
+      <td id="T_24622_row0_col4" class="data row0 col4" >2248</td>
+      <td id="T_24622_row0_col5" class="data row0 col5" >tried</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row1_col0" class="data row1 col0" >2247</td>
+      <td id="T_24622_row1_col1" class="data row1 col1" >I</td>
+      <td id="T_24622_row1_col2" class="data row1 col2" >nsubj</td>
+      <td id="T_24622_row1_col3" class="data row1 col3" >nominal subject</td>
+      <td id="T_24622_row1_col4" class="data row1 col4" >2248</td>
+      <td id="T_24622_row1_col5" class="data row1 col5" >tried</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row2_col0" class="data row2 col0" >2248</td>
+      <td id="T_24622_row2_col1" class="data row2 col1" >tried</td>
+      <td id="T_24622_row2_col2" class="data row2 col2" >ROOT</td>
+      <td id="T_24622_row2_col3" class="data row2 col3" >None</td>
+      <td id="T_24622_row2_col4" class="data row2 col4" >2248</td>
+      <td id="T_24622_row2_col5" class="data row2 col5" >tried</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row3_col0" class="data row3 col0" >2249</td>
+      <td id="T_24622_row3_col1" class="data row3 col1" >to</td>
+      <td id="T_24622_row3_col2" class="data row3 col2" >aux</td>
+      <td id="T_24622_row3_col3" class="data row3 col3" >auxiliary</td>
+      <td id="T_24622_row3_col4" class="data row3 col4" >2250</td>
+      <td id="T_24622_row3_col5" class="data row3 col5" >find</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row4_col0" class="data row4 col0" >2250</td>
+      <td id="T_24622_row4_col1" class="data row4 col1" >find</td>
+      <td id="T_24622_row4_col2" class="data row4 col2" >xcomp</td>
+      <td id="T_24622_row4_col3" class="data row4 col3" >open clausal complement</td>
+      <td id="T_24622_row4_col4" class="data row4 col4" >2248</td>
+      <td id="T_24622_row4_col5" class="data row4 col5" >tried</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row5_col0" class="data row5 col0" >2251</td>
+      <td id="T_24622_row5_col1" class="data row5 col1" >some</td>
+      <td id="T_24622_row5_col2" class="data row5 col2" >det</td>
+      <td id="T_24622_row5_col3" class="data row5 col3" >determiner</td>
+      <td id="T_24622_row5_col4" class="data row5 col4" >2252</td>
+      <td id="T_24622_row5_col5" class="data row5 col5" >way</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row6_col0" class="data row6 col0" >2252</td>
+      <td id="T_24622_row6_col1" class="data row6 col1" >way</td>
+      <td id="T_24622_row6_col2" class="data row6 col2" >dobj</td>
+      <td id="T_24622_row6_col3" class="data row6 col3" >direct object</td>
+      <td id="T_24622_row6_col4" class="data row6 col4" >2250</td>
+      <td id="T_24622_row6_col5" class="data row6 col5" >find</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row7_col0" class="data row7 col0" >2253</td>
+      <td id="T_24622_row7_col1" class="data row7 col1" >of</td>
+      <td id="T_24622_row7_col2" class="data row7 col2" >prep</td>
+      <td id="T_24622_row7_col3" class="data row7 col3" >prepositional modifier</td>
+      <td id="T_24622_row7_col4" class="data row7 col4" >2252</td>
+      <td id="T_24622_row7_col5" class="data row7 col5" >way</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row8_col0" class="data row8 col0" >2254</td>
+      <td id="T_24622_row8_col1" class="data row8 col1" >embracing</td>
+      <td id="T_24622_row8_col2" class="data row8 col2" >pcomp</td>
+      <td id="T_24622_row8_col3" class="data row8 col3" >complement of preposition</td>
+      <td id="T_24622_row8_col4" class="data row8 col4" >2253</td>
+      <td id="T_24622_row8_col5" class="data row8 col5" >of</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row9_col0" class="data row9 col0" >2255</td>
+      <td id="T_24622_row9_col1" class="data row9 col1" >my</td>
+      <td id="T_24622_row9_col2" class="data row9 col2" >poss</td>
+      <td id="T_24622_row9_col3" class="data row9 col3" >possession modifier</td>
+      <td id="T_24622_row9_col4" class="data row9 col4" >2256</td>
+      <td id="T_24622_row9_col5" class="data row9 col5" >mother</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row10_col0" class="data row10 col0" >2256</td>
+      <td id="T_24622_row10_col1" class="data row10 col1" >mother</td>
+      <td id="T_24622_row10_col2" class="data row10 col2" >poss</td>
+      <td id="T_24622_row10_col3" class="data row10 col3" >possession modifier</td>
+      <td id="T_24622_row10_col4" class="data row10 col4" >2258</td>
+      <td id="T_24622_row10_col5" class="data row10 col5" >ghost</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row11_col0" class="data row11 col0" >2257</td>
+      <td id="T_24622_row11_col1" class="data row11 col1" >'s</td>
+      <td id="T_24622_row11_col2" class="data row11 col2" >case</td>
+      <td id="T_24622_row11_col3" class="data row11 col3" >case marking</td>
+      <td id="T_24622_row11_col4" class="data row11 col4" >2256</td>
+      <td id="T_24622_row11_col5" class="data row11 col5" >mother</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row12_col0" class="data row12 col0" >2258</td>
+      <td id="T_24622_row12_col1" class="data row12 col1" >ghost</td>
+      <td id="T_24622_row12_col2" class="data row12 col2" >dobj</td>
+      <td id="T_24622_row12_col3" class="data row12 col3" >direct object</td>
+      <td id="T_24622_row12_col4" class="data row12 col4" >2254</td>
+      <td id="T_24622_row12_col5" class="data row12 col5" >embracing</td>
+    </tr>
+    <tr>
+      <td id="T_24622_row13_col0" class="data row13 col0" >2259</td>
+      <td id="T_24622_row13_col1" class="data row13 col1" >.</td>
+      <td id="T_24622_row13_col2" class="data row13 col2" >punct</td>
+      <td id="T_24622_row13_col3" class="data row13 col3" >punctuation</td>
+      <td id="T_24622_row13_col4" class="data row13 col4" >2248</td>
+      <td id="T_24622_row13_col5" class="data row13 col5" >tried</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>How many tokens are associated with each head?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dependencies</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;HEAD&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HEAD
+tried        5
+find         2
+way          2
+of           1
+embracing    1
+mother       2
+ghost        1
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Which tokens are in each of these groups?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Head     | Group&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">46</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">dependencies</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;HEAD&#39;</span><span class="p">):</span>
+    <span class="n">head</span><span class="p">,</span> <span class="n">tokens</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">group</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">head</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}{</span><span class="n">tokens</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Head     | Group
+----------------------------------------------
+tried     [&#39;Then&#39;, &#39;I&#39;, &#39;tried&#39;, &#39;find&#39;, &#39;.&#39;]
+find      [&#39;to&#39;, &#39;way&#39;]
+way       [&#39;some&#39;, &#39;of&#39;]
+of        [&#39;embracing&#39;]
+embracing [&#39;ghost&#39;]
+mother    [&#39;my&#39;, &quot;&#39;s&quot;]
+ghost     [&#39;mother&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">sciPy</span></code> also has a special <code class="docutils literal notranslate"><span class="pre">.subtree</span></code> attribute for each token, which will also produce a similar set of local groupings. Note however that <code class="docutils literal notranslate"><span class="pre">.subtree</span></code> captures all tokens that hold a dependent relationship with the one in question, meaning that when you find the subtree of the root, you’re going to print out the entire sentence.</p>
+<p>As you might expect by now, <code class="docutils literal notranslate"><span class="pre">.subtree</span></code> returns a generator, so convert it to a list or use list comprehension to extract the tokens. We’ll do this in a separate function. Within this function, we’re going to use the <code class="docutils literal notranslate"><span class="pre">.text_with_ws</span></code> attribute of each token in the subtree to return an exact, string-like representation of the tree (this will include any whitespace characters that are attached to a token).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">subtree_to_text</span><span class="p">(</span><span class="n">subtree</span><span class="p">):</span>
+    <span class="n">subtree</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text_with_ws</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">token</span><span class="o">.</span><span class="n">subtree</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">subtree</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Head      | Dep.  | Subtree&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">82</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sentence</span><span class="p">:</span>
+    <span class="n">subtree</span> <span class="o">=</span> <span class="n">subtree_to_text</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">subtree</span><span class="p">)</span>
+    <span class="n">subtree</span> <span class="o">=</span> <span class="n">subtree</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}{</span><span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="si">:</span><span class="s2">&lt;8</span><span class="si">}{</span><span class="n">subtree</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Head      | Dep.  | Subtree
+----------------------------------------------------------------------------------
+Then        advmod  Then
+I           nsubj   I
+tried       ROOT    &quot;Then I tried to find some way of embracing my mother&#39;s ghost.
+to          aux     to
+find        xcomp   to find some way of embracing my mother&#39;s ghost
+some        det     some
+way         dobj    some way of embracing my mother&#39;s ghost
+of          prep    of embracing my mother&#39;s ghost
+embracing   pcomp   embracing my mother&#39;s ghost
+my          poss    my
+mother      poss    my mother&#39;s
+&#39;s          case    &#39;s
+ghost       dobj    my mother&#39;s ghost
+.           punct   .
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="putting-everything-together">
+<h2><span class="section-number">2.5. </span>Putting Everything Together<a class="headerlink" href="#putting-everything-together" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve walked through all these options (which are really only a small sliver of what you can do with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>!), let’s put them into action. Below, we’ll construct two short examples of how you might combine different aspects of token attributes to analyze a text.</p>
+<div class="section" id="finding-lemmas">
+<h3><span class="section-number">2.5.1. </span>Finding lemmas<a class="headerlink" href="#finding-lemmas" title="Permalink to this headline">¶</a></h3>
+<p>In the first, we’ll use the <code class="docutils literal notranslate"><span class="pre">.lemma_</span></code> attribute to search through Book XI of <em>The Odyssey</em> and match its tokens to a few key words. If you’ve read <em>The Odyssey</em>, you’ll know that Book XI is where Odysseus and his fellow sailors have to travel down to the underworld Hades, where they speak with the dead. We already saw one example of this: Odysseus attempts to embrace his dead mother after communing with her. The whole trip to Hades is an emotionally tumultuous experience for the travelers, and peppered throughout Book XI are expressions of grief.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">.lemma</span></code>, we can search for these expressions. We’ll roll through the text and determine whether a token lemma matches one of a selected set. When we find a match, we’ll get the subtree of this token’s <em>head</em>. That is, we’ll find the head upon which this token depends, and then we’ll use that to reconstruct the local context for the token.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">odyssey</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;cry&#39;</span><span class="p">,</span> <span class="s1">&#39;grief&#39;</span><span class="p">,</span> <span class="s1">&#39;grieve&#39;</span><span class="p">,</span> <span class="s1">&#39;sad&#39;</span><span class="p">,</span> <span class="s1">&#39;sorrow&#39;</span><span class="p">,</span> <span class="s1">&#39;tear&#39;</span><span class="p">,</span> <span class="s1">&#39;weep&#39;</span><span class="p">):</span>
+        <span class="n">subtree</span> <span class="o">=</span> <span class="n">subtree_to_text</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">subtree</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;+ </span><span class="si">{</span><span class="n">subtree</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>weeping
++ weeping and in great distress of mind
+
+cried
++ cried when I saw him: &#39;Elpenor
+
+sad
++ sad 
+
+tears
++ tears 
+
+sorrow
++ all my sorrow 
+
+sad
++ sad 
+
+tears
++ tears 
+
+grieves
++ He grieves continually about your never having come home, and suffers more and more as he grows older. 
+
+sad
++ sad 
+
+sorrows
++ our sorrows 
+
+grief
++ grief 
+
+grief
++ great grief 
+
+grief
++ grief
+
+sadder
++ still sadder 
+
+weeping
++ weeping 
+
+wept
++ I too wept and pitied him as I beheld him. &#39;
+
+weeping
++ weeping and talking thus sadly with one another 
+
+tear
++ a tear 
+
+cries
++ such appalling cries
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="verb-subject-relations">
+<h3><span class="section-number">2.5.2. </span>Verb-subject relations<a class="headerlink" href="#verb-subject-relations" title="Permalink to this headline">¶</a></h3>
+<p>For this next example, we’ll use dependency tags to find the subject sentences in Book XI. As before, we’ll go through each token in the document, this time checking to see whether it has the <code class="docutils literal notranslate"><span class="pre">nsubj</span></code> or <code class="docutils literal notranslate"><span class="pre">nsubjpass</span></code> tag for its <code class="docutils literal notranslate"><span class="pre">.dep_</span></code> attribute. These refer to the subjects of the sentence’s root. We’ll also check to see whether a token is a noun (otherwise we’d get a lot of articles like ‘who’, ‘them’, etc.). If a token matches these two conditions, we’ll find its head verb as well as the token’s subtree. Note that this time, the subtree will refer directly to the token in question, not to the head. This will let us capture some descriptive information about each sentence subject.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nsubj</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">odyssey</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">dep_</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;nsubj&#39;</span><span class="p">,</span> <span class="s1">&#39;nsubjpass&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">token</span><span class="o">.</span><span class="n">pos_</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;NOUN&#39;</span><span class="p">,</span> <span class="s1">&#39;PROPN&#39;</span><span class="p">):</span>
+        <span class="n">nsubj</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;SUBJECT&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+            <span class="s1">&#39;HEAD&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+            <span class="s1">&#39;HEAD_LEMMA&#39;</span><span class="p">:</span> <span class="n">token</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">lemma_</span><span class="p">,</span>
+            <span class="s1">&#39;SUBTREE&#39;</span><span class="p">:</span> <span class="n">subtree_to_text</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">subtree</span><span class="p">)</span>
+        <span class="p">})</span>
+
+<span class="n">nsubj_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">nsubj</span><span class="p">)</span>
+<span class="n">nsubj_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_7904e_">
+  <thead>
+    <tr>
+      <th class="col_heading level0 col0" >SUBJECT</th>
+      <th class="col_heading level0 col1" >HEAD</th>
+      <th class="col_heading level0 col2" >HEAD_LEMMA</th>
+      <th class="col_heading level0 col3" >SUBTREE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_7904e_row0_col0" class="data row0 col0" >Circe</td>
+      <td id="T_7904e_row0_col1" class="data row0 col1" >sent</td>
+      <td id="T_7904e_row0_col2" class="data row0 col2" >send</td>
+      <td id="T_7904e_row0_col3" class="data row0 col3" >Circe, that great and cunning goddess</td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row1_col0" class="data row1 col0" >sails</td>
+      <td id="T_7904e_row1_col1" class="data row1 col1" >were</td>
+      <td id="T_7904e_row1_col2" class="data row1 col2" >be</td>
+      <td id="T_7904e_row1_col3" class="data row1 col3" >her sails </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row2_col0" class="data row2 col0" >sun</td>
+      <td id="T_7904e_row2_col1" class="data row2 col1" >went</td>
+      <td id="T_7904e_row2_col2" class="data row2 col2" >go</td>
+      <td id="T_7904e_row2_col3" class="data row2 col3" >the sun </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row3_col0" class="data row3 col0" >darkness</td>
+      <td id="T_7904e_row3_col1" class="data row3 col1" >was</td>
+      <td id="T_7904e_row3_col2" class="data row3 col2" >be</td>
+      <td id="T_7904e_row3_col3" class="data row3 col3" >darkness </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row4_col0" class="data row4 col0" >rays</td>
+      <td id="T_7904e_row4_col1" class="data row4 col1" >pierce</td>
+      <td id="T_7904e_row4_col2" class="data row4 col2" >pierce</td>
+      <td id="T_7904e_row4_col3" class="data row4 col3" >the rays of the sun </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row5_col0" class="data row5 col0" >wretches</td>
+      <td id="T_7904e_row5_col1" class="data row5 col1" >live</td>
+      <td id="T_7904e_row5_col2" class="data row5 col2" >live</td>
+      <td id="T_7904e_row5_col3" class="data row5 col3" >the poor wretches </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row6_col0" class="data row6 col0" >Circe</td>
+      <td id="T_7904e_row6_col1" class="data row6 col1" >told</td>
+      <td id="T_7904e_row6_col2" class="data row6 col2" >tell</td>
+      <td id="T_7904e_row6_col3" class="data row6 col3" >Circe </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row7_col0" class="data row7 col0" >Perimedes</td>
+      <td id="T_7904e_row7_col1" class="data row7 col1" >held</td>
+      <td id="T_7904e_row7_col2" class="data row7 col2" >hold</td>
+      <td id="T_7904e_row7_col3" class="data row7 col3" >Perimedes and Eurylochus </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row8_col0" class="data row8 col0" >Teiresias</td>
+      <td id="T_7904e_row8_col1" class="data row8 col1" >have</td>
+      <td id="T_7904e_row8_col2" class="data row8 col2" >have</td>
+      <td id="T_7904e_row8_col3" class="data row8 col3" >Teiresias </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row9_col0" class="data row9 col0" >blood</td>
+      <td id="T_7904e_row9_col1" class="data row9 col1" >run</td>
+      <td id="T_7904e_row9_col2" class="data row9 col2" >run</td>
+      <td id="T_7904e_row9_col3" class="data row9 col3" >the blood </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row10_col0" class="data row10 col0" >armour</td>
+      <td id="T_7904e_row10_col1" class="data row10 col1" >smirched</td>
+      <td id="T_7904e_row10_col2" class="data row10 col2" >smirch</td>
+      <td id="T_7904e_row10_col3" class="data row10 col3" >their armour </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row11_col0" class="data row11 col0" >ghosts</td>
+      <td id="T_7904e_row11_col1" class="data row11 col1" >come</td>
+      <td id="T_7904e_row11_col2" class="data row11 col2" >come</td>
+      <td id="T_7904e_row11_col3" class="data row11 col3" >the poor feckless ghosts </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row12_col0" class="data row12 col0" >Teiresias</td>
+      <td id="T_7904e_row12_col1" class="data row12 col1" >answered</td>
+      <td id="T_7904e_row12_col2" class="data row12 col2" >answer</td>
+      <td id="T_7904e_row12_col3" class="data row12 col3" >Teiresias </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row13_col0" class="data row13 col0" >ghost</td>
+      <td id="T_7904e_row13_col1" class="data row13 col1" >was</td>
+      <td id="T_7904e_row13_col2" class="data row13 col2" >be</td>
+      <td id="T_7904e_row13_col3" class="data row13 col3" >The first ghost 'that came </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row14_col0" class="data row14 col0" >ghost</td>
+      <td id="T_7904e_row14_col1" class="data row14 col1" >saying</td>
+      <td id="T_7904e_row14_col2" class="data row14 col2" >say</td>
+      <td id="T_7904e_row14_col3" class="data row14 col3" >the ghost of my comrade </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row15_col0" class="data row15 col0" >ghost</td>
+      <td id="T_7904e_row15_col1" class="data row15 col1" >came</td>
+      <td id="T_7904e_row15_col2" class="data row15 col2" >come</td>
+      <td id="T_7904e_row15_col3" class="data row15 col3" >the ghost of my dead mother Anticlea, daughter to Autolycus</td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row16_col0" class="data row16 col0" >heaven</td>
+      <td id="T_7904e_row16_col1" class="data row16 col1" >make</td>
+      <td id="T_7904e_row16_col2" class="data row16 col2" >make</td>
+      <td id="T_7904e_row16_col3" class="data row16 col3" >heaven </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row17_col0" class="data row17 col0" >ship</td>
+      <td id="T_7904e_row17_col1" class="data row17 col1" >reaches</td>
+      <td id="T_7904e_row17_col2" class="data row17 col2" >reach</td>
+      <td id="T_7904e_row17_col3" class="data row17 col3" >your ship </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row18_col0" class="data row18 col0" >hardship</td>
+      <td id="T_7904e_row18_col1" class="data row18 col1" >reach</td>
+      <td id="T_7904e_row18_col2" class="data row18 col2" >reach</td>
+      <td id="T_7904e_row18_col3" class="data row18 col3" >much hardship </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row19_col0" class="data row19 col0" >people</td>
+      <td id="T_7904e_row19_col1" class="data row19 col1" >heard</td>
+      <td id="T_7904e_row19_col2" class="data row19 col2" >hear</td>
+      <td id="T_7904e_row19_col3" class="data row19 col3" >the people </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row20_col0" class="data row20 col0" >wayfarer</td>
+      <td id="T_7904e_row20_col1" class="data row20 col1" >meet</td>
+      <td id="T_7904e_row20_col2" class="data row20 col2" >meet</td>
+      <td id="T_7904e_row20_col3" class="data row20 col3" >A wayfarer </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row21_col0" class="data row21 col0" >death</td>
+      <td id="T_7904e_row21_col1" class="data row21 col1" >come</td>
+      <td id="T_7904e_row21_col2" class="data row21 col2" >come</td>
+      <td id="T_7904e_row21_col3" class="data row21 col3" >death </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row22_col0" class="data row22 col0" >life</td>
+      <td id="T_7904e_row22_col1" class="data row22 col1" >ebb</td>
+      <td id="T_7904e_row22_col2" class="data row22 col2" >ebb</td>
+      <td id="T_7904e_row22_col3" class="data row22 col3" >your life </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row23_col0" class="data row23 col0" >people</td>
+      <td id="T_7904e_row23_col1" class="data row23 col1" >bless</td>
+      <td id="T_7904e_row23_col2" class="data row23 col2" >bless</td>
+      <td id="T_7904e_row23_col3" class="data row23 col3" >your people </td>
+    </tr>
+    <tr>
+      <td id="T_7904e_row24_col0" class="data row24 col0" >ghost</td>
+      <td id="T_7904e_row24_col1" class="data row24 col1" >close</td>
+      <td id="T_7904e_row24_col2" class="data row24 col2" >close</td>
+      <td id="T_7904e_row24_col3" class="data row24 col3" >my poor mother's ghost </td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>How many time do each of our selected subjects appear?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nsubj_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;SUBJECT&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SUBJECT
+ghost           8
+Ulysses         5
+ghosts          4
+heaven          4
+wife            4
+Proserpine      4
+man             4
+one             4
+Alcinous        3
+people          3
+Neleus          2
+ship            2
+judgement       2
+Theseus         2
+Teiresias       2
+gods            2
+mother          2
+life            2
+wind            2
+Circe           2
+Clytemnestra    2
+Hercules        2
+Jove            2
+creature        2
+prisoners       1
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>What heads are associated with each subject? (Note that we’re using the lemmatized form of the verbs.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nsubj_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;SUBJECT&#39;</span><span class="p">,</span> <span class="s1">&#39;HEAD_LEMMA&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SUBJECT     HEAD_LEMMA
+ghost       come          3
+Ulysses     answer        2
+Proserpine  send          2
+one         invite        1
+man         do            1
+            kill          1
+mother      answer        1
+            come          1
+one         be            1
+            get           1
+Aegisthus   be            1
+man         be            1
+one         tell          1
+others      fall          1
+people      be            1
+            bless         1
+            hear          1
+man         cross         1
+limbs       fail          1
+property    be            1
+heaven      take          1
+ground      reek          1
+guest       be            1
+guests      sit           1
+hardship    reach         1
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
