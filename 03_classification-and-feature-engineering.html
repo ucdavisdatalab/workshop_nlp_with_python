@@ -1,0 +1,908 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3. Classification and Feature Engineering &#8212; Natural Language Processing with Python</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >let toggleHintShow = 'Click to show';</script>
+    <script >let toggleHintHide = 'Click to hide';</script>
+    <script >let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="2. Text Annotation with spaCy" href="02_text-annotation-with-spacy.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/datalab-logo-full-color-rgb.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Natural Language Processing with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_logistics.html">
+   1. TBD
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_text-annotation-with-spacy.html">
+   2. Text Annotation with spaCy
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   3. Classification and Feature Engineering
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/03_classification-and-feature-engineering.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/ucdavisdatalab/workshop_nlp_with_python"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/ucdavisdatalab/workshop_nlp_with_python/master?urlpath=tree/03_classification-and-feature-engineering.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#workflow-set-up">
+   3.1. Workflow set up
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#adding-a-pipe">
+     3.1.1. Adding a pipe
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generating-labels">
+     3.1.2. Generating labels
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lazy-loading">
+     3.1.3. Lazy loading
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preprocessing">
+   3.2. Preprocessing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modeling-i-tf-idf">
+   3.3. Modeling I: tf-idf
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-engineering">
+   3.4. Feature Engineering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#document-length">
+     3.4.1. Document length
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lexicon-i-hapax-richness">
+     3.4.2. Lexicon I: hapax richness
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#checking-our-work">
+     3.4.3. Checking our work
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#grammatical-structure-active-vs-passive-voice">
+     3.4.4. Grammatical structure: active vs. passive voice
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lexicon-i-abstract-nouns">
+     3.4.5. Lexicon I: abstract nouns
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lexicon-ii-cardinal-numbers">
+     3.4.6. Lexicon II: cardinal numbers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sentiment">
+     3.4.7. Sentiment
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="classification-and-feature-engineering">
+<h1><span class="section-number">3. </span>Classification and Feature Engineering<a class="headerlink" href="#classification-and-feature-engineering" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="workflow-set-up">
+<h2><span class="section-number">3.1. </span>Workflow set up<a class="headerlink" href="#workflow-set-up" title="Permalink to this headline">¶</a></h2>
+<p>As before, we’ll begin by loading our <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_md&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Later on we’re going to do some work with sentiment analysis. <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> can help us with this to an extent, but the default pipeline of the model does not include a sentiment component. You can check which processes a model will run on a document with the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tok2vec
+tagger
+parser
+senter
+ner
+attribute_ruler
+lemmatizer
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="adding-a-pipe">
+<h3><span class="section-number">3.1.1. </span>Adding a pipe<a class="headerlink" href="#adding-a-pipe" title="Permalink to this headline">¶</a></h3>
+<p>We’ll need to <strong>add a pipe</strong> to the pipline. In this case, we’re using a sentiment analysis tool that’s been ported over from the <a class="reference external" href="https://textblob.readthedocs.io/en/dev/">TextBlob</a> library (which is itself a useful tool for NLP!). Adding it to the pipeline is simply a matter of using <code class="docutils literal notranslate"><span class="pre">nlp.add_pipe()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spacytextblob.spacytextblob</span> <span class="kn">import</span> <span class="n">SpacyTextBlob</span>
+
+<span class="n">nlp</span><span class="o">.</span><span class="n">add_pipe</span><span class="p">(</span><span class="s1">&#39;spacytextblob&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x12005e4e0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, if we run through the component names, we’ll see that the model performs sentiment analysis when it processes documents.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tok2vec
+tagger
+parser
+senter
+ner
+attribute_ruler
+lemmatizer
+spacytextblob
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s also possible to remove model components. You might do so if you know you don’t need certain kinds of information about your documents. For example, in this session we won’t be doing any named entity recognition, so we’ll drop this component from the pipeline. This will shorten our procesing time and it will decrease the amount of data associated with each document.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tok2vec
+tagger
+parser
+senter
+attribute_ruler
+lemmatizer
+spacytextblob
+</pre></div>
+</div>
+</div>
+</div>
+<p>Later on we’ll discuss how to use the extra component we’ve just added to our model. But for now, let’s move on to loading our corpus.</p>
+</div>
+<div class="section" id="generating-labels">
+<h3><span class="section-number">3.1.2. </span>Generating labels<a class="headerlink" href="#generating-labels" title="Permalink to this headline">¶</a></h3>
+<p>First off, we need to make some labels. Each file is labeled with its text genre. We’ll go through every file name and extract that information to build a list of labels, which we’ll later associate with our corpus.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;data/session_two/corpus/*.txt&#39;</span><span class="p">)</span>
+<span class="n">paths</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;fiction&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;summaries&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        
+<span class="n">label_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;fiction&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;abstract&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="lazy-loading">
+<h3><span class="section-number">3.1.3. </span>Lazy loading<a class="headerlink" href="#lazy-loading" title="Permalink to this headline">¶</a></h3>
+<p>With this done, we can load and process our files. There are around 250 of them, and some are fairly long. To handle this, we’ll use a slightly different process than what we’ve been doing so far. Instead of loading everything into memory all at once, we’ll incrementally stream in files using a <strong>generator</strong> and let <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> automatically call up the next file when it’s finished processing. This is called <strong>lazy loading</strong>. It’s a good idea to do this kind of thing when you’re working with large corpora: it’s far more memory efficient, and it saves you the trouble of needing to write a bunch of <code class="docutils literal notranslate"><span class="pre">for</span></code> loops to manage the preprocessing work.</p>
+<p>The code is fairly straightforward. All we need to do is send a function our filepaths and have it <code class="docutils literal notranslate"><span class="pre">yield</span></code> out opened files.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">lazy_load</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">doc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        
+<span class="n">doc_pointer</span> <span class="o">=</span> <span class="n">lazy_load</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>There is a downside to this, however: remember that generators just point to the next objec; they only work with the data represented by that pointer when some process is called. That can make it difficult to poke around in your data, since here:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc_pointer</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x14f1807c8&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>…all we see is the pointer. To know what’s actually in the corpus, you’d need to call in an instance, with <code class="docutils literal notranslate"><span class="pre">next()</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">doc_pointer</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adventure V. The Musgrave Ritual
+
+
+An anomaly which often struck me in the character of my friend Sh
+</pre></div>
+</div>
+</div>
+</div>
+<p>Luckily, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> is good at handling this sort of thing. All we need to do is wrap our paths in <code class="docutils literal notranslate"><span class="pre">lazy_load()</span></code> and send this to a function called <code class="docutils literal notranslate"><span class="pre">nlp.pipe()</span></code>. The latter will go through our generator and process each document when it’s ready to do so.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">to_process</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">lazy_load</span><span class="p">(</span><span class="n">paths</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="preprocessing">
+<h2><span class="section-number">3.2. </span>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
+<p>With our model, labels, and loading function all set up, we can start processing our files. We’re going to use a fairly simple cleaning function to weed out extra cruft in our documents. For every document, this function, which we’ll call <code class="docutils literal notranslate"><span class="pre">clean()</span></code>, will return a list of lowercased and lemmatized words (provided these words aren’t stop words).</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<p>The logic of <code class="docutils literal notranslate"><span class="pre">clean()</span></code> is as follows. For every token in a document:</p>
+<ol class="simple">
+<li><p>Check if the token contains alphabetic characters</p></li>
+<li><p>If it does, check to see whether it’s a stopword or whether it’s less than two characters long</p></li>
+<li><p>If it isn’t, get its lemma, then convert it to lowercase</p></li>
+<li><p>Append the converted token to <code class="docutils literal notranslate"><span class="pre">cleaned</span></code></p></li>
+</ol>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_stop</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">cleaned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+                
+    <span class="k">return</span> <span class="n">cleaned</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, we can use a simple list comprehension to clean our entire corpus. This will load every file, send it through <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>, and then send it through our custom cleaning function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">cleaned</span> <span class="o">=</span> <span class="p">[</span><span class="n">clean</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">to_process</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 10s, sys: 12 s, total: 1min 22s
+Wall time: 1min 26s
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="modeling-i-tf-idf">
+<h2><span class="section-number">3.3. </span>Modeling I: tf-idf<a class="headerlink" href="#modeling-i-tf-idf" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="feature-engineering">
+<h2><span class="section-number">3.4. </span>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h2>
+<p>SOME PRELIMINARY REMARKS</p>
+<p>There are two key aspects of feature engineering. You need to know:</p>
+<ol class="simple">
+<li><p>What you want to learn about your corpus</p></li>
+<li><p>What kind of features might characterize your corpus</p></li>
+</ol>
+<p>The first point is straightforward, but very important. Your underlying research question needs to drive your computational work. Though we’re working in an exploratory mode, there’s actually a research question here: what features best characterize the different genres in our corpus?</p>
+<p>The second point is a little fuzzier. It’s likely that you’ll know at least a few things about your corpus, before you even load it into Python. For instance, even knowing where the data comes from can serve as an important frame with which to begin asking informed questions. While there’s always going to be some fishing involved in exploratory work, you can keep your explorations somewhat focused by leveraging your prior knowledge about your data.</p>
+<p>In our case, we already know that there are three different genres in our corpus. We also know in a general sense some things about each of these genres. Abstracts, for example, are brief, fairly objective documents; often, they’re written in the third person with passive voice. The same goes for plot summaries, though we might expect the formality of the language in summaries to be different than abstracts. On the other hand, fiction tends to be longer than the other two genres, and it also tends to have a more varied vocabulary.</p>
+<p>To be sure, these are general assumptions, which may or may not mesh with our actual corpus. But they’re a good starting point, and we can write some code to generate metrics that will show whether our assumptions are, in fact, correct.</p>
+<p>We’ll do so in two passes. Our <strong>first set of features</strong> will rely on the cleaned, bag-of-word representations of the corpus documents, which we’ve already produced above. <strong>The second</strong>, on the other hand, will collect information about things like grammatical structure or part-of-speech tags, and thus they will require us to use full, as-is representations of our documents.</p>
+<div class="section" id="document-length">
+<h3><span class="section-number">3.4.1. </span>Document length<a class="headerlink" href="#document-length" title="Permalink to this headline">¶</a></h3>
+<p>The first of our metrics is a simple one: document length. Document length is a surprisingly effective indicator of different genres, and, even better, it’s very easy information to collect. Below, we write a function to simply count the number of lemmatized tokens in each of our corpus documents.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">doc_length</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nice and easy!</p>
+</div>
+<div class="section" id="lexicon-i-hapax-richness">
+<h3><span class="section-number">3.4.2. </span>Lexicon I: hapax richness<a class="headerlink" href="#lexicon-i-hapax-richness" title="Permalink to this headline">¶</a></h3>
+<p>With our document length function written, we can use its output to create another metric, called <strong>hapax richness</strong>. If you’ll recall from the <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/04_corpus-analytics.html#raw-metrics-terms">second day</a> of our Getting Started with Textual Data workshop series, a hapax (short for “hapax legomenon”) is a word that occurs only once in a document. Researchers, especially those working in authorship attribution, will use such words to create a measure of a document’s lexical complexity: the more hapaxes in a document, the more lexically complex that document is said to be.</p>
+<p>Generating a hapax richness metric involves finding all hapaxes in a document. Once we’ve done so, we simply take the sum of those tokens over the total number of tokens in a document.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="k">def</span> <span class="nf">hapax_richness</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">doc_len</span><span class="p">):</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">hapaxes</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">token</span> <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">tokens</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">n_hapaxes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">hapaxes</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    
+    <span class="k">return</span> <span class="n">n_hapaxes</span> <span class="o">/</span> <span class="n">doc_len</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="checking-our-work">
+<h3><span class="section-number">3.4.3. </span>Checking our work<a class="headerlink" href="#checking-our-work" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have two methods of generating metrics about our corpus, let’s run each document through them and put the results in a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe. We’ll also include the labels from before, which will require us to <code class="docutils literal notranslate"><span class="pre">zip</span></code> the document list together with the list that contains our labels.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cleaned</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="n">doc_len</span> <span class="o">=</span> <span class="n">doc_length</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">hapax</span> <span class="o">=</span> <span class="n">hapax_richness</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">doc_len</span><span class="p">)</span>
+    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;LENGTH&#39;</span><span class="p">:</span> <span class="n">doc_len</span><span class="p">,</span>
+        <span class="s1">&#39;HAPAX&#39;</span><span class="p">:</span> <span class="n">hapax</span><span class="p">,</span>
+        <span class="s1">&#39;LABEL&#39;</span><span class="p">:</span> <span class="n">label</span>
+    <span class="p">})</span>
+    
+<span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+<span class="n">features</span><span class="p">[</span><span class="s1">&#39;LABEL_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="s1">&#39;LABEL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">label_dict</span><span class="p">)</span>
+<span class="n">features</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LENGTH</th>
+      <th>HAPAX</th>
+      <th>LABEL</th>
+      <th>LABEL_NAME</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>167</th>
+      <td>164</td>
+      <td>0.365854</td>
+      <td>2</td>
+      <td>abstract</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>291</td>
+      <td>0.247423</td>
+      <td>2</td>
+      <td>abstract</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>329</td>
+      <td>0.270517</td>
+      <td>2</td>
+      <td>abstract</td>
+    </tr>
+    <tr>
+      <th>255</th>
+      <td>1476</td>
+      <td>0.224932</td>
+      <td>2</td>
+      <td>abstract</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>157</td>
+      <td>0.452229</td>
+      <td>2</td>
+      <td>abstract</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span><span class="p">[[</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LENGTH</th>
+      <th>LABEL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>LENGTH</th>
+      <td>1.000000</td>
+      <td>-0.673947</td>
+    </tr>
+    <tr>
+      <th>LABEL</th>
+      <td>-0.673947</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span><span class="p">[[</span><span class="s1">&#39;HAPAX&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>HAPAX</th>
+      <th>LABEL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>HAPAX</th>
+      <td>1.00000</td>
+      <td>0.03421</td>
+    </tr>
+    <tr>
+      <th>LABEL</th>
+      <td>0.03421</td>
+      <td>1.00000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">graph_dist</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">groupby</span><span class="o">=</span><span class="s1">&#39;LABEL&#39;</span><span class="p">,</span> <span class="n">label_dict</span><span class="o">=</span><span class="n">label_dict</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">groupby</span><span class="p">):</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">fig</span>
+
+<span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HAPAX&#39;</span><span class="p">]:</span>
+    <span class="n">graph_dist</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">feat</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03_classification-and-feature-engineering_38_0.png" src="_images/03_classification-and-feature-engineering_38_0.png" />
+<img alt="_images/03_classification-and-feature-engineering_38_1.png" src="_images/03_classification-and-feature-engineering_38_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="grammatical-structure-active-vs-passive-voice">
+<h3><span class="section-number">3.4.4. </span>Grammatical structure: active vs. passive voice<a class="headerlink" href="#grammatical-structure-active-vs-passive-voice" title="Permalink to this headline">¶</a></h3>
+<p>The first of our full text metrics concerns the distinction between active and passive voice. The hypothesis here is that the objective, report-like nature of abstracts (and perhaps summaries) will have more passive voice overall than fiction, which tends to be focused on present action. To measure this, we’ll use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s dependency parser to identify the percentage of passive voice subjects in a document.</p>
+<p>We’ll implement this in a function, which will tally the number of passive subjects and the number of active subjects in each sentence of the document. Then, it will sum together the total number of subjects and divide the number of passive subjects by that total.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">score_passive</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">subjects</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nsubjpass&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;nsubj&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sent</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">dep_</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;nsubjpass&#39;</span><span class="p">,</span> <span class="s1">&#39;nsubj&#39;</span><span class="p">):</span>
+                <span class="n">subjects</span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">dep_</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">total_subjects</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">subjects</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    
+    <span class="k">return</span> <span class="n">subjects</span><span class="p">[</span><span class="s1">&#39;nsubjpass&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_subjects</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="lexicon-i-abstract-nouns">
+<h3><span class="section-number">3.4.5. </span>Lexicon I: abstract nouns<a class="headerlink" href="#lexicon-i-abstract-nouns" title="Permalink to this headline">¶</a></h3>
+<p>The code for our second metric will follow a similar structure to the code above. Below, use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tags to identify nouns in a document. Then we determine whether these are abstract nouns, on the theory that abstracts and summaries are likely to have more nouns that denote ideas, qualities, relationships, etc. than fiction.</p>
+<p>But how do we find an abstract noun? One simple way is to consider a noun’s suffix. Suffixes like “-acy” or “-ncy” (accuracy, leniency), “-hip” or “-ity” (relationship, fixity) are good, general markers of abstract nouns. They’re not always a perfect match, but they can give us a general sense of what kind of noun it is that we’re working with.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ABSTRACT_SUFFIX</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;acy&#39;</span><span class="p">,</span> <span class="s1">&#39;ncy&#39;</span><span class="p">,</span> <span class="s1">&#39;nce&#39;</span><span class="p">,</span> <span class="s1">&#39;ism&#39;</span><span class="p">,</span> <span class="s1">&#39;ity&#39;</span><span class="p">,</span> <span class="s1">&#39;ty&#39;</span><span class="p">,</span> <span class="s1">&#39;ent&#39;</span><span class="p">,</span> <span class="s1">&#39;ess&#39;</span><span class="p">,</span> <span class="s1">&#39;hip&#39;</span><span class="p">,</span> <span class="s1">&#39;ion&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">score_abstract</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">nouns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;abstract&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;not_abstract&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s1">&#39;NOUN&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">suffix_</span> <span class="ow">in</span> <span class="n">ABSTRACT_SUFFIX</span><span class="p">:</span>
+                <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;abstract&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;not_abstract&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">total_nouns</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nouns</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    
+    <span class="k">return</span> <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;abstract&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_nouns</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="lexicon-ii-cardinal-numbers">
+<h3><span class="section-number">3.4.6. </span>Lexicon II: cardinal numbers<a class="headerlink" href="#lexicon-ii-cardinal-numbers" title="Permalink to this headline">¶</a></h3>
+<p>So far we’ve been eliding potentially important differences between abstracts and summaries. Let’s develop a metric that might help us distinguish between the two of them. One such metric could be a simple count of the number of cardinal numbers in a document: we’d expect summaries to have less than abstracts. Using <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tagger will help us identify these tokens.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">num_cardinals</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">numbers</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">tag_</span> <span class="o">==</span> <span class="s1">&#39;CD&#39;</span><span class="p">:</span>
+            <span class="n">numbers</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+    <span class="k">return</span> <span class="n">ints</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that we’ll want to convert the return from this function into a percentage over total tokens. We’ll do so in a later processing function.</p>
+</div>
+<div class="section" id="sentiment">
+<h3><span class="section-number">3.4.7. </span>Sentiment<a class="headerlink" href="#sentiment" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "nlp"
+        },
+        kernelOptions: {
+            kernelName: "nlp",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'nlp'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="02_text-annotation-with-spacy.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title"><span class="section-number">2. </span>Text Annotation with spaCy</p>
+            </div>
+        </a>
+    </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Tyler Shoemaker and Carl Stahmer<br/>
+        
+          <div class="extra_footer">
+            <p>
+LICENSE WILL GO HERE
+</p>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
