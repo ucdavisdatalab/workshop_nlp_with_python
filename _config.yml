@@ -21,4 +21,10 @@ execute:
 
 html:
   use_repository_button: true
-
+  extra_footer: |
+    <p>
+    LICENSE WILL GO HERE
+    </p>
+sphinx:
+  config:
+    html_show_copyright: false

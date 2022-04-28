@@ -5,3 +5,4 @@ options:
 chapters:
 - file: 01_logistics.ipynb
 - file: 02_text-annotation-with-spacy.ipynb
+- file: 03_classification-and-feature-engineering.ipynb
