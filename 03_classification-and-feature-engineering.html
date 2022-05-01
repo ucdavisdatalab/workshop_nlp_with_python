@@ -171,7 +171,10 @@
             href="https://github.com/ucdavisdatalab/workshop_nlp_with_python"><button type="button" class="btn btn-secondary topbarbtn"
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
-        
+        <a class="issues-button"
+            href="https://github.com/ucdavisdatalab/workshop_nlp_with_python/issues/new?title=Issue%20on%20page%20%2F03_classification-and-feature-engineering.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
     </div>
 </div>
@@ -218,8 +221,14 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#adding-a-pipe">
-     3.1.1. Adding a pipe
+    <a class="reference internal nav-link" href="#changing-spacy-pipeline-components">
+     3.1.1. Changing
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       spaCy
+      </span>
+     </code>
+     pipeline components
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -260,23 +269,23 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#checking-our-work">
-     3.4.3. Checking our work
+    <a class="reference internal nav-link" href="#inspecting-our-work">
+     3.4.3. Inspecting our work
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#grammatical-structure-active-vs-passive-voice">
-     3.4.4. Grammatical structure: active vs. passive voice
+    <a class="reference internal nav-link" href="#active-vs-passive-voice">
+     3.4.4. Active vs. passive voice
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#lexicon-i-abstract-nouns">
-     3.4.5. Lexicon I: abstract nouns
+    <a class="reference internal nav-link" href="#lexicon-ii-abstract-nouns">
+     3.4.5. Lexicon II: abstract nouns
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#lexicon-ii-cardinal-numbers">
-     3.4.6. Lexicon II: cardinal numbers
+    <a class="reference internal nav-link" href="#lexicon-iii-cardinal-numbers">
+     3.4.6. Lexicon III: cardinal numbers
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -285,6 +294,11 @@
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modeling-ii-features">
+   3.5. Modeling II: Features
+  </a>
  </li>
 </ul>
 
@@ -331,8 +345,8 @@ lemmatizer
 </div>
 </div>
 </div>
-<div class="section" id="adding-a-pipe">
-<h3><span class="section-number">3.1.1. </span>Adding a pipe<a class="headerlink" href="#adding-a-pipe" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="changing-spacy-pipeline-components">
+<h3><span class="section-number">3.1.1. </span>Changing <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> pipeline components<a class="headerlink" href="#changing-spacy-pipeline-components" title="Permalink to this headline">¶</a></h3>
 <p>We’ll need to <strong>add a pipe</strong> to the pipline. In this case, we’re using a sentiment analysis tool that’s been ported over from the <a class="reference external" href="https://textblob.readthedocs.io/en/dev/">TextBlob</a> library (which is itself a useful tool for NLP!). Adding it to the pipeline is simply a matter of using <code class="docutils literal notranslate"><span class="pre">nlp.add_pipe()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -343,12 +357,12 @@ lemmatizer
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x12005e4e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x11c37ea20&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>Now, if we run through the component names, we’ll see that the model performs sentiment analysis when it processes documents.</p>
+<p>Now, if we run through the component names, we’ll see that the model performs sentiment analysis when it processes documents. Adding pipes defaults to putting them at the end of all other components, but it’s also possible to change their order.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
@@ -370,23 +384,23 @@ spacytextblob
 </div>
 </div>
 <p>It’s also possible to remove model components. You might do so if you know you don’t need certain kinds of information about your documents. For example, in this session we won’t be doing any named entity recognition, so we’ll drop this component from the pipeline. This will shorten our procesing time and it will decrease the amount of data associated with each document.</p>
-<div class="cell docutils container">
+<div class="cell tag_raises-exception docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="k">assert</span> <span class="s1">&#39;ner&#39;</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">,</span> <span class="s1">&#39;Named entity recognition is no longer in the pipeline!&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tok2vec
-tagger
-parser
-senter
-attribute_ruler
-lemmatizer
-spacytextblob
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_89569</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="k">assert</span> <span class="s1">&#39;ner&#39;</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">,</span> <span class="s1">&#39;Named entity recognition is no longer in the pipeline!&#39;</span>
+
+<span class="ne">AssertionError</span>: Named entity recognition is no longer in the pipeline!
 </pre></div>
 </div>
 </div>
@@ -396,6 +410,14 @@ spacytextblob
 <div class="section" id="generating-labels">
 <h3><span class="section-number">3.1.2. </span>Generating labels<a class="headerlink" href="#generating-labels" title="Permalink to this headline">¶</a></h3>
 <p>First off, we need to make some labels. Each file is labeled with its text genre. We’ll go through every file name and extract that information to build a list of labels, which we’ll later associate with our corpus.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">What this loop does:</p>
+<ol class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">glob</span></code> to get all <code class="docutils literal notranslate"><span class="pre">.txt</span></code> filepaths</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">re.findall()</span></code> to determine which genre name is in the filepath</p></li>
+<li><p>Append a corresponding integer to a list of labels. This list will be in the same order as our files (an important alignment for later work)</p></li>
+</ol>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
@@ -407,13 +429,13 @@ spacytextblob
 <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;fiction&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;summaries&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;summaries&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
         
-<span class="n">label_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;fiction&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;abstract&#39;</span><span class="p">}</span>
+<span class="n">label_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;fiction&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;abstract&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -435,7 +457,7 @@ spacytextblob
 </div>
 </div>
 </div>
-<p>There is a downside to this, however: remember that generators just point to the next objec; they only work with the data represented by that pointer when some process is called. That can make it difficult to poke around in your data, since here:</p>
+<p>There is a downside to this, however: remember that generators just point to the next object; they only work with the data represented by that pointer when some process is called. Accordingly, this can make it difficult to poke around in your data, since here:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc_pointer</span>
@@ -443,7 +465,7 @@ spacytextblob
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x14f1807c8&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x14bf03c78&gt;
 </pre></div>
 </div>
 </div>
@@ -477,10 +499,10 @@ An anomaly which often struck me in the character of my friend Sh
 </div>
 <div class="section" id="preprocessing">
 <h2><span class="section-number">3.2. </span>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
-<p>With our model, labels, and loading function all set up, we can start processing our files. We’re going to use a fairly simple cleaning function to weed out extra cruft in our documents. For every document, this function, which we’ll call <code class="docutils literal notranslate"><span class="pre">clean()</span></code>, will return a list of lowercased and lemmatized words (provided these words aren’t stop words).</p>
+<p>With our model, labels, and loading function all set up, we can start processing our files. We’re going to use a fairly simple cleaning function to weed out extra cruft in our documents. For every document, this function – which we’ll call <code class="docutils literal notranslate"><span class="pre">clean()</span></code> – will return a list of lowercased and lemmatized words (provided these words aren’t stop words!).</p>
 <div class="margin sidebar">
-<p class="sidebar-title"></p>
-<p>The logic of <code class="docutils literal notranslate"><span class="pre">clean()</span></code> is as follows. For every token in a document:</p>
+<p class="sidebar-title">Details about our cleaning function</p>
+<p>For every token in a document:</p>
 <ol class="simple">
 <li><p>Check if the token contains alphabetic characters</p></li>
 <li><p>If it does, check to see whether it’s a stopword or whether it’s less than two characters long</p></li>
@@ -507,18 +529,12 @@ An anomaly which often struck me in the character of my friend Sh
 <p>Now, we can use a simple list comprehension to clean our entire corpus. This will load every file, send it through <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>, and then send it through our custom cleaning function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">cleaned</span> <span class="o">=</span> <span class="p">[</span><span class="n">clean</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">to_process</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1min 10s, sys: 12 s, total: 1min 22s
-Wall time: 1min 26s
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cleaned</span> <span class="o">=</span> <span class="p">[</span><span class="n">clean</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">to_process</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>Another reason for using a lazy loader on our files has to do with later work we’ll do in this session: though our work so far has involved creating <em>bag of words</em> representations of the corpus, later steps will require full text representations. With <code class="docutils literal notranslate"><span class="pre">lazy_load()</span></code> written, we can easily reprocess our corpus whenever we’d like.</p>
 </div>
 <div class="section" id="modeling-i-tf-idf">
 <h2><span class="section-number">3.3. </span>Modeling I: tf-idf<a class="headerlink" href="#modeling-i-tf-idf" title="Permalink to this headline">¶</a></h2>
@@ -538,21 +554,16 @@ Wall time: 1min 26s
 <p>We’ll do so in two passes. Our <strong>first set of features</strong> will rely on the cleaned, bag-of-word representations of the corpus documents, which we’ve already produced above. <strong>The second</strong>, on the other hand, will collect information about things like grammatical structure or part-of-speech tags, and thus they will require us to use full, as-is representations of our documents.</p>
 <div class="section" id="document-length">
 <h3><span class="section-number">3.4.1. </span>Document length<a class="headerlink" href="#document-length" title="Permalink to this headline">¶</a></h3>
-<p>The first of our metrics is a simple one: document length. Document length is a surprisingly effective indicator of different genres, and, even better, it’s very easy information to collect. Below, we write a function to simply count the number of lemmatized tokens in each of our corpus documents.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">doc_length</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Nice and easy!</p>
+<p>The first of our metrics is a simple one: document length. Document length is a surprisingly effective indicator of different genres, and, even better, it’s very easy information to collect. In fact, there’s no need to write custom code; we can just use <code class="docutils literal notranslate"><span class="pre">len()</span></code>.</p>
 </div>
 <div class="section" id="lexicon-i-hapax-richness">
 <h3><span class="section-number">3.4.2. </span>Lexicon I: hapax richness<a class="headerlink" href="#lexicon-i-hapax-richness" title="Permalink to this headline">¶</a></h3>
 <p>With our document length function written, we can use its output to create another metric, called <strong>hapax richness</strong>. If you’ll recall from the <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/04_corpus-analytics.html#raw-metrics-terms">second day</a> of our Getting Started with Textual Data workshop series, a hapax (short for “hapax legomenon”) is a word that occurs only once in a document. Researchers, especially those working in authorship attribution, will use such words to create a measure of a document’s lexical complexity: the more hapaxes in a document, the more lexically complex that document is said to be.</p>
 <p>Generating a hapax richness metric involves finding all hapaxes in a document. Once we’ve done so, we simply take the sum of those tokens over the total number of tokens in a document.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">Using a Counter</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Counter</span></code> is a subclass of the standard Python dictionary. They’re very useful for tracking the frequency of items in some collection of data. Here, we simply wrap a document inside a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> and Python will automatically convert that document’s tokens into frequency data. This enables us to take a subset of those tokens with ease.</p>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
@@ -568,26 +579,33 @@ Wall time: 1min 26s
 </div>
 </div>
 </div>
-<div class="section" id="checking-our-work">
-<h3><span class="section-number">3.4.3. </span>Checking our work<a class="headerlink" href="#checking-our-work" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="inspecting-our-work">
+<h3><span class="section-number">3.4.3. </span>Inspecting our work<a class="headerlink" href="#inspecting-our-work" title="Permalink to this headline">¶</a></h3>
 <p>Now that we have two methods of generating metrics about our corpus, let’s run each document through them and put the results in a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe. We’ll also include the labels from before, which will require us to <code class="docutils literal notranslate"><span class="pre">zip</span></code> the document list together with the list that contains our labels.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">basic_features</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cleaned</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
-    <span class="n">doc_len</span> <span class="o">=</span> <span class="n">doc_length</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">doc_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
     <span class="n">hapax</span> <span class="o">=</span> <span class="n">hapax_richness</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">doc_len</span><span class="p">)</span>
-    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+    <span class="n">basic_features</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
         <span class="s1">&#39;LENGTH&#39;</span><span class="p">:</span> <span class="n">doc_len</span><span class="p">,</span>
         <span class="s1">&#39;HAPAX&#39;</span><span class="p">:</span> <span class="n">hapax</span><span class="p">,</span>
         <span class="s1">&#39;LABEL&#39;</span><span class="p">:</span> <span class="n">label</span>
     <span class="p">})</span>
     
-<span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
-<span class="n">features</span><span class="p">[</span><span class="s1">&#39;LABEL_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="s1">&#39;LABEL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">label_dict</span><span class="p">)</span>
-<span class="n">features</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">basic_features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">basic_features</span><span class="p">)</span>
+<span class="n">basic_features</span><span class="p">[</span><span class="s1">&#39;LABEL_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">basic_features</span><span class="p">[</span><span class="s1">&#39;LABEL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">label_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s take a look:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">basic_features</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;LABEL&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -618,47 +636,56 @@ Wall time: 1min 26s
   </thead>
   <tbody>
     <tr>
-      <th>167</th>
-      <td>164</td>
-      <td>0.365854</td>
+      <th>5</th>
+      <td>2247</td>
+      <td>0.290610</td>
+      <td>1</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2887</td>
+      <td>0.285071</td>
+      <td>1</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>113</td>
+      <td>0.619469</td>
       <td>2</td>
+      <td>summary</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>133</td>
+      <td>0.421053</td>
+      <td>2</td>
+      <td>summary</td>
+    </tr>
+    <tr>
+      <th>165</th>
+      <td>399</td>
+      <td>0.426065</td>
+      <td>3</td>
       <td>abstract</td>
     </tr>
     <tr>
-      <th>164</th>
-      <td>291</td>
-      <td>0.247423</td>
-      <td>2</td>
-      <td>abstract</td>
-    </tr>
-    <tr>
-      <th>186</th>
-      <td>329</td>
-      <td>0.270517</td>
-      <td>2</td>
-      <td>abstract</td>
-    </tr>
-    <tr>
-      <th>255</th>
-      <td>1476</td>
-      <td>0.224932</td>
-      <td>2</td>
-      <td>abstract</td>
-    </tr>
-    <tr>
-      <th>169</th>
-      <td>157</td>
-      <td>0.452229</td>
-      <td>2</td>
+      <th>248</th>
+      <td>262</td>
+      <td>0.545802</td>
+      <td>3</td>
       <td>abstract</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
+<p>There are a few ways to inspect our work more closely and determine whether these are meaningful features. All of them will leverage the <code class="docutils literal notranslate"><span class="pre">.groupby()</span></code> in <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to partition subsets of the data and investigate the feature distributions therein. Throughout, we’re interested in identifying features that seem to be different for each label type.</p>
+<p>You may find simple metrics like the mean distrubtions for features to be useful:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span><span class="p">[[</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">basic_features</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;LABEL_NAME&#39;</span><span class="p">)[[</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HAPAX&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -682,27 +709,39 @@ Wall time: 1min 26s
     <tr style="text-align: right;">
       <th></th>
       <th>LENGTH</th>
-      <th>LABEL</th>
+      <th>HAPAX</th>
+    </tr>
+    <tr>
+      <th>LABEL_NAME</th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>LENGTH</th>
-      <td>1.000000</td>
-      <td>-0.673947</td>
+      <th>abstract</th>
+      <td>547.980000</td>
+      <td>0.346419</td>
     </tr>
     <tr>
-      <th>LABEL</th>
-      <td>-0.673947</td>
-      <td>1.000000</td>
+      <th>fiction</th>
+      <td>3286.678571</td>
+      <td>0.250794</td>
+    </tr>
+    <tr>
+      <th>summary</th>
+      <td>178.930000</td>
+      <td>0.630816</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
+<p>There’s some nice separability here!</p>
+<p>Determing whether features are correlated is also useful. We can break out by-label correlations with the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span><span class="p">[[</span><span class="s1">&#39;HAPAX&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">basic_features</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;LABEL_NAME&#39;</span><span class="p">)[[</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HAPAX&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -725,24 +764,65 @@ Wall time: 1min 26s
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th></th>
+      <th>LENGTH</th>
       <th>HAPAX</th>
-      <th>LABEL</th>
+    </tr>
+    <tr>
+      <th>LABEL_NAME</th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>HAPAX</th>
-      <td>1.00000</td>
-      <td>0.03421</td>
+      <th rowspan="2" valign="top">abstract</th>
+      <th>LENGTH</th>
+      <td>1.000000</td>
+      <td>-0.337493</td>
     </tr>
     <tr>
-      <th>LABEL</th>
-      <td>0.03421</td>
-      <td>1.00000</td>
+      <th>HAPAX</th>
+      <td>-0.337493</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">fiction</th>
+      <th>LENGTH</th>
+      <td>1.000000</td>
+      <td>-0.882208</td>
+    </tr>
+    <tr>
+      <th>HAPAX</th>
+      <td>-0.882208</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">summary</th>
+      <th>LENGTH</th>
+      <td>1.000000</td>
+      <td>-0.778418</td>
+    </tr>
+    <tr>
+      <th>HAPAX</th>
+      <td>-0.778418</td>
+      <td>1.000000</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+<p>It makes sense that length and hapax richness tend to be negatively correlated: the longer a text is, the more likely we are to see repeated words. In this sense, as it stands our hapax feature might not be as representative as we’d like it to be, especially when it comes to a document class like fiction. Surely there are rare, potentially important words in the fiction, but they’re largely blurred by the length of the documents. To mitigate this, we could use a <strong>window size</strong> to determine hapax richness, modifying the code above, for example, to break texts into smaller chunks and get a mean hapax score for all chunks. We won’t do this now, but keep in mind that you may have to make such modifications when engineering features.</p>
+<p>Raw metrics are useful, but so are visualizations. Below, we put together a quick function to show the by-label distribution of features in our data. The resultant histograms will make it clear whether our features are actually helping to partition our data, or whether they’re just muddling distinctions between document classes even more.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">What our graphing function does:</p>
+<ol class="simple">
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> subplots figure and axis</p></li>
+<li><p>Group the dataframe by a column and then iterate through the group name and group data, targeting a feature we’d like to inspect</p></li>
+<li><p>Create a histogram showing the number of documents with a certain value range for the feature</p></li>
+</ol>
+<p>Note: we’re using a little scaling on the bins to correct for the class imbalances.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -752,31 +832,35 @@ Wall time: 1min 26s
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
     
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">groupby</span><span class="p">):</span>
-        <span class="n">d</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">n_bins</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of documents&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2"> range&quot;</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">fig</span>
 
 <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HAPAX&#39;</span><span class="p">]:</span>
-    <span class="n">graph_dist</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">feat</span><span class="p">);</span>
+    <span class="n">graph_dist</span><span class="p">(</span><span class="n">basic_features</span><span class="p">,</span> <span class="n">feat</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03_classification-and-feature-engineering_38_0.png" src="_images/03_classification-and-feature-engineering_38_0.png" />
-<img alt="_images/03_classification-and-feature-engineering_38_1.png" src="_images/03_classification-and-feature-engineering_38_1.png" />
+<img alt="_images/03_classification-and-feature-engineering_42_0.png" src="_images/03_classification-and-feature-engineering_42_0.png" />
+<img alt="_images/03_classification-and-feature-engineering_42_1.png" src="_images/03_classification-and-feature-engineering_42_1.png" />
 </div>
 </div>
+<p>These histograms usefully show us divisions among our classes. While the document lengths of summaries and abstracts have a similar shape and magnitude, there’s good separability between their two distributions in the hapax richness scores. And throughout, documents labeled with fiction are notably different from the other two classes; a classifier is sure to register this. Indeed, this difference could serve as a counter to the suggestion above about creating a window size for hapax richness. Though windowing the documents might create a more realistic representation, we’re already seeing useful separability within the hapax metric as it stands. In this sense, you might approach feature engineering with a fair bit of pragmatism, especially with regard to the wider goals of your research question. It may be that the fact that there’s a difference at all is enough, regardless of whether it’s the best, most nuanced representation of your data.</p>
+<p>For our purposes, what we have so far is, in fact, enough. We can feel pretty confident that the two features we’ve engineered so far will serve as useful metrics for a classifier, which is our ultimate intent for our session. With this established, it’s time to move on to more complex metrics: ones that depend on full text representations of the documents.</p>
 </div>
-<div class="section" id="grammatical-structure-active-vs-passive-voice">
-<h3><span class="section-number">3.4.4. </span>Grammatical structure: active vs. passive voice<a class="headerlink" href="#grammatical-structure-active-vs-passive-voice" title="Permalink to this headline">¶</a></h3>
-<p>The first of our full text metrics concerns the distinction between active and passive voice. The hypothesis here is that the objective, report-like nature of abstracts (and perhaps summaries) will have more passive voice overall than fiction, which tends to be focused on present action. To measure this, we’ll use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s dependency parser to identify the percentage of passive voice subjects in a document.</p>
-<p>We’ll implement this in a function, which will tally the number of passive subjects and the number of active subjects in each sentence of the document. Then, it will sum together the total number of subjects and divide the number of passive subjects by that total.</p>
+<div class="section" id="active-vs-passive-voice">
+<h3><span class="section-number">3.4.4. </span>Active vs. passive voice<a class="headerlink" href="#active-vs-passive-voice" title="Permalink to this headline">¶</a></h3>
+<p>The reason the following metrics are more complex is twofold. First, they require a little bit more in the way of coding than the ones above; and second, they require us to think more carefully about relationships across our corpus (often with a fair bit of hypothesizing!). To wit: the first of our full text metrics concerns the distinction between active and passive voice. The hypothesis here is that the objective, report-like nature of abstracts (and perhaps summaries) will have more passive voice overall than in fiction, which tends to be focused on present action. To measure this, we’ll use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s dependency parser to identify the percentage of passive voice subjects in a document, versus active subjects.</p>
+<p>We’ll implement this in a function, which will tally the number of passive subjects and the number of active subjects in each sentence of the document. Then, it will sum together the total number of subjects and divide the number of passive subjects by that total. As above, we’ll use a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> to store the intermediary information generated throughout this function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">score_passive</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-    <span class="n">subjects</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;nsubjpass&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;nsubj&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">subjects</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;nsubjpass&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;nsubj&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
     <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sent</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">dep_</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;nsubjpass&#39;</span><span class="p">,</span> <span class="s1">&#39;nsubj&#39;</span><span class="p">):</span>
@@ -789,16 +873,16 @@ Wall time: 1min 26s
 </div>
 </div>
 </div>
-<div class="section" id="lexicon-i-abstract-nouns">
-<h3><span class="section-number">3.4.5. </span>Lexicon I: abstract nouns<a class="headerlink" href="#lexicon-i-abstract-nouns" title="Permalink to this headline">¶</a></h3>
-<p>The code for our second metric will follow a similar structure to the code above. Below, use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tags to identify nouns in a document. Then we determine whether these are abstract nouns, on the theory that abstracts and summaries are likely to have more nouns that denote ideas, qualities, relationships, etc. than fiction.</p>
-<p>But how do we find an abstract noun? One simple way is to consider a noun’s suffix. Suffixes like “-acy” or “-ncy” (accuracy, leniency), “-hip” or “-ity” (relationship, fixity) are good, general markers of abstract nouns. They’re not always a perfect match, but they can give us a general sense of what kind of noun it is that we’re working with.</p>
+<div class="section" id="lexicon-ii-abstract-nouns">
+<h3><span class="section-number">3.4.5. </span>Lexicon II: abstract nouns<a class="headerlink" href="#lexicon-ii-abstract-nouns" title="Permalink to this headline">¶</a></h3>
+<p>The code for our second metric will follow a similar structure to the code above. Below, we use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tags to identify nouns in a document. Then we determine whether these are abstract nouns, on the theory that abstracts and summaries are likely to have more nouns that denote ideas, qualities, relationships, etc. than fiction.</p>
+<p>But how do we find an abstract noun? One simple way is to consider a noun’s suffix. Suffixes like <em>-acy</em> or <em>-ism</em> (e.g. accuracy, isomorphism) and <em>-hip</em> or <em>-ity</em> (e.g. relationship, fixity) are good, general markers of abstract nouns. They’re not always a perfect match, but they can give us a general sense of what kind of noun it is that we’re working with.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ABSTRACT_SUFFIX</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;acy&#39;</span><span class="p">,</span> <span class="s1">&#39;ncy&#39;</span><span class="p">,</span> <span class="s1">&#39;nce&#39;</span><span class="p">,</span> <span class="s1">&#39;ism&#39;</span><span class="p">,</span> <span class="s1">&#39;ity&#39;</span><span class="p">,</span> <span class="s1">&#39;ty&#39;</span><span class="p">,</span> <span class="s1">&#39;ent&#39;</span><span class="p">,</span> <span class="s1">&#39;ess&#39;</span><span class="p">,</span> <span class="s1">&#39;hip&#39;</span><span class="p">,</span> <span class="s1">&#39;ion&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">score_abstract</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-    <span class="n">nouns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;abstract&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;not_abstract&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">nouns</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;abstract&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;not_abstract&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
     <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s1">&#39;NOUN&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">suffix_</span> <span class="ow">in</span> <span class="n">ABSTRACT_SUFFIX</span><span class="p">:</span>
@@ -813,9 +897,9 @@ Wall time: 1min 26s
 </div>
 </div>
 </div>
-<div class="section" id="lexicon-ii-cardinal-numbers">
-<h3><span class="section-number">3.4.6. </span>Lexicon II: cardinal numbers<a class="headerlink" href="#lexicon-ii-cardinal-numbers" title="Permalink to this headline">¶</a></h3>
-<p>So far we’ve been eliding potentially important differences between abstracts and summaries. Let’s develop a metric that might help us distinguish between the two of them. One such metric could be a simple count of the number of cardinal numbers in a document: we’d expect summaries to have less than abstracts. Using <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tagger will help us identify these tokens.</p>
+<div class="section" id="lexicon-iii-cardinal-numbers">
+<h3><span class="section-number">3.4.6. </span>Lexicon III: cardinal numbers<a class="headerlink" href="#lexicon-iii-cardinal-numbers" title="Permalink to this headline">¶</a></h3>
+<p>So far we’ve been eliding potentially important differences between abstracts and summaries. Let’s develop a metric that might help us distinguish between the two of them. One such metric could be a simple count of the number of cardinal numbers in a document: we’d expect summaries to have less than abstracts (whether because the latter reports various metrics, or because they often contain citations, dates, etc.). Using <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tagger will help us identify these tokens. Once identified, it’s just a matter of incrementing a count.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">num_cardinals</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
@@ -824,16 +908,109 @@ Wall time: 1min 26s
         <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">tag_</span> <span class="o">==</span> <span class="s1">&#39;CD&#39;</span><span class="p">:</span>
             <span class="n">numbers</span> <span class="o">+=</span> <span class="mi">1</span>
             
-    <span class="k">return</span> <span class="n">ints</span>
+    <span class="k">return</span> <span class="n">numbers</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Note that we’ll want to convert the return from this function into a percentage over total tokens. We’ll do so in a later processing function.</p>
+<p>Note that we’ll want to convert the return from this function into a percentage over total tokens. We’ll do so in a later processing function that ties together everything we’ve written so far.</p>
 </div>
 <div class="section" id="sentiment">
 <h3><span class="section-number">3.4.7. </span>Sentiment<a class="headerlink" href="#sentiment" title="Permalink to this headline">¶</a></h3>
+<p>The final metric we’ll generate attempts to capture something about the sentiment of each document. <strong>Sentiment analysis</strong> is a popular NLP technique, which researchers use to determine affective and subjective information. Implementations vary, but most will assign a numeric value that represents the <strong>polarity</strong> of a text, that is, its general tendency toward negative, neutral, or positive sentiment. Typically, these values are a bounded range of <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>. Some implementations will also score the <strong>subjectivity</strong> of a text, with scores closer to <code class="docutils literal notranslate"><span class="pre">0</span></code> representing more “objective” texts and those tending toward <code class="docutils literal notranslate"><span class="pre">1</span></code> representing highly “subjective” texts.</p>
+<p>The data and methods that drive sentiment analysis are highly varied. The newest implementations use deep learning models to capture fine-grained nuances in text strings, while older versions of the technique are lexicon-based. The latter usually score texts with a combination of rule-based matching and predetermined values for words.</p>
+<p>If you use sentiment analysis, especially lexicon-based sentiment analysis (as we’re doing here), it’s important to keep in mind that the scores are, well, subjective. Someone had to go in and decide what <em>they</em> thought the sentiment of words or phrases are. If you were to read the same text, you might not agree. When possible, try to find the dictionary that supplies the analyzer and get a sense of the classification rules that produce a value (for example, <a class="reference external" href="https://github.com/sloria/TextBlob/blob/dev/textblob/en/en-sentiment.xml">here is the dictionary</a> that drives the <code class="docutils literal notranslate"><span class="pre">TextBlob</span></code> analyzer below). Good sentiment analysis toolkits will make this information readily available.</p>
+<p>For our purposes, we’ll generate a very simple sentiment metric. The <code class="docutils literal notranslate"><span class="pre">TextBlob</span></code> pipe we added to our model assigns scores for an entire document, individual sentences, or single spans and tokens. We’ll use sentences. The code below goes through each sentence in the document, accesses its <code class="docutils literal notranslate"><span class="pre">._.polarity</span></code> attribute, and assigns that to a list. Then it takes the mean score of everything in the list.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">score_polarity</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">sent</span><span class="o">.</span><span class="n">_</span><span class="o">.</span><span class="n">polarity</span>
+        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+</pre></div>
 </div>
+</div>
+</div>
+<p>With all of our advanced feature engineering functions written, we can process our corpus. We’ll call the above functions together using a single <code class="docutils literal notranslate"><span class="pre">get_stats()</span></code> function, which returns a dictionary of feature–value pairs.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">In a real life setting…</p>
+<p>…you might use <code class="docutils literal notranslate"><span class="pre">get_stats()</span></code> to do your text cleaning and basic feature engineering as well. That would save you the trouble of processing your corpus twice.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">passivity</span> <span class="o">=</span> <span class="n">score_passive</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">abstractness</span> <span class="o">=</span> <span class="n">score_abstract</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">numbers</span> <span class="o">=</span> <span class="n">num_cardinals</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">polarity</span> <span class="o">=</span> <span class="n">score_polarity</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;PASSIVITY&#39;</span><span class="p">:</span> <span class="n">passivity</span><span class="p">,</span>
+        <span class="s1">&#39;ABSTRACTNESS&#39;</span><span class="p">:</span> <span class="n">abstractness</span><span class="p">,</span>
+        <span class="s1">&#39;NUMBERS&#39;</span><span class="p">:</span> <span class="n">numbers</span><span class="p">,</span>
+        <span class="s1">&#39;POLARITY&#39;</span><span class="p">:</span> <span class="n">polarity</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As above, we use <code class="docutils literal notranslate"><span class="pre">lazy_load</span></code> in conjunction with <code class="docutils literal notranslate"><span class="pre">nlp.pipe()</span></code> and a list comprehension to produce a list of feature dictionaries. These we can easily convert into a dataframe.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">to_process</span> <span class="o">=</span> <span class="n">lazy_load</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+<span class="n">advanced_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_stats</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">to_process</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can convert our advanced features into a dataframe and join them to our basic features. We’ll also reorder the columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">advanced_features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">advanced_features</span><span class="p">)</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">basic_features</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">advanced_features</span><span class="p">)</span>
+
+<span class="n">reorder</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HAPAX&#39;</span><span class="p">,</span> <span class="s1">&#39;PASSIVITY&#39;</span><span class="p">,</span> <span class="s1">&#39;ABSTRACTNESS&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;NUMBERS&#39;</span><span class="p">,</span> <span class="s1">&#39;POLARITY&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL_NAME&#39;</span>
+<span class="p">]</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">reorder</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before we can inspect the results with our histogram visualization, we need to make a small modification. Remember that the cardinal number values are raw – we need to divide them by their corresponding document lengths.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">NUMBERS</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="s1">&#39;NUMBERS&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">features</span><span class="p">[</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Time to visualize!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;PASSIVITY&#39;</span><span class="p">,</span> <span class="s1">&#39;ABSTRACTNESS&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBERS&#39;</span><span class="p">,</span> <span class="s1">&#39;POLARITY&#39;</span><span class="p">]:</span>
+    <span class="n">graph_dist</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">feat</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/03_classification-and-feature-engineering_62_0.png" src="_images/03_classification-and-feature-engineering_62_0.png" />
+<img alt="_images/03_classification-and-feature-engineering_62_1.png" src="_images/03_classification-and-feature-engineering_62_1.png" />
+<img alt="_images/03_classification-and-feature-engineering_62_2.png" src="_images/03_classification-and-feature-engineering_62_2.png" />
+<img alt="_images/03_classification-and-feature-engineering_62_3.png" src="_images/03_classification-and-feature-engineering_62_3.png" />
+</div>
+</div>
+<p>Interestingly, the sentiment score does not appear to be particularly separable. All of our classes are mostly lumped together in terms of magnitude and range. We’ll need to keep this in mind when building our model – in fact we may even toss this feature out altogether. On the other hand, our three other features seem like they will serve our model well. There’s good separation between the classes, and within the classes themselves the features appear to be fairly well distributed.</p>
+</div>
+</div>
+<div class="section" id="modeling-ii-features">
+<h2><span class="section-number">3.5. </span>Modeling II: Features<a class="headerlink" href="#modeling-ii-features" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -887,9 +1064,9 @@ Wall time: 1min 26s
           By Tyler Shoemaker and Carl Stahmer<br/>
         
           <div class="extra_footer">
-            <p>
-LICENSE WILL GO HERE
-</p>
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg"> 
+</a>
 
           </div>
       </p>
