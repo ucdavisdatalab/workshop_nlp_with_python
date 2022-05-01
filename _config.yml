@@ -20,11 +20,13 @@ execute:
   timeout: 120
 
 html:
+  use_issues_button: true
   use_repository_button: true
   extra_footer: |
-    <p>
-    LICENSE WILL GO HERE
-    </p>
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+      <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg"> 
+    </a>
+
 sphinx:
   config:
     html_show_copyright: false
