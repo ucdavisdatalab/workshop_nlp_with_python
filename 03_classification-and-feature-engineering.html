@@ -45,6 +45,8 @@
     <script src="_static/togglebutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -313,9 +315,15 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="classification-and-feature-engineering">
 <h1><span class="section-number">3. </span>Classification and Feature Engineering<a class="headerlink" href="#classification-and-feature-engineering" title="Permalink to this headline">¶</a></h1>
+<p>This chapter demonstrates how to apply what we’ve learned so far about document annotation with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>. Specifically, we will be discussing how to build a text classifier. Classification is a core task in NLP, and such models usually work by making predictions on the basis of probability distributions of a corpus’s features. We won’t dive too deeply into the details of modeling, though; instead, we are goign to focus on the features we send to our model. If you attended our <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/index.html">Getting Started with Textual Data</a> series, you may remember that computationally analyzing text requires us to <strong>engineer features</strong>. Often, these are token counts. But there are other features we can use to represent information about our data, and document annotation gives us the tools to create these features. This chapter, then, will demonstrate how to do so and, along the way, it will discuss what considerations go into the process.</p>
+<p>We’ll be using a small corpus of texts to test out some of these features. Admittedly, it’s a bit of a weird mix: our corpus is comprised of ~50 Sherlock Holmes short stories, ~100 movie summaries from the <a class="reference external" href="http://www.cs.cmu.edu/~ark/personas/">CMU Movie Summary Corpus</a>, and ~100 <a class="reference external" href="https://journals.plos.org/plosone/">PLOS ONE</a> biomedical abstracts. Why such disparate texts? Well, our focus here is on how feature engineering might help you partition texts in your corpus, so our intent is less about showing you a completely real world situation and more about outlining a few options you might pursue with your own data. For this reason, having very different types of text will make it clear how features divide up a corpus. While we think these options are translatable across a variety of texts, know that, to an extent, the results we’ll discuss in this chapter are somewhat artificial.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">Want to learn more about modeling?</p>
+<p>The DataLab has a workshop on <a class="reference external" href="https://ucdavisdatalab.github.io/workshop-model-validation">model validation</a></p>
+</div>
 <div class="section" id="workflow-set-up">
 <h2><span class="section-number">3.1. </span>Workflow set up<a class="headerlink" href="#workflow-set-up" title="Permalink to this headline">¶</a></h2>
-<p>As before, we’ll begin by loading our <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model.</p>
+<p>With the preliminaries out of the way, let’s get started. As before, we’ll begin by loading our <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
@@ -357,7 +365,7 @@ lemmatizer
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x11c37ea20&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x11c438438&gt;
 </pre></div>
 </div>
 </div>
@@ -395,7 +403,7 @@ spacytextblob
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_89569</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_89985</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="k">assert</span> <span class="s1">&#39;ner&#39;</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">,</span> <span class="s1">&#39;Named entity recognition is no longer in the pipeline!&#39;</span>
@@ -409,7 +417,7 @@ spacytextblob
 </div>
 <div class="section" id="generating-labels">
 <h3><span class="section-number">3.1.2. </span>Generating labels<a class="headerlink" href="#generating-labels" title="Permalink to this headline">¶</a></h3>
-<p>First off, we need to make some labels. Each file is labeled with its text genre. We’ll go through every file name and extract that information to build a list of labels, which we’ll later associate with our corpus.</p>
+<p>First, we need to make some labels. Each file is labeled with its text type. We’ll go through every file name and extract that information to build a list of labels, which we’ll later associate with our corpus.</p>
 <div class="margin sidebar">
 <p class="sidebar-title">What this loop does:</p>
 <ol class="simple">
@@ -465,7 +473,7 @@ spacytextblob
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x14bf03c78&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x130e00c78&gt;
 </pre></div>
 </div>
 </div>
@@ -538,10 +546,118 @@ An anomaly which often struck me in the character of my friend Sh
 </div>
 <div class="section" id="modeling-i-tf-idf">
 <h2><span class="section-number">3.3. </span>Modeling I: tf-idf<a class="headerlink" href="#modeling-i-tf-idf" title="Permalink to this headline">¶</a></h2>
+<p>Once our texts are cleaned, we can build a simple model to predict the three different classes of text in our corpus. If you’re thinking, <em>But a model requires numeric data, and so far we just have bags of words</em>, you’d be right. There’s one more step we need to do before we can actually build the model, and it should be a familiar one: we need to transform our cleaned documents into a document-term matrix, which will hold weighted term counts for the entire corpus. The <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> object in <code class="docutils literal notranslate"><span class="pre">sci-kit-learn</span></code> makes this an easy task.</p>
+<div class="margin sidebar">
+<p class="sidebar-title">Remember</p>
+<p>Our cleaned texts are currently in a list of lists. We need to <code class="docutils literal notranslate"><span class="pre">join</span></code> them back into strings before sending them to the vectorizer.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+<span class="n">vectorized</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">cleaned</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we build models, we use a portion of our data to <strong>train</strong> the model and a smaller portion of it to <strong>test</strong> the model. First, we train the model, and then we give it our test data, which it hasn’t yet seen. We, on the other hand, have seen it, and we know which labels the model <em>should</em> assign to this data when it makes its predictions. By measuring those predictions against labels that we know to be correct, we’re thus able to appraise a model’s performance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has functionality to automatically split our data into training and test sets. Below, we load in the <code class="docutils literal notranslate"><span class="pre">train_test_split()</span></code> function and give it our document-term matrix and our corresponding labels. This will output training data/labels and test data/labels. We’ll also specify what percentage of the corpus we devote to training, and what percentage we devote to testing. For this task, we’ll use an 70/30 split.</p>
+<div class="admonition-be-sure-to-shuffle-the-data admonition">
+<p class="admonition-title">Be sure to shuffle the data!</p>
+<p>Right now, our labels are all grouped together, so an even split wouldn’t give the model an adequate representation of the data.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">vectorized</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">357</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;Number of documents to train the model: </span><span class="si">{</span><span class="n">train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Number of documents for testing the model: </span><span class="si">{</span><span class="n">test_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total features from the document-term matrix: </span><span class="si">{</span><span class="n">train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of documents to train the model: 179 
+Number of documents for testing the model: 77 
+Total features from the document-term matrix: 18,610
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now build a model. One of the most popular model types for text classification is a naive Bayes classifier. While we won’t be diving into the details of modeling, it’s still good to know in a general sense how such a model works. It’s based on Bayes’ theorem, which states that the probability of an event can be gleaned from prior knowledge of the conditions that relate to that event. Formally, we express this theorem like so:</p>
+<div class="math notranslate nohighlight">
+\[
+P(y|x_1,...,x_n) = \frac{P(y)P(x_1,...,x_n|y)}{P(x_1,...,x_n)}
+\]</div>
+<p>That is, given the probability of class <span class="math notranslate nohighlight">\(y\)</span> in a dataset, what is the conditional probability of a set of features <span class="math notranslate nohighlight">\((x_1,...,x_n)\)</span> occuring within <span class="math notranslate nohighlight">\(y\)</span>? Derive this by taking the product of these two probabilities (for the class and for the features) over the features’ probabilities. More generally, we can state this as:</p>
+<div class="math notranslate nohighlight">
+\[
+Posterior = \frac{Prior \cdot Likelihood}{Evidence}
+\]</div>
+<p>In our case, <span class="math notranslate nohighlight">\((x_1,...,x_n)\)</span> is the set of <span class="math notranslate nohighlight">\(n\)</span> tokens represented by the columns in our document-term matrix. For a given document, the classifier will examine the conditional probabilities of its tokens according to each of the classes we’re training it on. The token distributions for each class will be different, and this in turn conditions the probability of a set of tokens appearing together with a particular set of values. Once the classifier has considered eaching case, it will select the class that maximizes the probability of a document’s tokens appearing together with its specific frequency values.</p>
+<p>Luckily, <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has a built-in model object for naive Bayes. We just need to lead it in and call <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> to train it on our training data/labels. With that done, we use <code class="docutils literal notranslate"><span class="pre">.predict()</span></code> to generate a set of predicted labels from the test data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we can generate a report of how well the model performed by comparing the predicted labels against the testing labels. Below, we use <code class="docutils literal notranslate"><span class="pre">classification_report()</span></code> to generate a performance report. This report give us information about three key metrics, all of which have to do with balancing <strong>true positive</strong> and <strong>true negative</strong> predictions (i.e. correct labels) from <strong>false positive</strong> and <strong>false negative</strong> predictions (i.e. incorrect labels):</p>
+<ol class="simple">
+<li><p>Precision: the proportion of labels that are actually correct</p></li>
+<li><p>Recall: the proportion of correct labels the model was able to successfully find</p></li>
+<li><p>F1 score: a weighted score of the first two</p></li>
+</ol>
+<div class="margin sidebar">
+<p class="sidebar-title">For more on these metrics…</p>
+<p>Take a look at the <a class="reference external" href="https://developers.google.com/machine-learning/crash-course/classification/precision-and-recall">classification module</a> on Google’s Machine Learning Crash Course to see how these metrics are calculated.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+
+<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00        22
+           2       1.00      0.91      0.95        33
+           3       0.88      1.00      0.94        22
+
+    accuracy                           0.96        77
+   macro avg       0.96      0.97      0.96        77
+weighted avg       0.97      0.96      0.96        77
+</pre></div>
+</div>
+</div>
+</div>
+<p>Not bad at all! In fact, this model is probably a little <em>too</em> good: those straight 100% readings are likely indicators that the model is overfit. This is almost certainly due to the hodgepodge nature of our corpus, where the divisions between different document classes is particularly clear. For our purposes, this is okay – we’re more interested in showing you how to build a model in the first place, and then, as we’ll discuss next, how to build some more features to send to such a model.</p>
 </div>
 <div class="section" id="feature-engineering">
 <h2><span class="section-number">3.4. </span>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h2>
-<p>SOME PRELIMINARY REMARKS</p>
+<p>TODO: SOME PRELIMINARY REMARKS</p>
 <p>There are two key aspects of feature engineering. You need to know:</p>
 <ol class="simple">
 <li><p>What you want to learn about your corpus</p></li>
@@ -636,6 +752,13 @@ An anomaly which often struck me in the character of my friend Sh
   </thead>
   <tbody>
     <tr>
+      <th>23</th>
+      <td>3161</td>
+      <td>0.244543</td>
+      <td>1</td>
+      <td>fiction</td>
+    </tr>
+    <tr>
       <th>5</th>
       <td>2247</td>
       <td>0.290610</td>
@@ -643,37 +766,30 @@ An anomaly which often struck me in the character of my friend Sh
       <td>fiction</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>2887</td>
-      <td>0.285071</td>
-      <td>1</td>
-      <td>fiction</td>
-    </tr>
-    <tr>
-      <th>69</th>
-      <td>113</td>
-      <td>0.619469</td>
+      <th>135</th>
+      <td>412</td>
+      <td>0.502427</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>121</th>
-      <td>133</td>
-      <td>0.421053</td>
+      <th>134</th>
+      <td>102</td>
+      <td>0.676471</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>165</th>
-      <td>399</td>
-      <td>0.426065</td>
+      <th>167</th>
+      <td>164</td>
+      <td>0.365854</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
     <tr>
-      <th>248</th>
-      <td>262</td>
-      <td>0.545802</td>
+      <th>209</th>
+      <td>202</td>
+      <td>0.435644</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
@@ -846,8 +962,8 @@ An anomaly which often struck me in the character of my friend Sh
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03_classification-and-feature-engineering_42_0.png" src="_images/03_classification-and-feature-engineering_42_0.png" />
-<img alt="_images/03_classification-and-feature-engineering_42_1.png" src="_images/03_classification-and-feature-engineering_42_1.png" />
+<img alt="_images/03_classification-and-feature-engineering_49_0.png" src="_images/03_classification-and-feature-engineering_49_0.png" />
+<img alt="_images/03_classification-and-feature-engineering_49_1.png" src="_images/03_classification-and-feature-engineering_49_1.png" />
 </div>
 </div>
 <p>These histograms usefully show us divisions among our classes. While the document lengths of summaries and abstracts have a similar shape and magnitude, there’s good separability between their two distributions in the hapax richness scores. And throughout, documents labeled with fiction are notably different from the other two classes; a classifier is sure to register this. Indeed, this difference could serve as a counter to the suggestion above about creating a window size for hapax richness. Though windowing the documents might create a more realistic representation, we’re already seeing useful separability within the hapax metric as it stands. In this sense, you might approach feature engineering with a fair bit of pragmatism, especially with regard to the wider goals of your research question. It may be that the fact that there’s a difference at all is enough, regardless of whether it’s the best, most nuanced representation of your data.</p>
@@ -1000,10 +1116,10 @@ An anomaly which often struck me in the character of my friend Sh
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/03_classification-and-feature-engineering_62_0.png" src="_images/03_classification-and-feature-engineering_62_0.png" />
-<img alt="_images/03_classification-and-feature-engineering_62_1.png" src="_images/03_classification-and-feature-engineering_62_1.png" />
-<img alt="_images/03_classification-and-feature-engineering_62_2.png" src="_images/03_classification-and-feature-engineering_62_2.png" />
-<img alt="_images/03_classification-and-feature-engineering_62_3.png" src="_images/03_classification-and-feature-engineering_62_3.png" />
+<img alt="_images/03_classification-and-feature-engineering_69_0.png" src="_images/03_classification-and-feature-engineering_69_0.png" />
+<img alt="_images/03_classification-and-feature-engineering_69_1.png" src="_images/03_classification-and-feature-engineering_69_1.png" />
+<img alt="_images/03_classification-and-feature-engineering_69_2.png" src="_images/03_classification-and-feature-engineering_69_2.png" />
+<img alt="_images/03_classification-and-feature-engineering_69_3.png" src="_images/03_classification-and-feature-engineering_69_3.png" />
 </div>
 </div>
 <p>Interestingly, the sentiment score does not appear to be particularly separable. All of our classes are mostly lumped together in terms of magnitude and range. We’ll need to keep this in mind when building our model – in fact we may even toss this feature out altogether. On the other hand, our three other features seem like they will serve our model well. There’s good separation between the classes, and within the classes themselves the features appear to be fairly well distributed.</p>
@@ -1011,6 +1127,59 @@ An anomaly which often struck me in the character of my friend Sh
 </div>
 <div class="section" id="modeling-ii-features">
 <h2><span class="section-number">3.5. </span>Modeling II: Features<a class="headerlink" href="#modeling-ii-features" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_max</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+
+<span class="n">keep</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HAPAX&#39;</span><span class="p">,</span> <span class="s1">&#39;PASSIVITY&#39;</span><span class="p">,</span> <span class="s1">&#39;ABSTRACTNESS&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBERS&#39;</span><span class="p">,</span> <span class="s1">&#39;POLARITY&#39;</span><span class="p">]</span>
+<span class="n">scaled</span> <span class="o">=</span> <span class="n">min_max</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">keep</span><span class="p">])</span>
+
+<span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">scaled</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">357</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gaussian</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">gaussian</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">gaussian</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+
+<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00        22
+           2       0.97      0.94      0.95        33
+           3       0.91      0.95      0.93        22
+
+    accuracy                           0.96        77
+   macro avg       0.96      0.96      0.96        77
+weighted avg       0.96      0.96      0.96        77
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
