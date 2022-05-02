@@ -100,7 +100,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="01_logistics.html">
-   1. TBD
+   1. Logistics
   </a>
  </li>
  <li class="toctree-l1">
@@ -298,8 +298,8 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modeling-ii-features">
-   3.5. Modeling II: Features
+  <a class="reference internal nav-link" href="#modeling-ii-other-features">
+   3.5. Modeling II: Other Features
   </a>
  </li>
 </ul>
@@ -315,11 +315,19 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="classification-and-feature-engineering">
 <h1><span class="section-number">3. </span>Classification and Feature Engineering<a class="headerlink" href="#classification-and-feature-engineering" title="Permalink to this headline">¶</a></h1>
-<p>This chapter demonstrates how to apply what we’ve learned so far about document annotation with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>. Specifically, we will be discussing how to build a text classifier. Classification is a core task in NLP, and such models usually work by making predictions on the basis of probability distributions of a corpus’s features. We won’t dive too deeply into the details of modeling, though; instead, we are goign to focus on the features we send to our model. If you attended our <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/index.html">Getting Started with Textual Data</a> series, you may remember that computationally analyzing text requires us to <strong>engineer features</strong>. Often, these are token counts. But there are other features we can use to represent information about our data, and document annotation gives us the tools to create these features. This chapter, then, will demonstrate how to do so and, along the way, it will discuss what considerations go into the process.</p>
-<p>We’ll be using a small corpus of texts to test out some of these features. Admittedly, it’s a bit of a weird mix: our corpus is comprised of ~50 Sherlock Holmes short stories, ~100 movie summaries from the <a class="reference external" href="http://www.cs.cmu.edu/~ark/personas/">CMU Movie Summary Corpus</a>, and ~100 <a class="reference external" href="https://journals.plos.org/plosone/">PLOS ONE</a> biomedical abstracts. Why such disparate texts? Well, our focus here is on how feature engineering might help you partition texts in your corpus, so our intent is less about showing you a completely real world situation and more about outlining a few options you might pursue with your own data. For this reason, having very different types of text will make it clear how features divide up a corpus. While we think these options are translatable across a variety of texts, know that, to an extent, the results we’ll discuss in this chapter are somewhat artificial.</p>
-<div class="margin sidebar">
-<p class="sidebar-title">Want to learn more about modeling?</p>
-<p>The DataLab has a workshop on <a class="reference external" href="https://ucdavisdatalab.github.io/workshop-model-validation">model validation</a></p>
+<p>This chapter demonstrates how to apply what we’ve learned so far about document annotation with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>. Specifically, we will be discussing how to build a text classifier. Classification is a core task in NLP, and such models usually work by making predictions on the basis of probability distributions across a corpus’s features. However, we won’t dive too deeply into the details of modeling (eg., the underlying math, model selection, fine tuning, and so on); instead, we will focus on the features we send to our model. If you attended our <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/index.html">Getting Started with Textual Data</a> series, you may remember that computationally analyzing text requires us to <strong>engineer</strong>, or create, features. Often, these features are token counts. But there are other features we can use to represent information about our data, and document annotation gives us the tools to create them. This chapter, then, will demonstrate how to do so and, along the way, it will discuss what considerations go into the process.</p>
+<p>We’ll work with a small corpus to test out some of these features. Admittedly, the documents therein are a bit of a weird mix: our corpus is comprised of ~50 Sherlock Holmes short stories (courtesy of the McGill <a class="reference external" href="https://txtlab.org">txtLAB</a>), 100 movie summaries from the <a class="reference external" href="http://www.cs.cmu.edu/~ark/personas/">CMU Movie Summary Corpus</a>, and 100 <a class="reference external" href="https://journals.plos.org/plosone/">PLOS ONE</a> biomedical abstracts. Why such a disparate corpus? Well, our focus here is on how different approaches to feature engineering might help you partition texts in your own corpora, so our intent is less about showing you a completely real word situation and more about outlining a few options you might pursue when using NLP methods in your research. For this reason, having very different types of text will make it clear how these features divide up a corpus. While we think these options are translatable across a variety of documents and research areas, know that, to an extent, the results we’ll discuss in this chapter are somewhat artificial.</p>
+<div class="admonition-learning-objectives admonition">
+<p class="admonition-title">Learning objectives</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul class="simple">
+<li><p>Write memory-efficient code to work with corpora and creating the requisite data structures for classification tasks</p></li>
+<li><p>Build a naive Bayes classification model</p></li>
+<li><p>Recognize whether a model might be overfitted</p></li>
+<li><p>Identify possible feature sets to engineer for text data</p></li>
+<li><p>Engineer those features using <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s document annotation model</p></li>
+<li><p>Validate your engineered features</p></li>
+</ul>
 </div>
 <div class="section" id="workflow-set-up">
 <h2><span class="section-number">3.1. </span>Workflow set up<a class="headerlink" href="#workflow-set-up" title="Permalink to this headline">¶</a></h2>
@@ -365,7 +373,7 @@ lemmatizer
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x11c438438&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x124c1cd68&gt;
 </pre></div>
 </div>
 </div>
@@ -392,6 +400,7 @@ spacytextblob
 </div>
 </div>
 <p>It’s also possible to remove model components. You might do so if you know you don’t need certain kinds of information about your documents. For example, in this session we won’t be doing any named entity recognition, so we’ll drop this component from the pipeline. This will shorten our procesing time and it will decrease the amount of data associated with each document.</p>
+<p>Once we remove a pipe with <code class="docutils literal notranslate"><span class="pre">nlp.remove_pipe()</span></code>, we can use an assertion to check whether it is in the pipeline.</p>
 <div class="cell tag_raises-exception docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
@@ -403,7 +412,7 @@ spacytextblob
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_89985</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_91547</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="k">assert</span> <span class="s1">&#39;ner&#39;</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">,</span> <span class="s1">&#39;Named entity recognition is no longer in the pipeline!&#39;</span>
@@ -473,7 +482,7 @@ spacytextblob
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x130e00c78&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x153d266d8&gt;
 </pre></div>
 </div>
 </div>
@@ -482,7 +491,7 @@ spacytextblob
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">doc_pointer</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">[:</span><span class="mi">100</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">[:</span><span class="mi">115</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -490,7 +499,8 @@ spacytextblob
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adventure V. The Musgrave Ritual
 
 
-An anomaly which often struck me in the character of my friend Sh
+An anomaly which often struck me in the character of my friend Sherlock
+Holmes w
 </pre></div>
 </div>
 </div>
@@ -546,11 +556,8 @@ An anomaly which often struck me in the character of my friend Sh
 </div>
 <div class="section" id="modeling-i-tf-idf">
 <h2><span class="section-number">3.3. </span>Modeling I: tf-idf<a class="headerlink" href="#modeling-i-tf-idf" title="Permalink to this headline">¶</a></h2>
-<p>Once our texts are cleaned, we can build a simple model to predict the three different classes of text in our corpus. If you’re thinking, <em>But a model requires numeric data, and so far we just have bags of words</em>, you’d be right. There’s one more step we need to do before we can actually build the model, and it should be a familiar one: we need to transform our cleaned documents into a document-term matrix, which will hold weighted term counts for the entire corpus. The <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> object in <code class="docutils literal notranslate"><span class="pre">sci-kit-learn</span></code> makes this an easy task.</p>
-<div class="margin sidebar">
-<p class="sidebar-title">Remember</p>
-<p>Our cleaned texts are currently in a list of lists. We need to <code class="docutils literal notranslate"><span class="pre">join</span></code> them back into strings before sending them to the vectorizer.</p>
-</div>
+<p>Once our texts have been cleaned, we can build a simple model to predict the three different document classes in our corpus. If you’re thinking, <em>But a model requires numeric data, and so far we just have bags of words</em>, you’d be right. There’s one more step that we need to do before actually building the model. It should be a familiar one: we need to transform our cleaned documents into a document-term matrix (DTM), which will hold the weighted term counts for the entire corpus. In essence, this data structure will hold all the features that our model will use to make its predictions. Every token (or more properly, <em>type</em>) is a feature, the value of which a document may or may not have.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> makes creating our DTM an easy task. Just remember that our cleaned texts are currently stored as a list of lists. We need to join them back into strings before sending them to the vectorizer.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
@@ -561,8 +568,8 @@ An anomaly which often struck me in the character of my friend Sh
 </div>
 </div>
 </div>
-<p>When we build models, we use a portion of our data to <strong>train</strong> the model and a smaller portion of it to <strong>test</strong> the model. First, we train the model, and then we give it our test data, which it hasn’t yet seen. We, on the other hand, have seen it, and we know which labels the model <em>should</em> assign to this data when it makes its predictions. By measuring those predictions against labels that we know to be correct, we’re thus able to appraise a model’s performance.</p>
-<p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has functionality to automatically split our data into training and test sets. Below, we load in the <code class="docutils literal notranslate"><span class="pre">train_test_split()</span></code> function and give it our document-term matrix and our corresponding labels. This will output training data/labels and test data/labels. We’ll also specify what percentage of the corpus we devote to training, and what percentage we devote to testing. For this task, we’ll use an 70/30 split.</p>
+<p>When we build models, we use a portion of our data to <strong>train</strong> the model and a smaller portion of it to <strong>test</strong> the model. The workflow goes like this. First, we train the model, then we give it our test data, which it hasn’t yet seen. We, on the other hand, have seen this data, and we know which labels the model <em>should</em> assign when it makes its predictions. By measuring those predictions against labels that we know to be correct, we’re thus able to appraise a model’s performance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has functionality to automatically split our data into training and test sets. Below, we load in the <code class="docutils literal notranslate"><span class="pre">train_test_split()</span></code> function and give it our DTM and our corresponding labels. This will output training data/labels and test data/labels. We’ll also specify what percentage of the corpus we devote to training and what percentage we devote to testing. For this task, we’ll use an 70/30 split.</p>
 <div class="admonition-be-sure-to-shuffle-the-data admonition">
 <p class="admonition-title">Be sure to shuffle the data!</p>
 <p>Right now, our labels are all grouped together, so an even split wouldn’t give the model an adequate representation of the data.</p>
@@ -595,26 +602,27 @@ Total features from the document-term matrix: 18,610
 </div>
 </div>
 </div>
-<p>We can now build a model. One of the most popular model types for text classification is a naive Bayes classifier. While we won’t be diving into the details of modeling, it’s still good to know in a general sense how such a model works. It’s based on Bayes’ theorem, which states that the probability of an event can be gleaned from prior knowledge of the conditions that relate to that event. Formally, we express this theorem like so:</p>
+<p>We can now build a model. One of the most popular model types for text classification is a naive Bayes classifier. While we won’t be diving into the details of modeling, it’s still good to know in a general sense how such a model works. It’s based on Bayes’ theorem, which states that the probability of an event can be gleaned from prior knowledge about the conditions that relate to that event. Formally, we express this theorem like so:</p>
 <div class="math notranslate nohighlight">
 \[
 P(y|x_1,...,x_n) = \frac{P(y)P(x_1,...,x_n|y)}{P(x_1,...,x_n)}
 \]</div>
-<p>That is, given the probability of class <span class="math notranslate nohighlight">\(y\)</span> in a dataset, what is the conditional probability of a set of features <span class="math notranslate nohighlight">\((x_1,...,x_n)\)</span> occuring within <span class="math notranslate nohighlight">\(y\)</span>? Derive this by taking the product of these two probabilities (for the class and for the features) over the features’ probabilities. More generally, we can state this as:</p>
+<p>That is, given the probability of class <span class="math notranslate nohighlight">\(y\)</span> in a dataset, what is the conditional probability of a set of features <span class="math notranslate nohighlight">\((x_1,...,x_n)\)</span> occuring within <span class="math notranslate nohighlight">\(y\)</span>? We derive this by taking the product of these two probabilities (for the class and for the features) over the features’ probabilities.</p>
+<p>More generally, we can state the above as:</p>
 <div class="math notranslate nohighlight">
 \[
 Posterior = \frac{Prior \cdot Likelihood}{Evidence}
 \]</div>
-<p>In our case, <span class="math notranslate nohighlight">\((x_1,...,x_n)\)</span> is the set of <span class="math notranslate nohighlight">\(n\)</span> tokens represented by the columns in our document-term matrix. For a given document, the classifier will examine the conditional probabilities of its tokens according to each of the classes we’re training it on. The token distributions for each class will be different, and this in turn conditions the probability of a set of tokens appearing together with a particular set of values. Once the classifier has considered eaching case, it will select the class that maximizes the probability of a document’s tokens appearing together with its specific frequency values.</p>
-<p>Luckily, <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has a built-in model object for naive Bayes. We just need to lead it in and call <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> to train it on our training data/labels. With that done, we use <code class="docutils literal notranslate"><span class="pre">.predict()</span></code> to generate a set of predicted labels from the test data.</p>
+<p>In our case, <span class="math notranslate nohighlight">\((x_1,...,x_n)\)</span> is the set of <span class="math notranslate nohighlight">\(n\)</span> tokens represented by the columns in our document-term matrix. For a given document, the classifier will examine the conditional probabilities of its tokens according to each of the classes we’re training it on. Ideally, the token distributions for each class will be different from one another, and this in turn conditions the probability of a set of tokens appearing together with a particular set of values. Once the classifier has considered each case, it will select the class that maximizes the probability of a document’s tokens appearing together with its specific frequency values. This is known as an <a class="reference external" href="https://en.wikipedia.org/wiki/Arg_max">argmax</a> classifier.</p>
+<p>If this seems like a lot, don’t worry. While it can take a while to get a grip on the underlying logic of such a classifier, at the very least it’s easy enough to implement the code for it. <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has a built-in model object for naive Bayes. We just need to lead it in and call <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> to train it on our training data/labels. With that done, we use <code class="docutils literal notranslate"><span class="pre">.predict()</span></code> to generate a set of predicted labels from the test data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">MultinomialNB</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+<span class="n">NB_model</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+<span class="n">NB_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
 
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+<span class="n">NB_predictions</span> <span class="o">=</span> <span class="n">NB_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -633,8 +641,7 @@ Posterior = \frac{Prior \cdot Likelihood}{Evidence}
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
 
-<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
-
+<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">NB_predictions</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">label_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -642,9 +649,9 @@ Posterior = \frac{Prior \cdot Likelihood}{Evidence}
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-           1       1.00      1.00      1.00        22
-           2       1.00      0.91      0.95        33
-           3       0.88      1.00      0.94        22
+     fiction       1.00      1.00      1.00        22
+     summary       1.00      0.91      0.95        33
+    abstract       0.88      1.00      0.94        22
 
     accuracy                           0.96        77
    macro avg       0.96      0.97      0.96        77
@@ -653,11 +660,11 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 </div>
-<p>Not bad at all! In fact, this model is probably a little <em>too</em> good: those straight 100% readings are likely indicators that the model is overfit. This is almost certainly due to the hodgepodge nature of our corpus, where the divisions between different document classes is particularly clear. For our purposes, this is okay – we’re more interested in showing you how to build a model in the first place, and then, as we’ll discuss next, how to build some more features to send to such a model.</p>
+<p>Not bad at all! In fact, this model is probably a little <em>too</em> good: those straight 1.00 readings likely indicate that the model is <a class="reference external" href="https://www.ibm.com/cloud/learn/overfitting">overfit</a>; you’ll almost never see something like this happen when working with your own data. This is almmost cetainly due to the hodgepodge nature of our corpus, wehre the divisions between different document classes is particularly clear. In such a scenario, the model has learned to distinguish idiosyncracies of our corpus, rather than certain general features about what, say, constitutes a short story vs. an abstract. There are a number of ways to mitigate this problem, ranging from pruning the vocabulary we use in our DTM to sending a model entirely different features. The rest of this chapter is dedicated to this latter strategy.</p>
 </div>
 <div class="section" id="feature-engineering">
 <h2><span class="section-number">3.4. </span>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h2>
-<p>TODO: SOME PRELIMINARY REMARKS</p>
+<p>Training a classifier with tf-idf scores is an absolutely valid method. Indeed, it’s often a very effective method: we expect different types of documents to contain different types of words. But there are other features we can use to train a classifier, which don’t rely so heavily on particular words. There are a number of scenarios for which you might consider using such features. Among such scenarios is the one above, where word types are so closely bound to document classes that a model overfits itself. What would happen, for example, if we sent this classifier a document that doesn’t contain any of the outlier words that help the model make a decision? Or what if we sent it a short story that contains word types classed as biomedical abstracts? In such instances, the model would likely fail in its predictions. We need, then, another set of features to make decisions about document types. This is where feature engineering with document annotation steps in.</p>
 <p>There are two key aspects of feature engineering. You need to know:</p>
 <ol class="simple">
 <li><p>What you want to learn about your corpus</p></li>
@@ -752,44 +759,44 @@ weighted avg       0.97      0.96      0.96        77
   </thead>
   <tbody>
     <tr>
-      <th>23</th>
-      <td>3161</td>
-      <td>0.244543</td>
+      <th>45</th>
+      <td>2913</td>
+      <td>0.276347</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>5</th>
-      <td>2247</td>
-      <td>0.290610</td>
+      <th>16</th>
+      <td>2612</td>
+      <td>0.247320</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>135</th>
-      <td>412</td>
-      <td>0.502427</td>
+      <th>100</th>
+      <td>269</td>
+      <td>0.472119</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>134</th>
-      <td>102</td>
-      <td>0.676471</td>
+      <th>150</th>
+      <td>392</td>
+      <td>0.410714</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>167</th>
-      <td>164</td>
-      <td>0.365854</td>
+      <th>184</th>
+      <td>683</td>
+      <td>0.237189</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
     <tr>
-      <th>209</th>
-      <td>202</td>
-      <td>0.435644</td>
+      <th>173</th>
+      <td>225</td>
+      <td>0.226667</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
@@ -1033,7 +1040,7 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 <div class="section" id="sentiment">
 <h3><span class="section-number">3.4.7. </span>Sentiment<a class="headerlink" href="#sentiment" title="Permalink to this headline">¶</a></h3>
-<p>The final metric we’ll generate attempts to capture something about the sentiment of each document. <strong>Sentiment analysis</strong> is a popular NLP technique, which researchers use to determine affective and subjective information. Implementations vary, but most will assign a numeric value that represents the <strong>polarity</strong> of a text, that is, its general tendency toward negative, neutral, or positive sentiment. Typically, these values are a bounded range of <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>. Some implementations will also score the <strong>subjectivity</strong> of a text, with scores closer to <code class="docutils literal notranslate"><span class="pre">0</span></code> representing more “objective” texts and those tending toward <code class="docutils literal notranslate"><span class="pre">1</span></code> representing highly “subjective” texts.</p>
+<p>The final metric we’ll generate attempts to capture something about the sentiment of each document. <strong>Sentiment analysis</strong> is a popular NLP technique, which researchers use to determine affective and subjective information. Implementations vary, but most will assign a numeric value that represents the <strong>polarity</strong> of a text, that is, its general tendency toward negative, neutral, or positive sentiment. Typically, these values are a bounded range of <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>, with <code class="docutils literal notranslate"><span class="pre">-1</span></code> being the most negative sentiment, <code class="docutils literal notranslate"><span class="pre">1</span></code> the most positive, and <code class="docutils literal notranslate"><span class="pre">0</span></code> for neutral. Some implementations will also score the <strong>subjectivity</strong> of a text, with scores closer to <code class="docutils literal notranslate"><span class="pre">0</span></code> representing more “objective” texts and those tending toward <code class="docutils literal notranslate"><span class="pre">1</span></code> representing highly “subjective” texts.</p>
 <p>The data and methods that drive sentiment analysis are highly varied. The newest implementations use deep learning models to capture fine-grained nuances in text strings, while older versions of the technique are lexicon-based. The latter usually score texts with a combination of rule-based matching and predetermined values for words.</p>
 <p>If you use sentiment analysis, especially lexicon-based sentiment analysis (as we’re doing here), it’s important to keep in mind that the scores are, well, subjective. Someone had to go in and decide what <em>they</em> thought the sentiment of words or phrases are. If you were to read the same text, you might not agree. When possible, try to find the dictionary that supplies the analyzer and get a sense of the classification rules that produce a value (for example, <a class="reference external" href="https://github.com/sloria/TextBlob/blob/dev/textblob/en/en-sentiment.xml">here is the dictionary</a> that drives the <code class="docutils literal notranslate"><span class="pre">TextBlob</span></code> analyzer below). Good sentiment analysis toolkits will make this information readily available.</p>
 <p>For our purposes, we’ll generate a very simple sentiment metric. The <code class="docutils literal notranslate"><span class="pre">TextBlob</span></code> pipe we added to our model assigns scores for an entire document, individual sentences, or single spans and tokens. We’ll use sentences. The code below goes through each sentence in the document, accesses its <code class="docutils literal notranslate"><span class="pre">._.polarity</span></code> attribute, and assigns that to a list. Then it takes the mean score of everything in the list.</p>
@@ -1091,8 +1098,7 @@ weighted avg       0.97      0.96      0.96        77
 <span class="n">features</span> <span class="o">=</span> <span class="n">basic_features</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">advanced_features</span><span class="p">)</span>
 
 <span class="n">reorder</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HAPAX&#39;</span><span class="p">,</span> <span class="s1">&#39;PASSIVITY&#39;</span><span class="p">,</span> <span class="s1">&#39;ABSTRACTNESS&#39;</span><span class="p">,</span> 
-    <span class="s1">&#39;NUMBERS&#39;</span><span class="p">,</span> <span class="s1">&#39;POLARITY&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL_NAME&#39;</span>
+    <span class="s1">&#39;LENGTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HAPAX&#39;</span><span class="p">,</span> <span class="s1">&#39;PASSIVITY&#39;</span><span class="p">,</span> <span class="s1">&#39;ABSTRACTNESS&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBERS&#39;</span><span class="p">,</span> <span class="s1">&#39;POLARITY&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL&#39;</span><span class="p">,</span> <span class="s1">&#39;LABEL_NAME&#39;</span>
 <span class="p">]</span>
 <span class="n">features</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">reorder</span><span class="p">]</span>
 </pre></div>
@@ -1107,7 +1113,7 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 </div>
-<p>Time to visualize!</p>
+<p>Time to visualize our new features!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;PASSIVITY&#39;</span><span class="p">,</span> <span class="s1">&#39;ABSTRACTNESS&#39;</span><span class="p">,</span> <span class="s1">&#39;NUMBERS&#39;</span><span class="p">,</span> <span class="s1">&#39;POLARITY&#39;</span><span class="p">]:</span>
@@ -1125,8 +1131,17 @@ weighted avg       0.97      0.96      0.96        77
 <p>Interestingly, the sentiment score does not appear to be particularly separable. All of our classes are mostly lumped together in terms of magnitude and range. We’ll need to keep this in mind when building our model – in fact we may even toss this feature out altogether. On the other hand, our three other features seem like they will serve our model well. There’s good separation between the classes, and within the classes themselves the features appear to be fairly well distributed.</p>
 </div>
 </div>
-<div class="section" id="modeling-ii-features">
-<h2><span class="section-number">3.5. </span>Modeling II: Features<a class="headerlink" href="#modeling-ii-features" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="modeling-ii-other-features">
+<h2><span class="section-number">3.5. </span>Modeling II: Other Features<a class="headerlink" href="#modeling-ii-other-features" title="Permalink to this headline">¶</a></h2>
+<p>From here, we can build another model. This time, however, we send it the new features we’ve just engineered, rather than the big DTM from before. The workflow will be almost entirely the same, though there are two changes we need to implement:</p>
+<div class="margin sidebar">
+<p class="sidebar-title">More about distributions</p>
+<p>See this <a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/05.05-naive-bayes.html">excerpt</a> from the <em>Python Data Science Handbook</em> for a detailed explanation of the differences between distribution types in Bayesian modeling.</p>
+</div>
+<ol class="simple">
+<li><p>We need to scale our data. This isn’t actually necessary for naive Bayes models, but some of our features contain negative values, which the model won’t accept. What we’ll do, then, is normalize all of our features to a <code class="docutils literal notranslate"><span class="pre">[0,1]</span></code> scale. This will preserve the structure of our features but will remove the problematic values. We can do so with <code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code></p></li>
+<li><p>We need to change the type of distribution our model assumes. A multinomial distribution is the norm for text, as it works well with data that can translated into counts. But we’re no longer working with text data per se; we’re working with data <em>about</em> text, and the values represented therein are continuous. Because of this, we’ll use a model that assumes a Gaussian, or normal, distribution. This we can do with <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code></p></li>
+</ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
@@ -1135,6 +1150,7 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 </div>
+<p>Once these two objects loaded, we initialize a scaler and send it the features we want to train on (note that we are subsetting our <code class="docutils literal notranslate"><span class="pre">features</span></code> object, since it also contains labeling information). With the scaled data created, we once again use <code class="docutils literal notranslate"><span class="pre">train_test_split()</span></code> to create the training and test data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_max</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
@@ -1153,15 +1169,21 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 </div>
+<p>Time to fit the model and make some predictions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gaussian</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
-<span class="n">gaussian</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_model</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">G_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
 
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">gaussian</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
-
-<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
-
+<span class="n">G_predictions</span> <span class="o">=</span> <span class="n">G_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>How did it do?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">G_predictions</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="n">label_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1169,9 +1191,9 @@ weighted avg       0.97      0.96      0.96        77
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-           1       1.00      1.00      1.00        22
-           2       0.97      0.94      0.95        33
-           3       0.91      0.95      0.93        22
+     fiction       1.00      1.00      1.00        22
+     summary       0.97      0.94      0.95        33
+    abstract       0.91      0.95      0.93        22
 
     accuracy                           0.96        77
    macro avg       0.96      0.96      0.96        77
@@ -1180,6 +1202,8 @@ weighted avg       0.96      0.96      0.96        77
 </div>
 </div>
 </div>
+<p>Surprisingly well, actually! In fact, this second model is arguably <em>better</em> than the first one we built. It’s probably still overfitted to fiction, but the scores for the other document classes indicate that it’s been able to generalize out from specific words to a broader class of features that typify one kind of document from the next. And – just as important – it’s been able to do so with a far smaller set of features. Whereas the DTM we used to train the first model had ~18.5k features, this one only needs six.</p>
+<p>These results might cause us to ask: What other features might we use in this situation? What are other measurable ways of thinking about the nature of text? How might such considerations change depending on the corpus we’re using? While all these questions are beyond the scope of present chapter, we hope you’ll keep them in mind as you do your own work with NLP.</p>
 </div>
 </div>
 
