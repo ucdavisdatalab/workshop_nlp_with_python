@@ -1,0 +1,145 @@
+# install libraries
+# -----------------
+
+!pip install spacy, spacytextblob, matplotlib
+!python -m spacy download en_core_web_md
+
+# load spaCy model (requires special handling on Colab)
+# -----------------------------------------------------
+
+import en_core_web_md
+from spacytextblob.spacytextblob import SpacyTextBlob
+
+nlp = en_core_web_md.load()
+
+# load other packages
+# -------------------
+
+import spacy
+import re
+import glob
+from collections import Counter
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB, GaussianNB
+from sklearn.preprocessing import MinMaxScaler
+
+# get labels
+# ----------
+
+paths = glob.glob('nlp_workshop_data/session_two/corpus/*.txt')
+paths.sort()
+
+labels = []
+for path in paths:
+    if re.findall('fiction', path):
+        labels.append(1)
+    elif re.findall('summaries', path):
+        labels.append(2)
+    else:
+        labels.append(3)
+        
+label_dict = {1: 'fiction', 2: 'summary', 3: 'abstract'}
+
+# lazy loader
+# -----------
+
+def lazy_load(paths):
+    for path in paths:
+        doc = open(path, 'r')
+        yield doc.read()
+
+# cleaning function
+# -----------------
+
+def clean(doc):
+    cleaned = []
+    for token in doc:
+        if token.is_alpha:
+            if token.is_stop == False and len(token) > 2:
+                token = token.lemma_
+                token = token.lower()
+                cleaned.append(token)
+                
+    return cleaned
+
+# graphing features
+# -----------------
+
+def graph_dist(df, feature, groupby='LABEL', label_dict=label_dict):
+    fig, ax = plt.subplots(figsize=(10,5))
+    
+    for (i, d) in df.groupby(groupby):
+        n_bins = round(len(d) * .25)
+        d[feature].hist(ax=ax, label=i, alpha=0.7, bins=n_bins)
+        ax.legend(list(label_dict.values()))
+        ax.set_ylabel("Number of documents")
+        ax.set_xlabel(f"{feature} range")
+        
+    return fig
+
+# feature engineering functions
+# -----------------------------
+
+def hapax_richness(doc, doc_len):
+    tokens = Counter(doc)
+    hapaxes = Counter(token for token, count in tokens.items() if count == 1)
+    n_hapaxes = sum(hapaxes.values())
+    
+    return n_hapaxes / doc_len
+
+def score_passive(doc):
+    subjects = Counter({'nsubjpass': 0, 'nsubj': 0})
+    for sent in doc.sents:
+        for token in sent:
+            if token.dep_ in ('nsubjpass', 'nsubj'):
+                subjects[token.dep_] += 1
+    total_subjects = sum(subjects.values())
+    
+    return subjects['nsubjpass'] / total_subjects
+
+ABSTRACT_SUFFIX = ('acy', 'ncy', 'nce', 'ism', 'ity', 'ty', 'ent', 'ess', 'hip', 'ion')
+
+def score_abstract(doc):
+    nouns = Counter({'abstract': 0, 'not_abstract': 0})
+    for token in doc:
+        if token.pos_ == 'NOUN':
+            if token.suffix_ in ABSTRACT_SUFFIX:
+                nouns['abstract'] += 1
+            else:
+                nouns['not_abstract'] += 1
+    total_nouns = sum(nouns.values())
+    
+    return nouns['abstract'] / total_nouns
+
+def num_cardinals(doc):
+    numbers = 0
+    for token in doc:
+        if token.tag_ == 'CD':
+            numbers += 1
+            
+    return numbers
+
+def score_polarity(doc):
+    scores = []
+    for sent in doc.sents:
+        score = sent._.polarity
+        scores.append(score)
+        
+    return np.mean(scores)
+
+def get_stats(doc):
+    passivity = score_passive(doc)
+    abstractness = score_abstract(doc)
+    numbers = num_cardinals(doc)
+    polarity = score_polarity(doc)
+    
+    return {
+        'PASSIVITY': passivity,
+        'ABSTRACTNESS': abstractness,
+        'NUMBERS': numbers,
+        'POLARITY': polarity
+    }

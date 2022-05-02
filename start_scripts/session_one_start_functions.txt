@@ -1,0 +1,29 @@
+# install libraries
+# -----------------
+
+!pip install spacy, spacytextblob, matplotlib
+!python -m spacy download en_core_web_md
+
+# load spaCy model (requires special handling on Colab)
+# -----------------------------------------------------
+
+import en_core_web_md
+from spacytextblob.spacytextblob import SpacyTextBlob
+
+nlp = en_core_web_md.load()
+
+# load other packages
+# -------------------
+
+import spacy
+from collections import Counter
+import pandas as pd
+import numpy as np
+
+# convert a subtree to text
+# -------------------------
+
+def subtree_to_text(subtree):
+    subtree = ''.join([token.text_with_ws for token in token.subtree])
+    subtree = subtree.strip()
+    return subtree
