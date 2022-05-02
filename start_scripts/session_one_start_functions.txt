@@ -19,6 +19,8 @@ import spacy
 from collections import Counter
 import pandas as pd
 import numpy as np
+from google.colab import drive
+drive.mount('/gdrive')
 
 # convert a subtree to text
 # -------------------------
