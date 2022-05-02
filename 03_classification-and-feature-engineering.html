@@ -56,6 +56,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Word Embeddings" href="04_word-embeddings.html" />
     <link rel="prev" title="2. Text Annotation with spaCy" href="02_text-annotation-with-spacy.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -111,6 +112,11 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    3. Classification and Feature Engineering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="04_word-embeddings.html">
+   4. Word Embeddings
   </a>
  </li>
 </ul>
@@ -321,7 +327,7 @@
 <p class="admonition-title">Learning objectives</p>
 <p>By the end of this chapter, you will be able to:</p>
 <ul class="simple">
-<li><p>Write memory-efficient code to work with corpora and creating the requisite data structures for classification tasks</p></li>
+<li><p>Write memory-efficient code to work with corpora and create data structures for classification tasks</p></li>
 <li><p>Build a naive Bayes classification model</p></li>
 <li><p>Recognize whether a model might be overfitted</p></li>
 <li><p>Identify possible feature sets to engineer for text data</p></li>
@@ -373,7 +379,7 @@ lemmatizer
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x124c1cd68&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x125096f98&gt;
 </pre></div>
 </div>
 </div>
@@ -412,7 +418,7 @@ spacytextblob
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_91547</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_92475</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="k">assert</span> <span class="s1">&#39;ner&#39;</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">,</span> <span class="s1">&#39;Named entity recognition is no longer in the pipeline!&#39;</span>
@@ -482,7 +488,7 @@ spacytextblob
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x153d266d8&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x154f7c6d8&gt;
 </pre></div>
 </div>
 </div>
@@ -759,44 +765,44 @@ weighted avg       0.97      0.96      0.96        77
   </thead>
   <tbody>
     <tr>
-      <th>45</th>
-      <td>2913</td>
-      <td>0.276347</td>
+      <th>46</th>
+      <td>3176</td>
+      <td>0.259761</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>16</th>
-      <td>2612</td>
-      <td>0.247320</td>
+      <th>50</th>
+      <td>3597</td>
+      <td>0.231582</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>100</th>
-      <td>269</td>
-      <td>0.472119</td>
+      <th>76</th>
+      <td>101</td>
+      <td>0.702970</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>150</th>
-      <td>392</td>
-      <td>0.410714</td>
+      <th>90</th>
+      <td>25</td>
+      <td>0.760000</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>184</th>
-      <td>683</td>
-      <td>0.237189</td>
+      <th>229</th>
+      <td>1711</td>
+      <td>0.275278</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
     <tr>
-      <th>173</th>
-      <td>225</td>
-      <td>0.226667</td>
+      <th>178</th>
+      <td>161</td>
+      <td>0.385093</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
@@ -1245,6 +1251,15 @@ weighted avg       0.96      0.96      0.96        77
             </div>
         </a>
     </div>
+     <div id="next">
+        <a class="right-next" href="04_word-embeddings.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title"><span class="section-number">4. </span>Word Embeddings</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
 
 </div>
         

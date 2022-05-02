@@ -1,0 +1,1115 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4. Word Embeddings &#8212; Natural Language Processing with Python</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >let toggleHintShow = 'Click to show';</script>
+    <script >let toggleHintHide = 'Click to hide';</script>
+    <script >let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="3. Classification and Feature Engineering" href="03_classification-and-feature-engineering.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/datalab-logo-full-color-rgb.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Natural Language Processing with Python</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="index.html">
+   Overview
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_logistics.html">
+   1. Logistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_text-annotation-with-spacy.html">
+   2. Text Annotation with spaCy
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="03_classification-and-feature-engineering.html">
+   3. Classification and Feature Engineering
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   4. Word Embeddings
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/04_word-embeddings.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/ucdavisdatalab/workshop_nlp_with_python"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/ucdavisdatalab/workshop_nlp_with_python/issues/new?title=Issue%20on%20page%20%2F04_word-embeddings.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/ucdavisdatalab/workshop_nlp_with_python/master?urlpath=tree/04_word-embeddings.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-our-data">
+   4.1. Preparing our Data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#text-cleaning">
+     4.1.1. Text Cleaning
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#handling-person-tokens">
+     4.1.2. Handling
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       PERSON
+      </span>
+     </code>
+     tokens
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-a-model">
+   4.2. Building a Model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-exploration-i-word-sense">
+   4.3. Model Exploration I: Word Sense
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#word-similarity">
+     4.3.1. Word similarity
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#word-analogies">
+     4.3.2. Word analogies
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-exploration-ii-document-similarity">
+   4.4. Model Exploration II: Document Similarity
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="word-embeddings">
+<h1><span class="section-number">4. </span>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="preparing-our-data">
+<h2><span class="section-number">4.1. </span>Preparing our Data<a class="headerlink" href="#preparing-our-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">manifest</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/session_three/manifest.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">manifest</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">YEAR</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;YEAR&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+
+<span class="n">manifest</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;YEAR&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;NAME&#39;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Num. obituaries&#39;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/04_word-embeddings_2_0.png" src="_images/04_word-embeddings_2_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">manifest</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">date</span> <span class="o">=</span> <span class="n">manifest</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;NAME&#39;</span><span class="p">],</span> <span class="n">manifest</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">&#39;YEAR&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Edouard Daladier (1970)
+Jane Addams (1935)
+Getulio Vargas (1954)
+Qiu Jin (1907)
+Cy Young (1955)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="text-cleaning">
+<h3><span class="section-number">4.1.1. </span>Text Cleaning<a class="headerlink" href="#text-cleaning" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_md&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
+
+<span class="k">def</span> <span class="nf">lazy_load</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">doc</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        
+<span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">is_stop</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">cleaned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+                
+    <span class="k">return</span> <span class="n">cleaned</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="handling-person-tokens">
+<h3><span class="section-number">4.1.2. </span>Handling <code class="docutils literal notranslate"><span class="pre">PERSON</span></code> tokens<a class="headerlink" href="#handling-person-tokens" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">convert_person</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">ent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ent</span><span class="o">.</span><span class="n">label_</span> <span class="o">==</span> <span class="s1">&#39;PERSON&#39;</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">start</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">ent</span><span class="o">.</span><span class="n">end</span>
+            
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+                <span class="n">tokens</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;PERSON&#39;</span>
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">token</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tokens</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s1">&#39;PERSON&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tokens</span><span class="p">[</span><span class="n">idx</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;PERSON&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+                
+    <span class="n">result</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&quot;Eric asked Kate about what she is learning. Kate replied, &#39;I am learning NLP!&#39;&quot;</span><span class="p">)</span>
+<span class="n">convert_person</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PERSON asked PERSON about what she is learning . PERSON replied , &#39; I am learning NLP ! &#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prepare_doc</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+    <span class="n">no_person_ents</span> <span class="o">=</span> <span class="n">convert_person</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">clean</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">cleaned</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;data/session_three/obits/*.txt&#39;</span><span class="p">)</span>
+<span class="n">to_process</span> <span class="o">=</span> <span class="n">lazy_load</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+
+<span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">clean</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">to_process</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="building-a-model">
+<h2><span class="section-number">4.2. </span>Building a Model<a class="headerlink" href="#building-a-model" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">Word2Vec</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span>
+    <span class="n">vector_size</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">min_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">sorted_vocab</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">357</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">build_vocab</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">total_words</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">corpus_total_words</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2143250, 2209595)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model-exploration-i-word-sense">
+<h2><span class="section-number">4.3. </span>Model Exploration I: Word Sense<a class="headerlink" href="#model-exploration-i-word-sense" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_tokens</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of unique words in the model: </span><span class="si">{</span><span class="n">n_tokens</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of unique words in the model: 29,330
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">vocab</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">index_to_key</span>
+
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">vocab</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>waxen
+shibboleth
+pani
+resignation
+decorating
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rand_token</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span>
+<span class="n">rand_idx</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">key_to_index</span><span class="p">[</span><span class="n">rand_token</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The index position for &#39;</span><span class="si">{</span><span class="n">rand_token</span><span class="si">}</span><span class="s2">&#39; is </span><span class="si">{</span><span class="n">rand_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The index position for &#39;illumine&#39; is 26935
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">rand_idx</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 4.3122745e-03,  2.1069506e-03, -7.5791235e-04, -5.0168689e-03,
+        7.0122222e-04,  1.6659935e-04,  1.6140934e-03,  3.2367390e-03,
+       -2.4579093e-03,  4.2006982e-04,  7.4432632e-03, -2.1243216e-03,
+        2.7426055e-03, -2.7260112e-03,  1.4092214e-03,  4.8039982e-04,
+       -2.2635700e-03,  7.9277634e-05, -3.9742417e-03,  4.4126161e-03,
+        2.9595443e-03, -8.2662227e-03,  4.4144713e-03,  1.1453277e-03,
+       -3.9584162e-03,  2.1363706e-03,  3.9045319e-03,  8.9868461e-04,
+        3.0756125e-03,  2.1588411e-03,  1.3873511e-03, -6.1736640e-04,
+        1.8784545e-04, -1.2084540e-03,  8.4496941e-04,  5.5747665e-03,
+       -1.4934229e-03,  3.2959897e-03, -8.1276870e-04, -2.8782359e-03,
+        2.1343080e-03, -4.0445449e-03,  5.4259785e-03, -4.4140811e-03,
+        1.0074235e-02, -7.8768691e-04, -2.9561007e-03,  2.7760360e-03,
+        6.5507623e-03,  6.3450253e-03,  6.8251677e-03, -2.9053583e-05,
+       -5.3416388e-03, -7.8508595e-04,  3.4487115e-03, -3.5583552e-03,
+       -2.2084520e-03,  1.8588345e-03, -7.4807405e-03, -2.5073643e-04,
+        4.6946346e-03,  2.4773806e-05, -4.0856325e-03, -1.1564576e-03,
+        1.2302276e-03,  1.6703790e-03, -1.2328742e-03,  2.2058003e-03,
+        4.4673528e-03, -1.7023659e-03,  1.7965464e-03, -1.4286090e-03,
+        4.6076979e-03, -4.1291229e-03,  2.8498131e-03,  3.0545099e-03,
+        2.8382561e-03, -1.0520404e-03,  5.1912223e-04,  4.8867939e-03,
+       -1.4125308e-03, -9.9301606e-04, -1.0254503e-03,  2.6193394e-03,
+        3.5818401e-03,  1.8282013e-03, -1.1157515e-03, -2.4984949e-03,
+       -4.6290216e-04,  5.8365143e-03,  1.7369506e-03, -9.9541731e-03,
+        2.1097297e-03, -7.0188590e-04,  1.0108661e-03, -6.3966811e-03,
+       -4.0907430e-04, -4.5358012e-03, -2.3384881e-03,  3.7954880e-03,
+       -8.0311683e-04, -7.0240046e-04, -1.5874970e-03,  2.0032621e-03,
+        5.3186901e-04, -1.4486820e-03, -1.6367917e-03,  4.8759357e-05,
+        2.4770270e-03, -3.4518540e-03, -2.9093823e-03, -2.8701779e-03,
+        1.8549027e-03, -1.8188230e-03,  6.0055236e-04,  9.7488584e-03,
+       -1.1147122e-03,  7.7051292e-03,  2.8192380e-03,  1.7676407e-03,
+       -6.8758550e-04, -1.3280738e-03, -2.1894767e-03,  5.3215199e-03,
+        1.4717117e-03, -3.9287461e-03, -4.8835534e-03,  1.4459158e-05,
+        1.6685964e-03,  2.3129518e-04,  3.1881081e-04, -1.4125024e-03,
+        4.8273038e-03, -3.5373655e-03,  5.0568045e-03, -2.0784014e-03,
+       -1.2668304e-03,  3.7911437e-03, -3.9314679e-03,  3.5540583e-03,
+        4.0710769e-03,  3.8003155e-03,  3.6410682e-03, -3.9559351e-03,
+       -5.2181454e-03,  2.5678300e-03, -5.2188855e-04,  6.0000070e-03,
+       -3.4804039e-03, -6.5505337e-03, -1.5998842e-03, -5.0526960e-03,
+        4.9375058e-03,  5.5419803e-03,  1.8161775e-04, -7.0238556e-03,
+        1.6480088e-03, -6.3469406e-04,  1.3392451e-03,  1.3180593e-03,
+        2.7185082e-03,  3.8823884e-04, -5.3557782e-03,  5.3164759e-03,
+        3.4526833e-03, -9.9354424e-03,  8.4537984e-04, -2.7074327e-03,
+        5.9818565e-03,  7.3098025e-05, -4.6455651e-03, -1.3936077e-03,
+       -4.0566735e-03,  2.4073296e-03,  7.3765288e-04, -3.4662499e-04,
+       -1.1246809e-03, -6.0803985e-04, -1.9546347e-03,  1.7655843e-04,
+       -3.2960242e-03, -3.1934588e-03,  1.6148294e-03,  3.3192686e-03,
+       -3.6128964e-03, -7.5426383e-04, -1.2874100e-03,  3.0195180e-03,
+        1.4903311e-04, -2.3930494e-03, -5.4473556e-03, -2.6884465e-04,
+       -2.7820791e-04,  3.3558186e-03, -7.1275411e-03,  1.6584897e-03,
+        1.8867122e-03,  6.3234461e-03, -5.2048019e-03, -2.6585427e-03,
+       -4.7862385e-03, -3.7756048e-03, -1.5951839e-03, -3.6245034e-05,
+        5.2269287e-03, -2.7161223e-05,  1.9653132e-03,  3.3912931e-03,
+       -2.5294786e-03, -1.3552983e-04,  3.3060678e-03, -1.7097545e-03,
+        2.6333551e-03,  1.5741509e-03, -4.2072707e-03, -3.7230917e-03,
+       -7.3957344e-04,  3.3943467e-03, -4.0045974e-04,  1.8979834e-03,
+       -3.5915577e-03, -5.8028093e-03, -4.6234890e-03, -1.2046052e-03,
+       -1.5442638e-03, -2.9613727e-04, -3.8702609e-03, -6.0248730e-04,
+       -3.5498373e-03, -6.1303633e-03, -7.7638170e-04, -1.4982969e-03,
+        5.6178481e-03,  3.0435468e-03,  1.0752962e-03, -3.0983449e-03,
+        3.1504963e-04, -1.9997624e-03,  5.5146785e-03, -3.9919787e-03,
+       -1.0907954e-04,  2.7094020e-03, -3.1247551e-03, -8.1168823e-03,
+        2.1305941e-04, -4.2423219e-03, -1.6110006e-03,  2.9876542e-03,
+       -3.2194972e-03, -2.5345429e-03,  7.8910118e-04, -1.1166813e-03,
+        1.2579776e-03, -3.3157221e-03, -5.3776568e-03,  1.2771349e-03,
+        3.9182091e-03, -1.3695622e-03,  2.5090948e-03,  7.5354744e-03,
+        5.5016333e-04, -9.7007293e-04, -1.4616657e-03,  1.0218453e-02,
+       -4.9269511e-03,  1.7488578e-03,  2.6733389e-03, -6.4843846e-03,
+        2.2618379e-03, -2.5013767e-03,  4.9820514e-03, -7.3060319e-03,
+       -3.3051297e-03, -3.6058719e-03,  3.8395096e-03,  1.2381382e-02,
+       -4.1194218e-03, -4.3714456e-03, -7.0046163e-03, -2.9567229e-03,
+        1.2356051e-03,  5.8268155e-03,  6.2889175e-04, -2.7927025e-03,
+        4.7925333e-03, -9.5471088e-04, -2.6731153e-03,  6.6365325e-03,
+       -2.3943568e-03, -6.0818356e-04,  3.3982238e-03, -1.7364793e-04,
+        5.5777361e-03, -6.4220112e-03, -9.2162369e-03,  1.9462925e-03,
+       -1.0109920e-03,  2.8471819e-03,  4.2841741e-04, -7.0193391e-03],
+      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="word-similarity">
+<h3><span class="section-number">4.3.1. </span>Word similarity<a class="headerlink" href="#word-similarity" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;music&#39;</span><span class="p">,</span> <span class="s1">&#39;president&#39;</span><span class="p">,</span> <span class="s1">&#39;war&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+    <span class="n">similarities</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">similarities</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;WORD&#39;</span><span class="p">,</span> <span class="s1">&#39;COSINE_SIMILARITY&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tokens most similar to &#39;</span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&#39;:&quot;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokens most similar to &#39;music&#39;:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>WORD</th>
+      <th>COSINE_SIMILARITY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>movie</td>
+      <td>0.996784</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>musical</td>
+      <td>0.994935</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>novel</td>
+      <td>0.991965</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>writer</td>
+      <td>0.991785</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>star</td>
+      <td>0.988760</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>film</td>
+      <td>0.987999</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>actor</td>
+      <td>0.987827</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>symphonic</td>
+      <td>0.987597</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>seller</td>
+      <td>0.987525</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>poetry</td>
+      <td>0.987264</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokens most similar to &#39;president&#39;:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>WORD</th>
+      <th>COSINE_SIMILARITY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>roosevelt</td>
+      <td>0.970685</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>state</td>
+      <td>0.964547</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>elect</td>
+      <td>0.955933</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>woodring</td>
+      <td>0.951201</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>vandenberg</td>
+      <td>0.948429</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>secretary</td>
+      <td>0.944756</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>aldermen</td>
+      <td>0.943431</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>national</td>
+      <td>0.943088</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>woodrow</td>
+      <td>0.940285</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>knowland</td>
+      <td>0.940046</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokens most similar to &#39;war&#39;:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>WORD</th>
+      <th>COSINE_SIMILARITY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>preparedness</td>
+      <td>0.921022</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>peace</td>
+      <td>0.918865</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>quixotic</td>
+      <td>0.915708</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>boer</td>
+      <td>0.914536</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>civil</td>
+      <td>0.913934</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>outbreak</td>
+      <td>0.910057</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>burma</td>
+      <td>0.907917</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>battleground</td>
+      <td>0.904760</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>perturb</td>
+      <td>0.902314</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>army</td>
+      <td>0.897088</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+
+<span class="n">vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_tokens</span><span class="p">)])</span>
+<span class="n">reduced_tokens</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span>
+    <span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+    <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> 
+    <span class="n">init</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">,</span> 
+    <span class="n">angle</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">357</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">altair</span> <span class="k">as</span> <span class="nn">alt</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_tokens</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">token_vis</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">reduced_tokens</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">])</span>
+<span class="n">token_vis</span><span class="p">[</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">vocab</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">mask</span><span class="p">]</span>
+
+<span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">token_vis</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="s1">&#39;TOKEN&#39;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">650</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">650</span><span class="p">)</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<div id="altair-viz-7f0fd236b6524c3b9639b39c5c18fc77"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-7f0fd236b6524c3b9639b39c5c18fc77") {
+      outputDiv = document.getElementById("altair-viz-7f0fd236b6524c3b9639b39c5c18fc77");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-12a4552cb3f675e01573b92679a8fc3e"}, "mark": {"type": "circle", "size": 30}, "encoding": {"tooltip": {"field": "TOKEN", "type": "nominal"}, "x": {"field": "X", "type": "quantitative"}, "y": {"field": "Y", "type": "quantitative"}}, "height": 650, "selection": {"selector001": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "width": 650, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-12a4552cb3f675e01573b92679a8fc3e": [{"X": -57.32649612426758, "Y": -2.2134861946105957, "TOKEN": "aderit"}, {"X": -31.805835723876953, "Y": -24.652982711791992, "TOKEN": "lushan"}, {"X": -49.275665283203125, "Y": 23.547887802124023, "TOKEN": "kassebaum"}, {"X": -66.24046325683594, "Y": -33.24534225463867, "TOKEN": "pollock"}, {"X": -60.628334045410156, "Y": 15.619026184082031, "TOKEN": "westphalia"}, {"X": -30.13215446472168, "Y": -22.197805404663086, "TOKEN": "gynecologist"}, {"X": -48.242034912109375, "Y": 16.213266372680664, "TOKEN": "eclecticism"}, {"X": -28.04633140563965, "Y": -23.364295959472656, "TOKEN": "leyte"}, {"X": -43.685123443603516, "Y": -36.47065353393555, "TOKEN": "capriccio"}, {"X": -39.90711212158203, "Y": 29.666154861450195, "TOKEN": "roadbed"}, {"X": 3.881377935409546, "Y": 85.30340576171875, "TOKEN": "obscure"}, {"X": -1.2567627429962158, "Y": 37.750118255615234, "TOKEN": "envelope"}, {"X": -8.33454704284668, "Y": 30.726030349731445, "TOKEN": "upbuilde"}, {"X": 10.775294303894043, "Y": 88.83444213867188, "TOKEN": "remote"}, {"X": -25.34625816345215, "Y": -64.1300048828125, "TOKEN": "encephalitis"}, {"X": 16.10504150390625, "Y": -70.443115234375, "TOKEN": "lakes"}, {"X": -31.46228790283203, "Y": 19.17024040222168, "TOKEN": "coppola"}, {"X": -4.611588001251221, "Y": 64.33073425292969, "TOKEN": "elizabethtown"}, {"X": -63.97771072387695, "Y": -13.894989013671875, "TOKEN": "sous"}, {"X": 5.1028852462768555, "Y": -66.80368041992188, "TOKEN": "elemental"}, {"X": 36.95627212524414, "Y": 1.7847621440887451, "TOKEN": "khan"}, {"X": 38.39421463012695, "Y": -20.203350067138672, "TOKEN": "diagnosis"}, {"X": -52.7672119140625, "Y": 19.119539260864258, "TOKEN": "tetralogy"}, {"X": -20.519113540649414, "Y": 3.183300256729126, "TOKEN": "trillion"}, {"X": -3.373429775238037, "Y": 25.78056526184082, "TOKEN": "immunize"}, {"X": 6.292468547821045, "Y": 92.272216796875, "TOKEN": "organ"}, {"X": -61.77094268798828, "Y": -27.201457977294922, "TOKEN": "floorwalker"}, {"X": 88.5943603515625, "Y": 14.340012550354004, "TOKEN": "drama"}, {"X": 6.321360111236572, "Y": 0.23489798605442047, "TOKEN": "aspirant"}, {"X": 39.715301513671875, "Y": -15.655969619750977, "TOKEN": "roach"}, {"X": -18.03884506225586, "Y": -58.192230224609375, "TOKEN": "orientalist"}, {"X": 31.371213912963867, "Y": 32.59712600708008, "TOKEN": "adoption"}, {"X": -46.33534240722656, "Y": -25.861286163330078, "TOKEN": "snuggle"}, {"X": -9.841524124145508, "Y": 59.04124069213867, "TOKEN": "cedarville"}, {"X": -20.884164810180664, "Y": -58.256446838378906, "TOKEN": "stacy"}, {"X": 43.13597106933594, "Y": -24.702302932739258, "TOKEN": "cansino"}, {"X": -37.827613830566406, "Y": 60.80014419555664, "TOKEN": "mayors"}, {"X": -6.699020862579346, "Y": 36.744789123535156, "TOKEN": "dimensioned"}, {"X": 95.61346435546875, "Y": -8.223845481872559, "TOKEN": "heart"}, {"X": -48.02729797363281, "Y": -18.959766387939453, "TOKEN": "fokine"}, {"X": 2.9182937145233154, "Y": 9.673718452453613, "TOKEN": "fulcrum"}, {"X": -48.378875732421875, "Y": -0.2445673793554306, "TOKEN": "updating"}, {"X": -5.3286638259887695, "Y": -45.24869918823242, "TOKEN": "spangled"}, {"X": 3.477565050125122, "Y": -71.22440338134766, "TOKEN": "cocoon"}, {"X": 12.579264640808105, "Y": -23.158666610717773, "TOKEN": "likud"}, {"X": 33.01605224609375, "Y": -19.521366119384766, "TOKEN": "arena"}, {"X": 26.38857078552246, "Y": -15.068974494934082, "TOKEN": "rental"}, {"X": 9.112058639526367, "Y": 96.08047485351562, "TOKEN": "merchant"}, {"X": -33.67436599731445, "Y": 19.32094955444336, "TOKEN": "unburnished"}, {"X": -46.99678039550781, "Y": 42.97034454345703, "TOKEN": "loop"}, {"X": 39.9876594543457, "Y": 20.56367301940918, "TOKEN": "syracuse"}, {"X": -53.961509704589844, "Y": -23.67443084716797, "TOKEN": "catchers"}, {"X": 33.6735954284668, "Y": 2.151763439178467, "TOKEN": "crowther"}, {"X": 7.037383079528809, "Y": -61.036319732666016, "TOKEN": "controller"}, {"X": -19.20982551574707, "Y": -48.509361267089844, "TOKEN": "harbinger"}, {"X": -19.717029571533203, "Y": -63.99327087402344, "TOKEN": "maurier"}, {"X": 20.32504653930664, "Y": 84.56793975830078, "TOKEN": "advanced"}, {"X": -18.672334671020508, "Y": 54.027156829833984, "TOKEN": "angler"}, {"X": -15.340130805969238, "Y": -50.98918151855469, "TOKEN": "myelodysplasia"}, {"X": 40.00611877441406, "Y": -32.974674224853516, "TOKEN": "inheritance"}, {"X": -58.87965774536133, "Y": -35.1218147277832, "TOKEN": "sporadically"}, {"X": 12.25670337677002, "Y": 42.42632293701172, "TOKEN": "commissn"}, {"X": -29.856483459472656, "Y": 65.56398010253906, "TOKEN": "councilman"}, {"X": -17.12374496459961, "Y": 39.61927032470703, "TOKEN": "eruditely"}, {"X": -19.110219955444336, "Y": 36.02774429321289, "TOKEN": "lumbago"}, {"X": 35.9972038269043, "Y": 52.21815490722656, "TOKEN": "discontent"}, {"X": -28.91649055480957, "Y": 10.262365341186523, "TOKEN": "cherub"}, {"X": 54.22978591918945, "Y": -2.5818190574645996, "TOKEN": "newman"}, {"X": 42.275394439697266, "Y": -45.79262161254883, "TOKEN": "changsha"}, {"X": -36.664249420166016, "Y": 18.734111785888672, "TOKEN": "heywood"}, {"X": 35.79056930541992, "Y": 34.595245361328125, "TOKEN": "unconditional"}, {"X": 1.5894092321395874, "Y": -75.1203384399414, "TOKEN": "archaicism"}, {"X": -37.73358917236328, "Y": -18.700895309448242, "TOKEN": "globs"}, {"X": -31.08302116394043, "Y": 49.775814056396484, "TOKEN": "lesbian"}, {"X": 38.7276496887207, "Y": 23.81032371520996, "TOKEN": "seattle"}, {"X": 37.69709777832031, "Y": 71.36637115478516, "TOKEN": "idol"}, {"X": 26.114015579223633, "Y": 78.8736572265625, "TOKEN": "junior"}, {"X": -19.731569290161133, "Y": 48.180233001708984, "TOKEN": "diffidence"}, {"X": -59.96379852294922, "Y": 21.566972732543945, "TOKEN": "iguana"}, {"X": -10.499642372131348, "Y": 21.868200302124023, "TOKEN": "keel"}, {"X": -68.78305053710938, "Y": -17.84777069091797, "TOKEN": "secrete"}, {"X": -9.137901306152344, "Y": 24.28855323791504, "TOKEN": "jute"}, {"X": 2.18107533454895, "Y": 84.05294799804688, "TOKEN": "successfully"}, {"X": -13.365108489990234, "Y": -1.1940363645553589, "TOKEN": "lepore"}, {"X": 11.88559341430664, "Y": 40.004249572753906, "TOKEN": "applicability"}, {"X": -60.35809326171875, "Y": -18.465450286865234, "TOKEN": "satie"}, {"X": 38.136512756347656, "Y": -46.0383186340332, "TOKEN": "blossom"}, {"X": -19.21235466003418, "Y": -7.078532695770264, "TOKEN": "thousandth"}, {"X": -21.00112533569336, "Y": 22.666748046875, "TOKEN": "conjectural"}, {"X": -34.03666687011719, "Y": -1.611204981803894, "TOKEN": "recklessly"}, {"X": -1.5618585348129272, "Y": -60.3253288269043, "TOKEN": "klanner"}, {"X": 52.78281784057617, "Y": -11.345344543457031, "TOKEN": "deport"}, {"X": -63.92722702026367, "Y": -18.962997436523438, "TOKEN": "caning"}, {"X": 40.50803756713867, "Y": -17.77926254272461, "TOKEN": "deeds"}, {"X": 52.683597564697266, "Y": -11.378552436828613, "TOKEN": "float"}, {"X": -38.42258071899414, "Y": 17.882307052612305, "TOKEN": "parts"}, {"X": -28.523496627807617, "Y": -49.67325973510742, "TOKEN": "buzzy"}, {"X": -39.39088821411133, "Y": -57.76191329956055, "TOKEN": "taxicab"}, {"X": 51.25223159790039, "Y": 7.531730651855469, "TOKEN": "smash"}, {"X": -43.661224365234375, "Y": -37.374820709228516, "TOKEN": "marland"}, {"X": -21.53997802734375, "Y": -16.035770416259766, "TOKEN": "professionalism"}, {"X": 84.83322143554688, "Y": -3.999880313873291, "TOKEN": "harry"}, {"X": 84.97917938232422, "Y": 3.5276880264282227, "TOKEN": "era"}, {"X": 41.61674880981445, "Y": 10.275339126586914, "TOKEN": "pier"}, {"X": 75.4465103149414, "Y": 13.9972562789917, "TOKEN": "iron"}, {"X": -44.975772857666016, "Y": -1.6553294658660889, "TOKEN": "dangle"}, {"X": -31.666561126708984, "Y": 22.670480728149414, "TOKEN": "calais"}, {"X": -39.970787048339844, "Y": 20.674036026000977, "TOKEN": "roeblings"}, {"X": 0.21915242075920105, "Y": 79.23634338378906, "TOKEN": "strategy"}, {"X": 40.1137580871582, "Y": -18.234418869018555, "TOKEN": "gibson"}, {"X": 85.48963928222656, "Y": 21.221887588500977, "TOKEN": "go"}, {"X": 83.84947967529297, "Y": -13.259347915649414, "TOKEN": "stand"}, {"X": 43.39372253417969, "Y": -19.902475357055664, "TOKEN": "starvation"}, {"X": -30.898357391357422, "Y": -44.165897369384766, "TOKEN": "stones"}, {"X": -46.412837982177734, "Y": -29.906089782714844, "TOKEN": "guevara"}, {"X": 40.15089797973633, "Y": 41.48352813720703, "TOKEN": "autocratic"}, {"X": -53.447959899902344, "Y": 34.17258071899414, "TOKEN": "purcell"}, {"X": 49.484310150146484, "Y": 30.554636001586914, "TOKEN": "mathematic"}, {"X": -8.146127700805664, "Y": 30.329076766967773, "TOKEN": "flurry"}, {"X": 47.34093475341797, "Y": -11.348519325256348, "TOKEN": "antipathy"}, {"X": -25.163908004760742, "Y": -10.841937065124512, "TOKEN": "being"}, {"X": 73.56083679199219, "Y": 7.622777462005615, "TOKEN": "africa"}, {"X": -4.454377174377441, "Y": 22.101764678955078, "TOKEN": "jaime"}, {"X": 30.858766555786133, "Y": 6.385201930999756, "TOKEN": "physics"}, {"X": 43.58310317993164, "Y": 21.647403717041016, "TOKEN": "heights"}, {"X": 32.65737533569336, "Y": 33.778648376464844, "TOKEN": "inspection"}, {"X": 38.525569915771484, "Y": 6.79971981048584, "TOKEN": "beta"}, {"X": 45.85535430908203, "Y": 30.832332611083984, "TOKEN": "sidney"}, {"X": -48.659873962402344, "Y": -38.567684173583984, "TOKEN": "ieological"}, {"X": -16.903894424438477, "Y": -20.54313087463379, "TOKEN": "bellicosity"}, {"X": 6.296098709106445, "Y": 28.893510818481445, "TOKEN": "panoplied"}, {"X": -64.05872344970703, "Y": -39.98147964477539, "TOKEN": "lyle"}, {"X": 10.629552841186523, "Y": 54.91635513305664, "TOKEN": "anodyne"}, {"X": -24.30622100830078, "Y": 29.406108856201172, "TOKEN": "gooder"}, {"X": 4.885420322418213, "Y": -27.53948211669922, "TOKEN": "appointive"}, {"X": 48.99749755859375, "Y": 49.32025146484375, "TOKEN": "innocent"}, {"X": 3.4632561206817627, "Y": -70.92886352539062, "TOKEN": "orpheus"}, {"X": -46.73894119262695, "Y": -31.230323791503906, "TOKEN": "sharpshooter"}, {"X": -23.911968231201172, "Y": 38.75277328491211, "TOKEN": "gwynne"}, {"X": -12.876803398132324, "Y": 40.79255676269531, "TOKEN": "lacked"}, {"X": -38.50447463989258, "Y": -57.28781509399414, "TOKEN": "raze"}, {"X": -69.48100280761719, "Y": 1.3306434154510498, "TOKEN": "ropp"}, {"X": 38.23081970214844, "Y": 71.33859252929688, "TOKEN": "beethoven"}, {"X": -55.24906539916992, "Y": 28.94180679321289, "TOKEN": "rajiv"}, {"X": -44.76948928833008, "Y": 32.76551055908203, "TOKEN": "veterinarian"}, {"X": 50.444862365722656, "Y": 13.080485343933105, "TOKEN": "visual"}, {"X": 34.311119079589844, "Y": -6.943471908569336, "TOKEN": "trophy"}, {"X": -10.66736888885498, "Y": 11.925616264343262, "TOKEN": "blackburn"}, {"X": 50.070377349853516, "Y": -39.09053421020508, "TOKEN": "yugoslav"}, {"X": -9.680209159851074, "Y": 27.26411247253418, "TOKEN": "tchekhoff"}, {"X": 41.969661712646484, "Y": 22.93800926208496, "TOKEN": "wheelchair"}, {"X": -23.72378158569336, "Y": 62.26740264892578, "TOKEN": "lippizaner"}, {"X": 76.53982543945312, "Y": 19.40611457824707, "TOKEN": "severe"}, {"X": -21.4468994140625, "Y": -39.75695037841797, "TOKEN": "militancy"}, {"X": -49.88106918334961, "Y": -51.69199752807617, "TOKEN": "gifford"}, {"X": 12.980595588684082, "Y": -77.05543518066406, "TOKEN": "starry"}, {"X": -51.83489990234375, "Y": -49.803428649902344, "TOKEN": "gora"}, {"X": 31.3731632232666, "Y": -37.384132385253906, "TOKEN": "liza"}, {"X": 4.548681735992432, "Y": 3.793558359146118, "TOKEN": "mcenery"}, {"X": 7.232845306396484, "Y": -70.16026306152344, "TOKEN": "footed"}, {"X": -4.163291931152344, "Y": -35.92113494873047, "TOKEN": "noted"}, {"X": 51.320472717285156, "Y": -12.420125961303711, "TOKEN": "beggar"}, {"X": -13.010233879089355, "Y": 29.23402214050293, "TOKEN": "alexandrina"}, {"X": 77.330322265625, "Y": 22.209867477416992, "TOKEN": "huge"}, {"X": 5.4334588050842285, "Y": 6.491696357727051, "TOKEN": "expansionist"}, {"X": -20.90096664428711, "Y": 9.628846168518066, "TOKEN": "vologda"}, {"X": 1.7436223030090332, "Y": 48.321136474609375, "TOKEN": "baibing"}, {"X": 41.07518768310547, "Y": -37.215972900390625, "TOKEN": "counterpoint"}, {"X": 31.974132537841797, "Y": 14.356030464172363, "TOKEN": "martial"}, {"X": -67.9206771850586, "Y": -11.689229011535645, "TOKEN": "quillinan"}, {"X": -35.03617858886719, "Y": -2.0931782722473145, "TOKEN": "lacrosse"}, {"X": 36.02644729614258, "Y": -22.36981201171875, "TOKEN": "noel"}, {"X": 10.295865058898926, "Y": -44.90102767944336, "TOKEN": "blair"}, {"X": 50.105567932128906, "Y": 52.74373245239258, "TOKEN": "catalogue"}, {"X": -46.09089660644531, "Y": -25.481985092163086, "TOKEN": "infield"}, {"X": -38.243350982666016, "Y": -62.992881774902344, "TOKEN": "salutation"}, {"X": 48.079654693603516, "Y": 43.62923049926758, "TOKEN": "favorable"}, {"X": -44.26778030395508, "Y": -17.86243438720703, "TOKEN": "castorp"}, {"X": 25.436641693115234, "Y": -7.150986194610596, "TOKEN": "furthermore"}, {"X": 82.97461700439453, "Y": -8.329745292663574, "TOKEN": "total"}, {"X": 21.586009979248047, "Y": -16.715463638305664, "TOKEN": "kuwait"}, {"X": -43.70658874511719, "Y": -43.3021240234375, "TOKEN": "admittedly"}, {"X": 4.418162822723389, "Y": 51.8055419921875, "TOKEN": "hatful"}, {"X": -33.7981071472168, "Y": -57.12016296386719, "TOKEN": "arrau"}, {"X": 3.3897035121917725, "Y": 29.071420669555664, "TOKEN": "ironclad"}, {"X": -7.408408164978027, "Y": -66.64781188964844, "TOKEN": "stickpin"}, {"X": 92.90483856201172, "Y": -1.716882586479187, "TOKEN": "avenue"}, {"X": -59.59278869628906, "Y": -17.091806411743164, "TOKEN": "undisclosed"}, {"X": 43.36914825439453, "Y": -50.808387756347656, "TOKEN": "species"}, {"X": -4.5782599449157715, "Y": 15.201874732971191, "TOKEN": "soldat"}, {"X": 49.763343811035156, "Y": 27.953325271606445, "TOKEN": "haute"}, {"X": -0.407497763633728, "Y": 58.35599136352539, "TOKEN": "booze"}, {"X": 18.520105361938477, "Y": 68.72593688964844, "TOKEN": "patrick"}, {"X": 4.607522010803223, "Y": -68.44105529785156, "TOKEN": "pornographic"}, {"X": -27.191707611083984, "Y": 25.44858741760254, "TOKEN": "unkind"}, {"X": 42.063499450683594, "Y": 10.574459075927734, "TOKEN": "colorado"}, {"X": 71.94010925292969, "Y": -19.024059295654297, "TOKEN": "nations"}, {"X": -37.65856170654297, "Y": 28.517784118652344, "TOKEN": "leavenworth"}, {"X": 37.187644958496094, "Y": 15.221257209777832, "TOKEN": "persistence"}, {"X": -27.240196228027344, "Y": 13.206426620483398, "TOKEN": "phobia"}, {"X": 22.556123733520508, "Y": 77.1976089477539, "TOKEN": "recovery"}, {"X": 75.91549682617188, "Y": -7.600155353546143, "TOKEN": "appeal"}, {"X": -42.23072052001953, "Y": 17.993444442749023, "TOKEN": "kaleidoscopically"}, {"X": -18.014894485473633, "Y": -70.02024841308594, "TOKEN": "cho"}, {"X": 35.23264694213867, "Y": -54.660240173339844, "TOKEN": "freight"}, {"X": 50.60264205932617, "Y": 28.133560180664062, "TOKEN": "jam"}, {"X": 46.48723602294922, "Y": 41.45043182373047, "TOKEN": "vow"}, {"X": 15.245278358459473, "Y": 75.93523406982422, "TOKEN": "militant"}, {"X": -29.444034576416016, "Y": 59.783714294433594, "TOKEN": "optic"}, {"X": 13.394192695617676, "Y": -56.881954193115234, "TOKEN": "admonition"}, {"X": -23.495786666870117, "Y": -47.99445343017578, "TOKEN": "abrogation"}, {"X": -25.032894134521484, "Y": 53.25674819946289, "TOKEN": "goodridge"}, {"X": -1.6583610773086548, "Y": -39.889312744140625, "TOKEN": "quicksand"}, {"X": -13.296196937561035, "Y": -72.1526870727539, "TOKEN": "programmer"}, {"X": 24.38570213317871, "Y": -52.28795623779297, "TOKEN": "philanthropist"}, {"X": -15.686059951782227, "Y": 21.069196701049805, "TOKEN": "maia"}, {"X": -16.404191970825195, "Y": -43.52109146118164, "TOKEN": "belabor"}, {"X": 34.918418884277344, "Y": -54.52113723754883, "TOKEN": "retaliate"}, {"X": 47.604427337646484, "Y": 27.69856834411621, "TOKEN": "amass"}, {"X": -51.94691467285156, "Y": 22.62127113342285, "TOKEN": "actonian"}, {"X": 5.662622451782227, "Y": 17.957134246826172, "TOKEN": "impulsive"}, {"X": 32.75366973876953, "Y": 15.816953659057617, "TOKEN": "patronage"}, {"X": 36.068115234375, "Y": 39.35586929321289, "TOKEN": "hawaii"}, {"X": 78.20999145507812, "Y": 11.200563430786133, "TOKEN": "growth"}, {"X": -38.32844161987305, "Y": -22.18883514404297, "TOKEN": "rimless"}, {"X": -46.76411056518555, "Y": -37.80603790283203, "TOKEN": "traprain"}, {"X": -6.04401159286499, "Y": 29.485511779785156, "TOKEN": "suburbanization"}, {"X": -49.257808685302734, "Y": 8.991856575012207, "TOKEN": "cushioned"}, {"X": -28.51955795288086, "Y": -16.299522399902344, "TOKEN": "lubricating"}, {"X": -23.39224624633789, "Y": -19.537425994873047, "TOKEN": "volley"}, {"X": -10.577630043029785, "Y": -59.06706237792969, "TOKEN": "pharmacy"}, {"X": 20.097793579101562, "Y": -45.38542938232422, "TOKEN": "naples"}, {"X": -3.894726276397705, "Y": -72.1800765991211, "TOKEN": "ungainly"}, {"X": 5.394252300262451, "Y": -61.127113342285156, "TOKEN": "spate"}, {"X": -38.08493423461914, "Y": 22.208187103271484, "TOKEN": "catcall"}, {"X": 3.2493298053741455, "Y": -71.644775390625, "TOKEN": "haste"}, {"X": 41.53733825683594, "Y": 49.679168701171875, "TOKEN": "guggenheim"}, {"X": 5.554096221923828, "Y": 48.91172409057617, "TOKEN": "bibles"}, {"X": 41.237510681152344, "Y": -9.284835815429688, "TOKEN": "tonal"}, {"X": -15.989021301269531, "Y": 46.36899948120117, "TOKEN": "wheaton"}, {"X": -31.34650230407715, "Y": -27.961761474609375, "TOKEN": "thoroughfare"}, {"X": -27.22309684753418, "Y": -11.280335426330566, "TOKEN": "franchising"}, {"X": -9.01970386505127, "Y": -58.39406204223633, "TOKEN": "veterans"}, {"X": 40.83295440673828, "Y": 10.328248023986816, "TOKEN": "mayo"}, {"X": -35.82121276855469, "Y": 30.860029220581055, "TOKEN": "ablaze"}, {"X": -58.85255813598633, "Y": 7.045437335968018, "TOKEN": "taaffe"}, {"X": 32.90091323852539, "Y": 35.16851806640625, "TOKEN": "verge"}, {"X": -22.96666145324707, "Y": -39.445003509521484, "TOKEN": "frantic"}, {"X": -44.63045120239258, "Y": -53.961463928222656, "TOKEN": "huddersfield"}, {"X": 47.25664520263672, "Y": -38.288753509521484, "TOKEN": "ovulation"}, {"X": -2.834864377975464, "Y": 37.58281707763672, "TOKEN": "martinsburg"}, {"X": 7.304380893707275, "Y": 84.02299499511719, "TOKEN": "marxist"}, {"X": 80.49138641357422, "Y": 0.18661494553089142, "TOKEN": "sea"}, {"X": -33.730533599853516, "Y": 22.874448776245117, "TOKEN": "hirt"}, {"X": -55.77574157714844, "Y": 14.75760555267334, "TOKEN": "daggett"}, {"X": -67.24800872802734, "Y": -4.256339073181152, "TOKEN": "lucia"}, {"X": 11.60871410369873, "Y": 80.04263305664062, "TOKEN": "enthusiastic"}, {"X": -41.08441925048828, "Y": -24.655986785888672, "TOKEN": "parkways"}, {"X": 32.19139099121094, "Y": 16.02716827392578, "TOKEN": "hesitation"}, {"X": 34.429378509521484, "Y": 68.54161071777344, "TOKEN": "apple"}, {"X": -35.489723205566406, "Y": 5.201019763946533, "TOKEN": "jubilo"}, {"X": -25.482694625854492, "Y": 7.674814224243164, "TOKEN": "confronta"}, {"X": 0.7819236516952515, "Y": 8.096296310424805, "TOKEN": "harmoniously"}, {"X": -22.224319458007812, "Y": -3.7004294395446777, "TOKEN": "emigree"}, {"X": 49.30633544921875, "Y": -3.2587504386901855, "TOKEN": "neurotic"}, {"X": 18.8227596282959, "Y": -30.06928825378418, "TOKEN": "candor"}, {"X": -17.46730613708496, "Y": 9.52970027923584, "TOKEN": "genially"}, {"X": 45.80236053466797, "Y": 29.410655975341797, "TOKEN": "librarian"}, {"X": -35.61234664916992, "Y": -35.5743408203125, "TOKEN": "grouping"}, {"X": -41.230194091796875, "Y": -45.27125549316406, "TOKEN": "serialism"}, {"X": -14.49058723449707, "Y": 24.998180389404297, "TOKEN": "meese"}, {"X": -26.50074005126953, "Y": -17.84247589111328, "TOKEN": "collide"}, {"X": 48.80084991455078, "Y": 44.22136306762695, "TOKEN": "prophet"}, {"X": -8.1653470993042, "Y": 47.38517761230469, "TOKEN": "hortatory"}, {"X": 37.530799865722656, "Y": -45.67871856689453, "TOKEN": "tho"}, {"X": 49.33523941040039, "Y": 43.741966247558594, "TOKEN": "utilize"}, {"X": -51.828369140625, "Y": -16.592819213867188, "TOKEN": "rime"}, {"X": 22.993610382080078, "Y": -46.3455924987793, "TOKEN": "impart"}, {"X": -54.66178512573242, "Y": 32.21871566772461, "TOKEN": "robyn"}, {"X": -30.51293182373047, "Y": -20.537643432617188, "TOKEN": "zil"}, {"X": -8.704345703125, "Y": -32.88207244873047, "TOKEN": "rusk"}, {"X": -28.829570770263672, "Y": -21.189531326293945, "TOKEN": "vegetarianism"}, {"X": -5.52599573135376, "Y": 80.12001037597656, "TOKEN": "dissent"}, {"X": -36.419105529785156, "Y": 24.008867263793945, "TOKEN": "pappy"}, {"X": 33.17566680908203, "Y": 17.0212345123291, "TOKEN": "assassin"}, {"X": -9.014055252075195, "Y": 49.781063079833984, "TOKEN": "duffer"}, {"X": -0.1424761414527893, "Y": -65.08265686035156, "TOKEN": "commercialism"}, {"X": -43.422054290771484, "Y": -53.17872619628906, "TOKEN": "quebecois"}, {"X": 23.799894332885742, "Y": 85.2013168334961, "TOKEN": "partnership"}, {"X": 50.73543930053711, "Y": -3.988309383392334, "TOKEN": "motivation"}, {"X": 54.944759368896484, "Y": -3.336397409439087, "TOKEN": "dickens"}, {"X": -25.9320011138916, "Y": -27.229997634887695, "TOKEN": "trapshooter"}, {"X": -53.848785400390625, "Y": 1.4330676794052124, "TOKEN": "reclamation"}, {"X": -48.03959655761719, "Y": -25.248350143432617, "TOKEN": "showcase"}, {"X": 5.207204818725586, "Y": 49.95759963989258, "TOKEN": "moron"}, {"X": -4.962149143218994, "Y": 83.18972778320312, "TOKEN": "sympathy"}, {"X": -7.78511381149292, "Y": -71.061279296875, "TOKEN": "measle"}, {"X": 53.934181213378906, "Y": 29.87384033203125, "TOKEN": "melancholy"}, {"X": -39.47124481201172, "Y": 56.02562713623047, "TOKEN": "staging"}, {"X": -23.486328125, "Y": -16.37504005432129, "TOKEN": "fibrillation"}, {"X": -9.325871467590332, "Y": 39.82465744018555, "TOKEN": "bronco"}, {"X": -57.882694244384766, "Y": 14.838665008544922, "TOKEN": "spoiler"}, {"X": -19.097929000854492, "Y": -4.807211875915527, "TOKEN": "societe"}, {"X": -64.78711700439453, "Y": -16.614370346069336, "TOKEN": "unrivaled"}, {"X": 36.5405387878418, "Y": 52.4614143371582, "TOKEN": "prague"}, {"X": -3.172110080718994, "Y": -35.44686508178711, "TOKEN": "lens"}, {"X": 28.561786651611328, "Y": -53.309871673583984, "TOKEN": "capa"}, {"X": -25.348779678344727, "Y": 41.17658233642578, "TOKEN": "stettinius"}, {"X": -20.512588500976562, "Y": 11.363428115844727, "TOKEN": "speckle"}, {"X": -28.996553421020508, "Y": -5.473782539367676, "TOKEN": "budweiser"}, {"X": -63.07363510131836, "Y": -10.20107650756836, "TOKEN": "mccloskey"}, {"X": -1.5054808855056763, "Y": 32.02369689941406, "TOKEN": "ripper"}, {"X": -28.5463809967041, "Y": -37.012847900390625, "TOKEN": "returnedto"}, {"X": -28.4526424407959, "Y": 48.41506576538086, "TOKEN": "restudye"}, {"X": -0.9210172891616821, "Y": -28.04302406311035, "TOKEN": "moderation"}, {"X": 23.190494537353516, "Y": -63.63019561767578, "TOKEN": "acrobatic"}, {"X": -14.826756477355957, "Y": -45.18544387817383, "TOKEN": "institutional"}, {"X": -48.68857192993164, "Y": -7.710235118865967, "TOKEN": "mcintyre"}, {"X": 26.946815490722656, "Y": 82.1965103149414, "TOKEN": "rumor"}, {"X": 36.63700485229492, "Y": 48.86528396606445, "TOKEN": "hague"}, {"X": 40.450313568115234, "Y": -53.163352966308594, "TOKEN": "foo"}, {"X": 80.68057250976562, "Y": 0.6727948784828186, "TOKEN": "deep"}, {"X": 19.870649337768555, "Y": 76.21308898925781, "TOKEN": "warfare"}, {"X": 7.934932231903076, "Y": 85.2688217163086, "TOKEN": "bow"}, {"X": -13.598132133483887, "Y": -50.891910552978516, "TOKEN": "neutralize"}, {"X": -13.438029289245605, "Y": -27.269704818725586, "TOKEN": "katanga"}, {"X": -25.211156845092773, "Y": -15.714475631713867, "TOKEN": "blimp"}, {"X": 42.57633590698242, "Y": -47.49250411987305, "TOKEN": "alcoholic"}, {"X": 21.819692611694336, "Y": -62.490665435791016, "TOKEN": "spice"}, {"X": 13.56322956085205, "Y": -25.8143367767334, "TOKEN": "perimeter"}, {"X": 93.5711441040039, "Y": 0.9167365431785583, "TOKEN": "afternoon"}, {"X": -17.47021484375, "Y": -14.912348747253418, "TOKEN": "conspirators"}, {"X": -10.526593208312988, "Y": 36.44794845581055, "TOKEN": "unchangeableness"}, {"X": 36.553977966308594, "Y": 51.87336349487305, "TOKEN": "whip"}, {"X": 6.56480598449707, "Y": 27.394927978515625, "TOKEN": "jarnail"}, {"X": -8.312219619750977, "Y": 52.94000244140625, "TOKEN": "laclede"}, {"X": -39.01862335205078, "Y": -20.513399124145508, "TOKEN": "guangdong"}, {"X": -56.66181182861328, "Y": -16.036073684692383, "TOKEN": "marchesa"}, {"X": -25.467784881591797, "Y": -0.7877625226974487, "TOKEN": "wisecracking"}, {"X": 23.075092315673828, "Y": 88.72342681884766, "TOKEN": "happiness"}, {"X": -65.68351745605469, "Y": 9.538898468017578, "TOKEN": "kindliness"}, {"X": -44.79235076904297, "Y": 27.904457092285156, "TOKEN": "esophagus"}, {"X": 0.7247135043144226, "Y": -37.81117630004883, "TOKEN": "photojournalism"}, {"X": 7.483351707458496, "Y": 10.34316635131836, "TOKEN": "tilton"}, {"X": -30.347688674926758, "Y": -58.61068344116211, "TOKEN": "niche"}, {"X": -30.80662727355957, "Y": -43.9970588684082, "TOKEN": "snugly"}, {"X": -7.003338813781738, "Y": -32.831947326660156, "TOKEN": "diesel"}, {"X": 50.76704406738281, "Y": 10.594420433044434, "TOKEN": "chef"}, {"X": 55.098148345947266, "Y": 1.0719754695892334, "TOKEN": "josephine"}, {"X": 35.697296142578125, "Y": 41.75562286376953, "TOKEN": "dissension"}, {"X": -60.9297981262207, "Y": 9.947342872619629, "TOKEN": "buholzer"}, {"X": -50.48087692260742, "Y": 28.559335708618164, "TOKEN": "lehrer"}, {"X": 4.241878986358643, "Y": -74.18424224853516, "TOKEN": "macphail"}, {"X": -6.212271690368652, "Y": 10.202807426452637, "TOKEN": "tepidity"}, {"X": -29.19454574584961, "Y": -55.716453552246094, "TOKEN": "blasphemous"}, {"X": 35.65822982788086, "Y": -37.57587814331055, "TOKEN": "unexpectedly"}, {"X": 46.24790954589844, "Y": -15.264203071594238, "TOKEN": "toast"}, {"X": 88.39644622802734, "Y": -0.9589235782623291, "TOKEN": "lady"}, {"X": 51.17655944824219, "Y": -17.8730525970459, "TOKEN": "goat"}, {"X": -4.64754056930542, "Y": 16.566295623779297, "TOKEN": "butley"}, {"X": 37.45122528076172, "Y": 69.21195220947266, "TOKEN": "pitcher"}, {"X": -19.540050506591797, "Y": 27.612947463989258, "TOKEN": "blankly"}, {"X": -38.927146911621094, "Y": -47.79823303222656, "TOKEN": "rims"}, {"X": -52.83746337890625, "Y": 7.370426654815674, "TOKEN": "chaconne"}, {"X": 17.170007705688477, "Y": 82.01142120361328, "TOKEN": "convey"}, {"X": 48.64980697631836, "Y": -43.69993209838867, "TOKEN": "thief"}, {"X": -35.92403030395508, "Y": 18.28035545349121, "TOKEN": "goncharov"}, {"X": 27.619028091430664, "Y": -9.68982982635498, "TOKEN": "benign"}, {"X": -12.810173034667969, "Y": -64.95008850097656, "TOKEN": "nimble"}, {"X": 91.4322280883789, "Y": -12.138755798339844, "TOKEN": "audience"}, {"X": -1.1938068866729736, "Y": 38.57716369628906, "TOKEN": "fairlane"}, {"X": 52.77714538574219, "Y": 26.905160903930664, "TOKEN": "slide"}, {"X": 22.13800621032715, "Y": 79.69110870361328, "TOKEN": "derive"}, {"X": 13.495741844177246, "Y": 82.24365997314453, "TOKEN": "take"}, {"X": -4.09938907623291, "Y": -79.25093841552734, "TOKEN": "slugger"}, {"X": 47.615478515625, "Y": -10.186860084533691, "TOKEN": "thrive"}, {"X": 35.43439865112305, "Y": -45.46281433105469, "TOKEN": "whirl"}, {"X": -34.17261505126953, "Y": -48.85047149658203, "TOKEN": "sensualist"}, {"X": -32.181297302246094, "Y": 32.7808837890625, "TOKEN": "zazycki"}, {"X": -44.44626998901367, "Y": -35.029571533203125, "TOKEN": "prinzregentenstrasse"}, {"X": -38.12272644042969, "Y": 11.561483383178711, "TOKEN": "potency"}, {"X": 20.309131622314453, "Y": 30.62225914001465, "TOKEN": "myerberg"}, {"X": 16.610200881958008, "Y": -16.980743408203125, "TOKEN": "prussian"}, {"X": -11.502820014953613, "Y": -20.84314727783203, "TOKEN": "clandestine"}, {"X": -14.318835258483887, "Y": -69.9212417602539, "TOKEN": "screw"}, {"X": -7.526271343231201, "Y": 23.1370792388916, "TOKEN": "slimme"}, {"X": -37.62526321411133, "Y": -20.30394744873047, "TOKEN": "tonnage"}, {"X": -63.197139739990234, "Y": 11.017258644104004, "TOKEN": "hohenlohe"}, {"X": -2.275402784347534, "Y": 9.643084526062012, "TOKEN": "visione"}, {"X": 20.55430030822754, "Y": -43.021018981933594, "TOKEN": "maggiore"}, {"X": 29.604175567626953, "Y": 51.31889724731445, "TOKEN": "reconstruction"}, {"X": 2.942509174346924, "Y": -70.15422058105469, "TOKEN": "plains"}, {"X": 91.70379638671875, "Y": -4.245794773101807, "TOKEN": "degree"}, {"X": 5.366768836975098, "Y": 36.68013000488281, "TOKEN": "lyncher"}, {"X": 42.87580490112305, "Y": -33.483734130859375, "TOKEN": "porcelain"}, {"X": -30.985877990722656, "Y": -13.609312057495117, "TOKEN": "torn"}, {"X": -15.86665153503418, "Y": 11.000204086303711, "TOKEN": "cetera"}, {"X": -40.93465805053711, "Y": 20.80733871459961, "TOKEN": "marec"}, {"X": -28.454683303833008, "Y": -64.39494323730469, "TOKEN": "briefing"}, {"X": 85.0907974243164, "Y": 11.207284927368164, "TOKEN": "van"}, {"X": -53.51996994018555, "Y": 19.381750106811523, "TOKEN": "sabino"}, {"X": -22.210866928100586, "Y": 4.52609920501709, "TOKEN": "stalinists"}, {"X": -3.181835889816284, "Y": -46.35786819458008, "TOKEN": "girlhood"}, {"X": -22.924814224243164, "Y": 62.85435104370117, "TOKEN": "astronomique"}, {"X": -34.79325866699219, "Y": -33.689517974853516, "TOKEN": "havoc"}, {"X": 26.460634231567383, "Y": -62.63224792480469, "TOKEN": "ricochet"}, {"X": -33.82024002075195, "Y": -8.792116165161133, "TOKEN": "unwarranted"}, {"X": -43.26761245727539, "Y": -12.905900955200195, "TOKEN": "complacency"}, {"X": 38.223243713378906, "Y": -48.12174987792969, "TOKEN": "ala"}, {"X": -55.94060516357422, "Y": 30.644662857055664, "TOKEN": "beekman"}, {"X": -16.100879669189453, "Y": 23.379207611083984, "TOKEN": "fellowman"}, {"X": -48.97502517700195, "Y": -16.43223762512207, "TOKEN": "shimmering"}, {"X": -44.04383850097656, "Y": 39.56699752807617, "TOKEN": "enquirer"}, {"X": -7.572465896606445, "Y": 24.87744140625, "TOKEN": "obstacles"}, {"X": 51.384944915771484, "Y": 52.999488830566406, "TOKEN": "ernest"}, {"X": -39.086910247802734, "Y": -0.2549387216567993, "TOKEN": "nobelist"}, {"X": -42.83441925048828, "Y": -39.65287780761719, "TOKEN": "accompli"}, {"X": -10.677492141723633, "Y": -54.010528564453125, "TOKEN": "affectation"}, {"X": -37.57697296142578, "Y": -41.40185546875, "TOKEN": "derbyshire"}, {"X": -58.016517639160156, "Y": -14.113837242126465, "TOKEN": "bewhiskered"}, {"X": -11.768389701843262, "Y": 18.925262451171875, "TOKEN": "crinkle"}, {"X": 27.42584800720215, "Y": 8.720335006713867, "TOKEN": "defensive"}, {"X": 5.7330403327941895, "Y": 4.287868976593018, "TOKEN": "learned"}, {"X": 26.531558990478516, "Y": -61.26249313354492, "TOKEN": "gratify"}, {"X": 34.77540969848633, "Y": -28.12393569946289, "TOKEN": "waltz"}, {"X": -21.809444427490234, "Y": 53.7684326171875, "TOKEN": "strathcona"}, {"X": 22.226762771606445, "Y": -18.512401580810547, "TOKEN": "assent"}, {"X": 49.0825080871582, "Y": 46.771854400634766, "TOKEN": "brutal"}, {"X": -37.976905822753906, "Y": -21.95170783996582, "TOKEN": "repressed"}, {"X": -60.903167724609375, "Y": 2.185903310775757, "TOKEN": "lauren"}, {"X": -10.766711235046387, "Y": -1.0961811542510986, "TOKEN": "foreknowledge"}, {"X": 14.48436450958252, "Y": 32.40924835205078, "TOKEN": "slashing"}, {"X": -5.87785005569458, "Y": 22.860441207885742, "TOKEN": "axe"}, {"X": -8.642276763916016, "Y": -56.24363708496094, "TOKEN": "institutionalize"}, {"X": 47.09008026123047, "Y": 53.16522979736328, "TOKEN": "forehead"}, {"X": -19.755844116210938, "Y": 43.4882698059082, "TOKEN": "declined"}, {"X": 81.24354553222656, "Y": 24.751787185668945, "TOKEN": "camera"}, {"X": -45.28960418701172, "Y": -10.332135200500488, "TOKEN": "nez"}, {"X": -1.3243495225906372, "Y": 63.766544342041016, "TOKEN": "neoclassicist"}, {"X": -18.454490661621094, "Y": -44.38240051269531, "TOKEN": "laughingly"}, {"X": 33.981285095214844, "Y": 15.919351577758789, "TOKEN": "cautious"}, {"X": 4.299499988555908, "Y": 14.138175010681152, "TOKEN": "policies"}, {"X": -30.675472259521484, "Y": 35.976226806640625, "TOKEN": "amorbach"}, {"X": -1.4461568593978882, "Y": -47.50836944580078, "TOKEN": "behavioral"}, {"X": 17.4294490814209, "Y": -26.363489151000977, "TOKEN": "unchallenged"}, {"X": 83.28620910644531, "Y": 22.620569229125977, "TOKEN": "horowitz"}, {"X": -10.291852951049805, "Y": 3.0820140838623047, "TOKEN": "taw"}, {"X": 1.3011435270309448, "Y": 46.76242446899414, "TOKEN": "polonaise"}, {"X": 92.99263000488281, "Y": -6.433903694152832, "TOKEN": "church"}, {"X": -26.488794326782227, "Y": -20.974882125854492, "TOKEN": "inclusion"}, {"X": 39.98330307006836, "Y": 58.7080192565918, "TOKEN": "houston"}, {"X": -10.624979019165039, "Y": -3.8109207153320312, "TOKEN": "colloquy"}, {"X": 36.0482063293457, "Y": 72.45867156982422, "TOKEN": "tragic"}, {"X": -43.12767791748047, "Y": 29.78059196472168, "TOKEN": "yefrem"}, {"X": -34.00131607055664, "Y": -66.42974090576172, "TOKEN": "forelock"}, {"X": 36.1996955871582, "Y": -49.913429260253906, "TOKEN": "mogul"}, {"X": -10.311699867248535, "Y": 29.538942337036133, "TOKEN": "receptive"}, {"X": -4.6593828201293945, "Y": 7.598188400268555, "TOKEN": "stagnant"}, {"X": -3.6059417724609375, "Y": -67.97504425048828, "TOKEN": "expedient"}, {"X": -22.186147689819336, "Y": 36.60732650756836, "TOKEN": "brigadiers"}, {"X": -56.335662841796875, "Y": -31.360713958740234, "TOKEN": "stealer"}, {"X": -22.414926528930664, "Y": -58.075008392333984, "TOKEN": "blandishment"}, {"X": -34.8880729675293, "Y": -28.88652229309082, "TOKEN": "dishonor"}, {"X": -38.92192840576172, "Y": -46.51357650756836, "TOKEN": "homeric"}, {"X": 16.054279327392578, "Y": -62.10906982421875, "TOKEN": "stratosphere"}, {"X": 13.963850021362305, "Y": -29.562908172607422, "TOKEN": "ignite"}, {"X": -32.441070556640625, "Y": 18.96529197692871, "TOKEN": "intermissions"}, {"X": -22.1024227142334, "Y": -74.4171142578125, "TOKEN": "http"}, {"X": -30.50184440612793, "Y": 46.863853454589844, "TOKEN": "spagnoletto"}, {"X": -37.073360443115234, "Y": -14.225447654724121, "TOKEN": "kunst"}, {"X": 37.01744079589844, "Y": -38.37461471557617, "TOKEN": "schumann"}, {"X": -50.099613189697266, "Y": -21.116073608398438, "TOKEN": "cents"}, {"X": 49.49407196044922, "Y": 16.323169708251953, "TOKEN": "technically"}, {"X": -40.68055725097656, "Y": -53.4606819152832, "TOKEN": "bream"}, {"X": -51.61216354370117, "Y": -33.182373046875, "TOKEN": "hopper"}, {"X": -29.308645248413086, "Y": 23.076391220092773, "TOKEN": "slavonic"}, {"X": 39.8494873046875, "Y": 19.994915008544922, "TOKEN": "cal"}, {"X": -28.302356719970703, "Y": 15.36959171295166, "TOKEN": "genealogist"}, {"X": -10.619771957397461, "Y": 46.344032287597656, "TOKEN": "bereft"}, {"X": 75.72173309326172, "Y": 14.44907283782959, "TOKEN": "argument"}, {"X": 35.32326889038086, "Y": -63.4932975769043, "TOKEN": "pretentious"}, {"X": 1.695525884628296, "Y": 13.456286430358887, "TOKEN": "dubcek"}, {"X": 47.95174026489258, "Y": 62.404850006103516, "TOKEN": "mill"}, {"X": -19.517230987548828, "Y": 35.61293029785156, "TOKEN": "clift"}, {"X": -49.11993408203125, "Y": 6.102163791656494, "TOKEN": "threescore"}, {"X": 8.116345405578613, "Y": -48.645652770996094, "TOKEN": "ignatius"}, {"X": -23.335834503173828, "Y": 25.3176212310791, "TOKEN": "tenno"}, {"X": 29.494447708129883, "Y": -31.72076416015625, "TOKEN": "irwin"}, {"X": 12.498591423034668, "Y": -41.43536376953125, "TOKEN": "gaudy"}, {"X": -11.269545555114746, "Y": 2.5052618980407715, "TOKEN": "drivingly"}, {"X": 40.51607894897461, "Y": -1.439606785774231, "TOKEN": "bent"}, {"X": -28.898460388183594, "Y": 24.523347854614258, "TOKEN": "bouton"}, {"X": -51.6420783996582, "Y": -16.726497650146484, "TOKEN": "inheritors"}, {"X": -26.16187286376953, "Y": -40.94234085083008, "TOKEN": "boise"}, {"X": -28.031261444091797, "Y": 2.7282497882843018, "TOKEN": "inglorious"}, {"X": -41.23762893676758, "Y": -44.50093460083008, "TOKEN": "americanization"}, {"X": 48.115577697753906, "Y": -32.66862106323242, "TOKEN": "kilpatrick"}, {"X": -2.21795916557312, "Y": 55.047119140625, "TOKEN": "mindedness"}, {"X": -21.41848373413086, "Y": -67.93119049072266, "TOKEN": "equus"}, {"X": -17.295820236206055, "Y": 12.186376571655273, "TOKEN": "bandy"}, {"X": -31.2880802154541, "Y": 7.922918796539307, "TOKEN": "dapperly"}, {"X": -60.02782440185547, "Y": 0.9485089778900146, "TOKEN": "chingkang"}, {"X": -64.55401611328125, "Y": -3.8257839679718018, "TOKEN": "liebermann"}, {"X": -24.5737361907959, "Y": -1.5683164596557617, "TOKEN": "antinovel"}, {"X": -49.90095901489258, "Y": -40.911643981933594, "TOKEN": "implantation"}, {"X": -6.322094440460205, "Y": 24.44111442565918, "TOKEN": "covering"}, {"X": 43.495784759521484, "Y": 52.15555191040039, "TOKEN": "notre"}, {"X": 9.154346466064453, "Y": 52.367977142333984, "TOKEN": "reverential"}, {"X": 46.28473663330078, "Y": 7.913866996765137, "TOKEN": "jab"}, {"X": -13.76025390625, "Y": 59.41740417480469, "TOKEN": "riese"}, {"X": -40.16685104370117, "Y": 59.715572357177734, "TOKEN": "napoleonic"}, {"X": 27.141483306884766, "Y": -38.55947494506836, "TOKEN": "costa"}, {"X": -23.20590591430664, "Y": 6.772884845733643, "TOKEN": "enlisted"}, {"X": 26.347482681274414, "Y": -62.86073684692383, "TOKEN": "vintage"}, {"X": -17.99923324584961, "Y": 14.019248962402344, "TOKEN": "mat"}, {"X": -38.464210510253906, "Y": -16.561071395874023, "TOKEN": "judger"}, {"X": -63.82561111450195, "Y": -29.376436233520508, "TOKEN": "mum"}, {"X": 49.74077606201172, "Y": -42.22306442260742, "TOKEN": "jap"}, {"X": -23.8054256439209, "Y": -48.97727584838867, "TOKEN": "squalor"}, {"X": 38.92323303222656, "Y": 33.89177322387695, "TOKEN": "standing"}, {"X": 49.144535064697266, "Y": -3.473541021347046, "TOKEN": "envy"}, {"X": -19.726238250732422, "Y": 33.446964263916016, "TOKEN": "constitutions"}, {"X": 41.233184814453125, "Y": 49.651702880859375, "TOKEN": "tex"}, {"X": 30.615131378173828, "Y": -68.48283386230469, "TOKEN": "communion"}, {"X": 36.874027252197266, "Y": 33.123775482177734, "TOKEN": "necessarily"}, {"X": -36.1721076965332, "Y": 6.307791233062744, "TOKEN": "swanberg"}, {"X": -38.018985748291016, "Y": -7.213853359222412, "TOKEN": "becket"}, {"X": 48.89940643310547, "Y": 42.26829147338867, "TOKEN": "incredible"}, {"X": -5.54490852355957, "Y": 13.847853660583496, "TOKEN": "neumuenster"}, {"X": -53.10179901123047, "Y": -16.468189239501953, "TOKEN": "gefilte"}, {"X": 10.458459854125977, "Y": 52.52854537963867, "TOKEN": "lade"}, {"X": -60.628135681152344, "Y": -10.702595710754395, "TOKEN": "fadiman"}, {"X": 6.106910228729248, "Y": 91.03724670410156, "TOKEN": "sweet"}, {"X": -1.5447553396224976, "Y": -39.49296188354492, "TOKEN": "astutely"}, {"X": 1.768275260925293, "Y": 46.042240142822266, "TOKEN": "ingredients"}, {"X": -7.426270961761475, "Y": 37.923030853271484, "TOKEN": "unconquerable"}, {"X": 83.66741180419922, "Y": 9.959888458251953, "TOKEN": "lot"}, {"X": -3.863201141357422, "Y": -68.96991729736328, "TOKEN": "surmise"}, {"X": -0.7827478647232056, "Y": 95.06497955322266, "TOKEN": "cartoon"}, {"X": 8.752045631408691, "Y": 55.694942474365234, "TOKEN": "skullcap"}, {"X": -7.061095237731934, "Y": 38.37213897705078, "TOKEN": "anecdotal"}, {"X": 12.404741287231445, "Y": -29.4034423828125, "TOKEN": "georgi"}, {"X": 0.4151744544506073, "Y": 86.10294342041016, "TOKEN": "possession"}, {"X": -23.5637264251709, "Y": 0.8053563833236694, "TOKEN": "rustler"}, {"X": -28.73472023010254, "Y": -34.74785232543945, "TOKEN": "guatemala"}, {"X": 89.66008758544922, "Y": -1.7106828689575195, "TOKEN": "sir"}, {"X": 30.280542373657227, "Y": -3.1594398021698, "TOKEN": "blunder"}, {"X": 50.355316162109375, "Y": 27.309303283691406, "TOKEN": "renewal"}, {"X": -35.93478012084961, "Y": 16.317047119140625, "TOKEN": "leathery"}, {"X": -34.551979064941406, "Y": -37.42647171020508, "TOKEN": "kuprin"}, {"X": 36.637516021728516, "Y": -33.03512191772461, "TOKEN": "villard"}, {"X": 39.923030853271484, "Y": -59.481937408447266, "TOKEN": "relentless"}, {"X": 78.31596374511719, "Y": -6.7541351318359375, "TOKEN": "activity"}, {"X": 42.353431701660156, "Y": -30.585439682006836, "TOKEN": "replacement"}, {"X": 2.4058101177215576, "Y": 10.22843074798584, "TOKEN": "eamon"}, {"X": -16.036230087280273, "Y": 59.224185943603516, "TOKEN": "gunslinger"}, {"X": -23.60622215270996, "Y": 15.324553489685059, "TOKEN": "disillusioning"}, {"X": -1.4518070220947266, "Y": -39.91624450683594, "TOKEN": "hoosick"}, {"X": 94.72119903564453, "Y": -11.016776084899902, "TOKEN": "television"}, {"X": 20.86154556274414, "Y": 82.04873657226562, "TOKEN": "hint"}, {"X": -57.34298324584961, "Y": -7.480885982513428, "TOKEN": "leeward"}, {"X": -9.163552284240723, "Y": 48.8313102722168, "TOKEN": "lesser"}, {"X": -51.98554992675781, "Y": 5.287602424621582, "TOKEN": "rayah"}, {"X": 19.575613021850586, "Y": -21.86136245727539, "TOKEN": "une"}, {"X": -1.3195396661758423, "Y": 23.951290130615234, "TOKEN": "thanh"}, {"X": 82.02916717529297, "Y": 18.561996459960938, "TOKEN": "usual"}, {"X": -18.978389739990234, "Y": 25.484024047851562, "TOKEN": "spitting"}, {"X": 1.465854287147522, "Y": -63.094058990478516, "TOKEN": "suslov"}, {"X": 11.222192764282227, "Y": 24.76331329345703, "TOKEN": "designated"}, {"X": -34.09255599975586, "Y": -50.7526741027832, "TOKEN": "rig"}, {"X": -2.684638261795044, "Y": 2.975083827972412, "TOKEN": "resistor"}, {"X": 29.60453224182129, "Y": -57.63591003417969, "TOKEN": "johanna"}, {"X": 72.37867736816406, "Y": 17.814638137817383, "TOKEN": "seize"}, {"X": -30.58730697631836, "Y": 27.972944259643555, "TOKEN": "desiderio"}, {"X": 38.45903015136719, "Y": -44.94619369506836, "TOKEN": "fleeting"}, {"X": -35.36370849609375, "Y": 36.78899383544922, "TOKEN": "flanner"}, {"X": -39.54304504394531, "Y": 59.342620849609375, "TOKEN": "embouchure"}, {"X": 30.489221572875977, "Y": 49.80478286743164, "TOKEN": "authorize"}, {"X": -12.71273136138916, "Y": -34.754425048828125, "TOKEN": "reshaping"}, {"X": -14.350005149841309, "Y": 2.306321620941162, "TOKEN": "shirtwaist"}, {"X": -17.324373245239258, "Y": 31.49176025390625, "TOKEN": "affability"}, {"X": 4.989511013031006, "Y": -71.93896484375, "TOKEN": "epithelioma"}, {"X": 28.434812545776367, "Y": -38.85725402832031, "TOKEN": "federico"}, {"X": -67.66043853759766, "Y": 2.2857158184051514, "TOKEN": "chum"}, {"X": -8.291655540466309, "Y": -55.61345672607422, "TOKEN": "grimly"}, {"X": -13.465177536010742, "Y": -38.14432907104492, "TOKEN": "deutscher"}, {"X": 5.78485631942749, "Y": 23.70437240600586, "TOKEN": "unheeded"}, {"X": 4.441497802734375, "Y": 5.752066612243652, "TOKEN": "josepha"}, {"X": 50.100921630859375, "Y": 36.85512924194336, "TOKEN": "zaharias"}, {"X": -13.412033081054688, "Y": 20.681434631347656, "TOKEN": "orphans"}, {"X": -47.9036979675293, "Y": -32.115013122558594, "TOKEN": "santuzza"}, {"X": 20.621667861938477, "Y": -17.800579071044922, "TOKEN": "adjustment"}, {"X": -3.0735206604003906, "Y": 11.832453727722168, "TOKEN": "unbound"}, {"X": -56.91733932495117, "Y": 2.7373592853546143, "TOKEN": "seminarian"}, {"X": -52.550865173339844, "Y": 30.123838424682617, "TOKEN": "dreamland"}, {"X": 6.612100601196289, "Y": -48.098724365234375, "TOKEN": "acter"}, {"X": 18.608789443969727, "Y": -25.744478225708008, "TOKEN": "gregg"}, {"X": -66.74237823486328, "Y": -36.43806838989258, "TOKEN": "jeannie"}, {"X": 31.48707389831543, "Y": -29.337005615234375, "TOKEN": "bennington"}, {"X": -15.529046058654785, "Y": 60.72566223144531, "TOKEN": "polyclinic"}, {"X": 45.82760238647461, "Y": 65.50727844238281, "TOKEN": "specialist"}, {"X": -19.265384674072266, "Y": 15.874711036682129, "TOKEN": "sharing"}, {"X": 41.70016098022461, "Y": -0.1690673977136612, "TOKEN": "debonair"}, {"X": 8.441967010498047, "Y": -67.25594329833984, "TOKEN": "inmost"}, {"X": 40.20983123779297, "Y": 63.561767578125, "TOKEN": "booth"}, {"X": -32.81215286254883, "Y": -57.59557342529297, "TOKEN": "neighbors"}, {"X": -19.704753875732422, "Y": -66.39800262451172, "TOKEN": "lavoir"}, {"X": -3.05452561378479, "Y": 50.592918395996094, "TOKEN": "prehistory"}, {"X": 8.628544807434082, "Y": 83.19940948486328, "TOKEN": "massive"}, {"X": -37.394493103027344, "Y": -51.447200775146484, "TOKEN": "aragon"}, {"X": 6.486351490020752, "Y": 16.704782485961914, "TOKEN": "petal"}, {"X": -7.365636825561523, "Y": -32.81459045410156, "TOKEN": "secretaries"}, {"X": -38.022212982177734, "Y": -23.343536376953125, "TOKEN": "grote"}, {"X": -50.66761016845703, "Y": -4.66232442855835, "TOKEN": "dives"}, {"X": 11.445448875427246, "Y": 52.29561996459961, "TOKEN": "fibre"}, {"X": 2.655768394470215, "Y": 39.329925537109375, "TOKEN": "sexes"}, {"X": 3.2958872318267822, "Y": 13.657940864562988, "TOKEN": "marcellus"}, {"X": 46.92524719238281, "Y": -53.806888580322266, "TOKEN": "affront"}, {"X": -2.113339424133301, "Y": 25.290584564208984, "TOKEN": "steins"}, {"X": 48.43081283569336, "Y": 10.671170234680176, "TOKEN": "apologize"}, {"X": -19.478160858154297, "Y": 6.9896159172058105, "TOKEN": "medaille"}, {"X": 15.194997787475586, "Y": 87.81240844726562, "TOKEN": "foremost"}, {"X": 47.74388885498047, "Y": 62.06495666503906, "TOKEN": "tube"}, {"X": -39.22028732299805, "Y": -2.955350875854492, "TOKEN": "demographic"}, {"X": 13.800314903259277, "Y": -28.871124267578125, "TOKEN": "registration"}, {"X": -56.407039642333984, "Y": 11.556225776672363, "TOKEN": "barbel"}, {"X": 37.68388748168945, "Y": -34.75078201293945, "TOKEN": "tigers"}, {"X": 49.38943099975586, "Y": 21.818086624145508, "TOKEN": "baer"}, {"X": -3.391364336013794, "Y": 2.9887328147888184, "TOKEN": "insulation"}, {"X": 84.23239135742188, "Y": -11.047943115234375, "TOKEN": "rise"}, {"X": -13.960654258728027, "Y": -74.13330841064453, "TOKEN": "obliterate"}, {"X": -47.47245788574219, "Y": -6.628562927246094, "TOKEN": "roebuck"}, {"X": 15.651276588439941, "Y": -66.21324157714844, "TOKEN": "dusty"}, {"X": 6.439764499664307, "Y": -65.36778259277344, "TOKEN": "commercially"}, {"X": -40.91549301147461, "Y": 41.565826416015625, "TOKEN": "ven"}, {"X": 3.6634957790374756, "Y": 27.02604866027832, "TOKEN": "inhumaneness"}, {"X": 43.778160095214844, "Y": -29.107410430908203, "TOKEN": "cord"}, {"X": 46.90473937988281, "Y": -6.569054126739502, "TOKEN": "violently"}, {"X": -14.376270294189453, "Y": -34.1087532043457, "TOKEN": "ineffective"}, {"X": -55.345672607421875, "Y": -48.14013671875, "TOKEN": "alamo"}, {"X": -31.667665481567383, "Y": 2.695340871810913, "TOKEN": "unregistered"}, {"X": -45.9808349609375, "Y": -25.5810489654541, "TOKEN": "photographing"}, {"X": -52.343448638916016, "Y": -30.05011558532715, "TOKEN": "deservedly"}, {"X": -33.22426986694336, "Y": 26.39115333557129, "TOKEN": "aerosol"}, {"X": 0.8528258204460144, "Y": -68.26079559326172, "TOKEN": "rarity"}, {"X": 38.467769622802734, "Y": -54.07083511352539, "TOKEN": "devoid"}, {"X": 16.961923599243164, "Y": -71.47618865966797, "TOKEN": "burgess"}, {"X": 52.297420501708984, "Y": 53.53932571411133, "TOKEN": "mistress"}, {"X": -58.594871520996094, "Y": -8.063754081726074, "TOKEN": "janson"}, {"X": -33.389137268066406, "Y": 21.761384963989258, "TOKEN": "definable"}, {"X": 7.707724571228027, "Y": 98.6858139038086, "TOKEN": "cagney"}, {"X": -67.39801788330078, "Y": -18.133163452148438, "TOKEN": "sain"}, {"X": 28.315467834472656, "Y": -58.37251663208008, "TOKEN": "acknowledgment"}, {"X": 0.778780996799469, "Y": -76.22274017333984, "TOKEN": "koo"}, {"X": -3.272606611251831, "Y": 95.51377868652344, "TOKEN": "miller"}, {"X": 11.564132690429688, "Y": -22.82683563232422, "TOKEN": "truce"}, {"X": 35.26414489746094, "Y": 1.6873712539672852, "TOKEN": "wharton"}, {"X": 19.20345687866211, "Y": 80.3017349243164, "TOKEN": "sensitive"}, {"X": 0.519928514957428, "Y": 89.9180679321289, "TOKEN": "ordinary"}, {"X": -43.7061882019043, "Y": -44.39065170288086, "TOKEN": "vender"}, {"X": -68.89520263671875, "Y": 4.527491569519043, "TOKEN": "rees"}, {"X": -33.06201171875, "Y": 28.74807357788086, "TOKEN": "satiate"}, {"X": 77.19722747802734, "Y": -16.35254669189453, "TOKEN": "result"}, {"X": 45.71852111816406, "Y": -16.815868377685547, "TOKEN": "skinny"}, {"X": 53.89106750488281, "Y": 4.121087551116943, "TOKEN": "patty"}, {"X": 52.5374870300293, "Y": 16.721433639526367, "TOKEN": "polished"}, {"X": 28.738935470581055, "Y": -60.64767837524414, "TOKEN": "noguchi"}, {"X": 78.92925262451172, "Y": 8.922622680664062, "TOKEN": "direction"}, {"X": 12.889546394348145, "Y": -79.7249526977539, "TOKEN": "lanky"}, {"X": 50.17966842651367, "Y": -21.190223693847656, "TOKEN": "yearn"}, {"X": -49.678707122802734, "Y": 28.304912567138672, "TOKEN": "gronewaldt"}, {"X": -32.30510330200195, "Y": 45.500030517578125, "TOKEN": "invigorate"}, {"X": 3.0865330696105957, "Y": 12.628918647766113, "TOKEN": "marinus"}, {"X": 28.04355239868164, "Y": -2.1185953617095947, "TOKEN": "stead"}, {"X": 74.67108917236328, "Y": -6.963827133178711, "TOKEN": "marshall"}, {"X": 24.471044540405273, "Y": 82.595458984375, "TOKEN": "resort"}, {"X": -21.039045333862305, "Y": -69.6910629272461, "TOKEN": "forts"}, {"X": -41.81345748901367, "Y": -22.7467041015625, "TOKEN": "fumbling"}, {"X": -19.13587188720703, "Y": -64.08035278320312, "TOKEN": "barbizon"}, {"X": -32.39239501953125, "Y": -46.55912780761719, "TOKEN": "cooky"}, {"X": 34.919429779052734, "Y": -40.10689163208008, "TOKEN": "bleed"}, {"X": 56.36983871459961, "Y": -2.672307014465332, "TOKEN": "stories"}, {"X": -43.67448425292969, "Y": -15.519431114196777, "TOKEN": "randozzo"}, {"X": -7.295797348022461, "Y": 34.701839447021484, "TOKEN": "thoburn"}, {"X": -49.98941421508789, "Y": -53.217750549316406, "TOKEN": "bookstore"}, {"X": -46.440242767333984, "Y": 20.59059715270996, "TOKEN": "jester"}, {"X": -55.8642463684082, "Y": -30.940692901611328, "TOKEN": "amiss"}, {"X": 32.06916809082031, "Y": 38.73672103881836, "TOKEN": "testing"}, {"X": 12.944568634033203, "Y": 39.83323669433594, "TOKEN": "orre"}, {"X": -16.739213943481445, "Y": -9.545699119567871, "TOKEN": "nahant"}, {"X": 28.13703727722168, "Y": -10.358436584472656, "TOKEN": "ample"}, {"X": 18.33725357055664, "Y": 68.71678161621094, "TOKEN": "stuart"}, {"X": -68.77678680419922, "Y": -2.1741676330566406, "TOKEN": "pentimento"}, {"X": -7.100471019744873, "Y": 56.05840301513672, "TOKEN": "alimony"}, {"X": -30.97532844543457, "Y": -62.6929931640625, "TOKEN": "peripheral"}, {"X": 10.639296531677246, "Y": 52.281620025634766, "TOKEN": "whereon"}, {"X": -42.93250274658203, "Y": -40.194915771484375, "TOKEN": "mcnamaras"}, {"X": -1.1241992712020874, "Y": 55.54732131958008, "TOKEN": "tooty"}, {"X": 36.680843353271484, "Y": 47.34031295776367, "TOKEN": "carolina"}, {"X": 17.557493209838867, "Y": 83.40116882324219, "TOKEN": "cloud"}, {"X": -15.217841148376465, "Y": 18.814659118652344, "TOKEN": "erity"}, {"X": 9.594133377075195, "Y": 93.9586410522461, "TOKEN": "quietly"}, {"X": 2.929657220840454, "Y": 14.537308692932129, "TOKEN": "outflank"}, {"X": -14.610639572143555, "Y": 36.971466064453125, "TOKEN": "regis"}, {"X": 46.732391357421875, "Y": -6.320494651794434, "TOKEN": "summary"}, {"X": -26.440410614013672, "Y": -23.304521560668945, "TOKEN": "astringent"}, {"X": -16.69829559326172, "Y": -45.84770584106445, "TOKEN": "chubby"}, {"X": 33.223934173583984, "Y": -26.905176162719727, "TOKEN": "sidewalk"}, {"X": 33.21355438232422, "Y": 37.78499221801758, "TOKEN": "repeal"}, {"X": 74.69518280029297, "Y": 11.649785995483398, "TOKEN": "debate"}, {"X": 41.833614349365234, "Y": -16.498674392700195, "TOKEN": "lobos"}, {"X": -22.16330909729004, "Y": -15.813019752502441, "TOKEN": "importunity"}, {"X": -6.0105462074279785, "Y": 51.26754379272461, "TOKEN": "armand"}, {"X": 32.24848556518555, "Y": 18.773414611816406, "TOKEN": "regardless"}, {"X": -39.890716552734375, "Y": -58.447689056396484, "TOKEN": "fantasize"}, {"X": 26.33929443359375, "Y": -64.77033233642578, "TOKEN": "talamoni"}, {"X": -19.065780639648438, "Y": -4.920787811279297, "TOKEN": "suasion"}, {"X": 42.595767974853516, "Y": -21.10662078857422, "TOKEN": "stack"}, {"X": 15.666651725769043, "Y": -28.42262077331543, "TOKEN": "courts"}, {"X": 43.0152587890625, "Y": -26.27741050720215, "TOKEN": "christa"}, {"X": -21.231895446777344, "Y": -65.03995513916016, "TOKEN": "trendy"}, {"X": -34.376068115234375, "Y": -40.848480224609375, "TOKEN": "fokkers"}, {"X": 51.16203689575195, "Y": 17.271072387695312, "TOKEN": "ascetic"}, {"X": -40.53602600097656, "Y": -34.665138244628906, "TOKEN": "perpetuity"}, {"X": -13.640111923217773, "Y": 19.761159896850586, "TOKEN": "downy"}, {"X": -24.024415969848633, "Y": -8.21257209777832, "TOKEN": "multifilters"}, {"X": 32.524375915527344, "Y": -28.03774642944336, "TOKEN": "jamaica"}, {"X": -50.75594711303711, "Y": -37.17697525024414, "TOKEN": "garison"}, {"X": -29.508359909057617, "Y": 56.651336669921875, "TOKEN": "bild"}, {"X": -2.744704484939575, "Y": -41.92266082763672, "TOKEN": "toklas"}, {"X": -17.24623680114746, "Y": 12.121614456176758, "TOKEN": "sonora"}, {"X": 12.048630714416504, "Y": 55.83540344238281, "TOKEN": "irksomely"}, {"X": 10.256129264831543, "Y": 18.919612884521484, "TOKEN": "standpatter"}, {"X": -55.638031005859375, "Y": -25.984758377075195, "TOKEN": "bopped"}, {"X": 52.38067626953125, "Y": 15.244061470031738, "TOKEN": "compassion"}, {"X": -35.038265228271484, "Y": -32.64263153076172, "TOKEN": "crucifixion"}, {"X": 70.22917938232422, "Y": 8.195114135742188, "TOKEN": "republic"}, {"X": -27.981555938720703, "Y": -53.77994918823242, "TOKEN": "sharma"}, {"X": -28.869224548339844, "Y": -59.326080322265625, "TOKEN": "terrain"}, {"X": -33.57257843017578, "Y": 6.878530979156494, "TOKEN": "disapproving"}, {"X": -39.735267639160156, "Y": 31.02446174621582, "TOKEN": "manderson"}, {"X": -4.007392406463623, "Y": 20.251808166503906, "TOKEN": "retentive"}, {"X": -4.1795735359191895, "Y": 94.16529083251953, "TOKEN": "douglass"}, {"X": 25.75990104675293, "Y": 65.535400390625, "TOKEN": "illegal"}, {"X": -21.14554786682129, "Y": 34.65277099609375, "TOKEN": "fellinis"}, {"X": 53.78618621826172, "Y": 25.899131774902344, "TOKEN": "cow"}, {"X": 4.0372467041015625, "Y": 16.295869827270508, "TOKEN": "forked"}, {"X": 43.91360092163086, "Y": 61.1085090637207, "TOKEN": "vermont"}, {"X": 74.73271942138672, "Y": 8.962761878967285, "TOKEN": "non"}, {"X": -44.657527923583984, "Y": 17.508432388305664, "TOKEN": "zhukov"}, {"X": 19.299816131591797, "Y": -18.026681900024414, "TOKEN": "coolness"}, {"X": -1.2686631679534912, "Y": -41.18825912475586, "TOKEN": "se"}, {"X": 21.679553985595703, "Y": -12.670984268188477, "TOKEN": "lessen"}, {"X": -43.31153106689453, "Y": 28.527664184570312, "TOKEN": "pamper"}, {"X": 74.51741790771484, "Y": -12.037742614746094, "TOKEN": "britain"}, {"X": -18.475879669189453, "Y": -38.003273010253906, "TOKEN": "soak"}, {"X": 30.58855438232422, "Y": -54.64305877685547, "TOKEN": "calamity"}, {"X": -29.404054641723633, "Y": 15.121770858764648, "TOKEN": "bleach"}, {"X": 6.440863609313965, "Y": -56.41311264038086, "TOKEN": "recession"}, {"X": 32.74462890625, "Y": -38.82707977294922, "TOKEN": "valedictorian"}, {"X": -1.5991547107696533, "Y": -4.343536376953125, "TOKEN": "profiteer"}, {"X": 41.107177734375, "Y": -38.80720520019531, "TOKEN": "similarity"}, {"X": 0.8063588738441467, "Y": 32.04515838623047, "TOKEN": "divest"}, {"X": 42.56090545654297, "Y": 13.868569374084473, "TOKEN": "mausoleum"}, {"X": -33.318077087402344, "Y": 27.667985916137695, "TOKEN": "carcinoma"}, {"X": -38.9447021484375, "Y": 25.721237182617188, "TOKEN": "kubek"}, {"X": -27.289281845092773, "Y": 23.416088104248047, "TOKEN": "roles"}, {"X": 29.867584228515625, "Y": 7.092147350311279, "TOKEN": "satisfactory"}, {"X": -38.23475646972656, "Y": 60.337257385253906, "TOKEN": "ordination"}, {"X": -8.280693054199219, "Y": -69.55142211914062, "TOKEN": "cultist"}, {"X": -48.079044342041016, "Y": -9.179438591003418, "TOKEN": "bain"}, {"X": -43.33316421508789, "Y": -34.859718322753906, "TOKEN": "complexioned"}, {"X": -22.035537719726562, "Y": 56.83929443359375, "TOKEN": "politick"}, {"X": -15.310853958129883, "Y": 24.278196334838867, "TOKEN": "aaugh"}, {"X": 28.064083099365234, "Y": -67.42247009277344, "TOKEN": "steamboat"}, {"X": 41.7745246887207, "Y": -5.28900146484375, "TOKEN": "corrigan"}, {"X": 3.1809017658233643, "Y": -27.294111251831055, "TOKEN": "commendation"}, {"X": -3.1744742393493652, "Y": -60.16659164428711, "TOKEN": "infamous"}, {"X": 14.345771789550781, "Y": 32.45225143432617, "TOKEN": "metabolic"}, {"X": 43.74041748046875, "Y": -2.8575003147125244, "TOKEN": "roberts"}, {"X": 17.314233779907227, "Y": -51.171878814697266, "TOKEN": "insert"}, {"X": -38.6431999206543, "Y": -64.55487060546875, "TOKEN": "clinch"}, {"X": 45.30241775512695, "Y": 7.180442810058594, "TOKEN": "extravagant"}, {"X": 32.87432861328125, "Y": -26.791322708129883, "TOKEN": "apprenticeship"}, {"X": -19.668365478515625, "Y": 34.494503021240234, "TOKEN": "copybook"}, {"X": -18.25118064880371, "Y": 28.918603897094727, "TOKEN": "besotted"}, {"X": -18.12674331665039, "Y": 45.801239013671875, "TOKEN": "macneil"}, {"X": 14.737105369567871, "Y": -65.51350402832031, "TOKEN": "mitzvah"}, {"X": 6.566959857940674, "Y": 16.673248291015625, "TOKEN": "elbe"}, {"X": 5.940790176391602, "Y": 2.1517751216888428, "TOKEN": "midterm"}, {"X": -7.470836639404297, "Y": 7.2833251953125, "TOKEN": "thwarted"}, {"X": -10.352408409118652, "Y": -43.11575698852539, "TOKEN": "moynihan"}, {"X": -25.876399993896484, "Y": -49.37279510498047, "TOKEN": "junta"}, {"X": 74.56805419921875, "Y": -11.594820022583008, "TOKEN": "japan"}, {"X": -34.92070770263672, "Y": -46.801177978515625, "TOKEN": "pointless"}, {"X": 0.9763535857200623, "Y": 35.26701354980469, "TOKEN": "herne"}, {"X": 12.199901580810547, "Y": 25.92060089111328, "TOKEN": "sharawy"}, {"X": 2.1196837425231934, "Y": -76.84355163574219, "TOKEN": "decca"}, {"X": 93.51838684082031, "Y": -10.365756034851074, "TOKEN": "teach"}, {"X": 56.848506927490234, "Y": -3.6491823196411133, "TOKEN": "specialize"}, {"X": -44.449981689453125, "Y": -58.150272369384766, "TOKEN": "mau"}, {"X": 37.95803451538086, "Y": -43.056922912597656, "TOKEN": "santiago"}, {"X": -27.2039737701416, "Y": -23.847759246826172, "TOKEN": "remo"}, {"X": -41.63791275024414, "Y": -39.00740432739258, "TOKEN": "unread"}, {"X": -21.929880142211914, "Y": 32.09886932373047, "TOKEN": "parents"}, {"X": -4.999334812164307, "Y": 51.471832275390625, "TOKEN": "biennale"}, {"X": -28.36798858642578, "Y": -34.17273712158203, "TOKEN": "chancellery"}, {"X": 79.2923355102539, "Y": 15.898606300354004, "TOKEN": "level"}, {"X": -10.802945137023926, "Y": 15.997261047363281, "TOKEN": "unregal"}, {"X": 3.682777166366577, "Y": 7.473177909851074, "TOKEN": "geopolitical"}, {"X": -21.586410522460938, "Y": 49.7009162902832, "TOKEN": "intoxication"}, {"X": 42.13846206665039, "Y": -33.5335693359375, "TOKEN": "stapleton"}, {"X": 7.454375743865967, "Y": 32.78160858154297, "TOKEN": "samana"}, {"X": 3.587599515914917, "Y": 94.66139221191406, "TOKEN": "confine"}, {"X": 82.59468841552734, "Y": 8.668905258178711, "TOKEN": "happen"}, {"X": 37.2196044921875, "Y": -35.56980895996094, "TOKEN": "haunted"}, {"X": -13.731066703796387, "Y": 21.700515747070312, "TOKEN": "vasilyev"}, {"X": -3.3046798706054688, "Y": -55.78553771972656, "TOKEN": "seabury"}, {"X": 77.93608093261719, "Y": 11.17164134979248, "TOKEN": "mention"}, {"X": -18.067766189575195, "Y": 57.9139518737793, "TOKEN": "wordy"}, {"X": 86.3793716430664, "Y": 19.49237823486328, "TOKEN": "michael"}, {"X": -21.885305404663086, "Y": -74.7320556640625, "TOKEN": "lisbon"}, {"X": 30.797481536865234, "Y": -16.730880737304688, "TOKEN": "alf"}, {"X": -35.68324661254883, "Y": 21.851613998413086, "TOKEN": "incoherent"}, {"X": -46.71314239501953, "Y": 2.836930274963379, "TOKEN": "remedial"}, {"X": -45.09450912475586, "Y": -61.663291931152344, "TOKEN": "deserving"}, {"X": 34.18061828613281, "Y": -41.7772102355957, "TOKEN": "telegraphy"}, {"X": -15.44848346710205, "Y": 58.28656768798828, "TOKEN": "harrisonville"}, {"X": 35.01171112060547, "Y": -32.68259048461914, "TOKEN": "crossing"}, {"X": -5.5719685554504395, "Y": 51.67072677612305, "TOKEN": "successes"}, {"X": -38.82160568237305, "Y": 18.07033348083496, "TOKEN": "careen"}, {"X": 95.36359405517578, "Y": -7.892202377319336, "TOKEN": "week"}, {"X": -39.676170349121094, "Y": 58.67774200439453, "TOKEN": "mountstephen"}, {"X": -24.04155158996582, "Y": 38.84196090698242, "TOKEN": "bradlee"}, {"X": 11.028409004211426, "Y": -23.06230354309082, "TOKEN": "sack"}, {"X": 49.33386993408203, "Y": 18.06281089782715, "TOKEN": "client"}, {"X": 33.552127838134766, "Y": -45.14265441894531, "TOKEN": "irresistible"}, {"X": -0.3147581219673157, "Y": -27.943771362304688, "TOKEN": "unionize"}, {"X": -30.125743865966797, "Y": 29.22193145751953, "TOKEN": "annabel"}, {"X": -44.98976135253906, "Y": 10.50589370727539, "TOKEN": "wagnalls"}, {"X": 79.34417724609375, "Y": 4.22606086730957, "TOKEN": "secret"}, {"X": -59.50226974487305, "Y": 8.016715049743652, "TOKEN": "lambeth"}, {"X": -16.68893814086914, "Y": 39.430641174316406, "TOKEN": "reabsorb"}, {"X": 16.93220329284668, "Y": 76.6289291381836, "TOKEN": "solution"}, {"X": -35.19451904296875, "Y": -57.25611114501953, "TOKEN": "sherpa"}, {"X": 6.295814514160156, "Y": 1.15721595287323, "TOKEN": "voroshilov"}, {"X": -12.303631782531738, "Y": 13.095791816711426, "TOKEN": "nonprofit"}, {"X": -5.810520648956299, "Y": 4.352705001831055, "TOKEN": "photogenic"}, {"X": -33.487667083740234, "Y": -2.882587194442749, "TOKEN": "bunk"}, {"X": -13.108659744262695, "Y": -63.57462692260742, "TOKEN": "thankless"}, {"X": -4.75035285949707, "Y": -44.859195709228516, "TOKEN": "scenarist"}, {"X": -14.90988540649414, "Y": -6.196990489959717, "TOKEN": "athlit"}, {"X": 83.53033447265625, "Y": 23.134309768676758, "TOKEN": "classical"}, {"X": 33.3896484375, "Y": 42.87312698364258, "TOKEN": "destine"}, {"X": -4.054736137390137, "Y": 88.08441162109375, "TOKEN": "vision"}, {"X": 28.896406173706055, "Y": -58.325416564941406, "TOKEN": "decayed"}, {"X": -49.364715576171875, "Y": -41.321041107177734, "TOKEN": "ancestors"}, {"X": 42.3393440246582, "Y": -36.309814453125, "TOKEN": "bundle"}, {"X": -6.602235794067383, "Y": 91.45237731933594, "TOKEN": "associated"}, {"X": 16.246572494506836, "Y": 87.0496826171875, "TOKEN": "custom"}, {"X": -1.0400093793869019, "Y": 35.52080154418945, "TOKEN": "sanford"}, {"X": 8.567644119262695, "Y": 28.318326950073242, "TOKEN": "recrudescence"}, {"X": 50.471378326416016, "Y": -30.117855072021484, "TOKEN": "canny"}, {"X": 8.64599609375, "Y": -65.58502197265625, "TOKEN": "offputting"}, {"X": -31.317398071289062, "Y": -10.491584777832031, "TOKEN": "maury"}, {"X": -32.06586456298828, "Y": 1.1124606132507324, "TOKEN": "eulogize"}, {"X": -10.377811431884766, "Y": 30.076814651489258, "TOKEN": "makiki"}, {"X": -17.908544540405273, "Y": -27.201461791992188, "TOKEN": "jawaharlal"}, {"X": -8.638067245483398, "Y": 49.128292083740234, "TOKEN": "elwyn"}, {"X": 39.42400360107422, "Y": 63.58149719238281, "TOKEN": "louise"}, {"X": 89.28868103027344, "Y": -2.6585566997528076, "TOKEN": "buy"}, {"X": 17.35578727722168, "Y": 77.01097869873047, "TOKEN": "destiny"}, {"X": 21.923152923583984, "Y": -6.808282852172852, "TOKEN": "fission"}, {"X": -35.83865737915039, "Y": -47.26362991333008, "TOKEN": "silverware"}, {"X": 74.08262634277344, "Y": 11.417489051818848, "TOKEN": "trust"}, {"X": -52.990352630615234, "Y": -1.5488837957382202, "TOKEN": "gunsbach"}, {"X": 41.44096374511719, "Y": -54.818302154541016, "TOKEN": "alamogordo"}, {"X": 83.28416442871094, "Y": 7.541042804718018, "TOKEN": "tone"}, {"X": 44.73884201049805, "Y": -21.71192741394043, "TOKEN": "wheat"}, {"X": -54.40071487426758, "Y": -47.291038513183594, "TOKEN": "cartier"}, {"X": 38.2955207824707, "Y": -25.19161033630371, "TOKEN": "mclean"}, {"X": 29.259122848510742, "Y": 53.89982604980469, "TOKEN": "collective"}, {"X": 38.18971633911133, "Y": 41.78098678588867, "TOKEN": "nasa"}, {"X": -47.89964294433594, "Y": -4.678651809692383, "TOKEN": "ovies"}, {"X": 53.16649627685547, "Y": -3.286219358444214, "TOKEN": "dramatist"}, {"X": -50.12009048461914, "Y": 32.9117317199707, "TOKEN": "ibarguren"}, {"X": -1.1284533739089966, "Y": 78.97901153564453, "TOKEN": "resolution"}, {"X": 8.900918006896973, "Y": -68.79569244384766, "TOKEN": "lettres"}, {"X": 39.1332893371582, "Y": 11.962068557739258, "TOKEN": "reuther"}, {"X": 8.284570693969727, "Y": 19.981849670410156, "TOKEN": "acquiesce"}, {"X": 30.03884506225586, "Y": -5.371376037597656, "TOKEN": "evangelist"}, {"X": 47.1489143371582, "Y": -42.498443603515625, "TOKEN": "repay"}, {"X": -51.5606689453125, "Y": -21.254638671875, "TOKEN": "idler"}, {"X": -7.44085168838501, "Y": -63.99462890625, "TOKEN": "finite"}, {"X": -42.875728607177734, "Y": -55.28645706176758, "TOKEN": "rochus"}, {"X": -8.768339157104492, "Y": 19.949565887451172, "TOKEN": "jinks"}, {"X": 17.79241943359375, "Y": -53.45143127441406, "TOKEN": "pincher"}, {"X": 15.450400352478027, "Y": -45.815818786621094, "TOKEN": "osborn"}, {"X": -61.905372619628906, "Y": -37.38557815551758, "TOKEN": "marguerite"}, {"X": -44.00089645385742, "Y": 17.57830810546875, "TOKEN": "neils"}, {"X": -10.959756851196289, "Y": 49.75733184814453, "TOKEN": "mercia"}, {"X": 43.915992736816406, "Y": 16.808025360107422, "TOKEN": "tent"}, {"X": -18.652151107788086, "Y": -66.35932159423828, "TOKEN": "chavannes"}, {"X": 4.803829669952393, "Y": -23.9218692779541, "TOKEN": "regulate"}, {"X": 19.146394729614258, "Y": -60.014705657958984, "TOKEN": "halsey"}, {"X": -33.4771614074707, "Y": 16.443866729736328, "TOKEN": "disquisition"}, {"X": 53.87158966064453, "Y": 28.227493286132812, "TOKEN": "magnetism"}, {"X": -33.67704391479492, "Y": 22.86113166809082, "TOKEN": "alide"}, {"X": -33.82438278198242, "Y": -64.1996841430664, "TOKEN": "dishonorable"}, {"X": 74.86011505126953, "Y": 7.028637409210205, "TOKEN": "principal"}, {"X": -14.335741996765137, "Y": -6.269113063812256, "TOKEN": "colonialism"}, {"X": 8.357775688171387, "Y": 82.122802734375, "TOKEN": "distinction"}, {"X": -18.55491065979004, "Y": 23.90256690979004, "TOKEN": "diaphragm"}, {"X": 30.78244400024414, "Y": -21.582780838012695, "TOKEN": "plaza"}, {"X": -15.254634857177734, "Y": -23.748008728027344, "TOKEN": "patterson"}, {"X": 1.5617228746414185, "Y": 9.677436828613281, "TOKEN": "indigent"}, {"X": -45.406620025634766, "Y": -29.189607620239258, "TOKEN": "posses"}, {"X": -54.34729766845703, "Y": -44.61432647705078, "TOKEN": "threats"}, {"X": 7.486102104187012, "Y": -64.96165466308594, "TOKEN": "verity"}, {"X": 45.7170524597168, "Y": 1.3579038381576538, "TOKEN": "paralyze"}, {"X": -60.71279525756836, "Y": 9.963179588317871, "TOKEN": "rauschenbush"}, {"X": -50.20976638793945, "Y": -9.032423973083496, "TOKEN": "menotti"}, {"X": 75.22457122802734, "Y": -7.645768642425537, "TOKEN": "colonel"}, {"X": 38.97142791748047, "Y": -32.92814636230469, "TOKEN": "wight"}, {"X": -45.32666778564453, "Y": -19.64099884033203, "TOKEN": "patronize"}, {"X": 0.1303044706583023, "Y": 32.58029556274414, "TOKEN": "eupatoria"}, {"X": -27.553796768188477, "Y": 20.844884872436523, "TOKEN": "despitea"}, {"X": 13.28612232208252, "Y": 85.99845123291016, "TOKEN": "following"}, {"X": 3.9640517234802246, "Y": -66.32110595703125, "TOKEN": "spindly"}, {"X": -1.1889854669570923, "Y": 91.31502532958984, "TOKEN": "reality"}, {"X": 29.807527542114258, "Y": -0.16394919157028198, "TOKEN": "vastly"}, {"X": 6.634542942047119, "Y": -0.7385253310203552, "TOKEN": "loosely"}, {"X": 44.00043487548828, "Y": -25.01980209350586, "TOKEN": "cain"}, {"X": -3.933227062225342, "Y": -41.31166458129883, "TOKEN": "osnabruck"}, {"X": -51.09811782836914, "Y": 0.877453088760376, "TOKEN": "samouir"}, {"X": -8.699689865112305, "Y": 18.73993682861328, "TOKEN": "dispassionately"}, {"X": 21.871870040893555, "Y": -71.94068145751953, "TOKEN": "typewrite"}, {"X": 56.745460510253906, "Y": 1.6002095937728882, "TOKEN": "peanuts"}, {"X": 73.52458953857422, "Y": -8.61287784576416, "TOKEN": "taft"}, {"X": 39.78070068359375, "Y": 41.85199737548828, "TOKEN": "muslims"}, {"X": -40.47282028198242, "Y": -23.657987594604492, "TOKEN": "foggy"}, {"X": 33.65930938720703, "Y": 42.72718048095703, "TOKEN": "limited"}, {"X": -63.910579681396484, "Y": -40.034751892089844, "TOKEN": "theo"}, {"X": -7.914827346801758, "Y": -39.75820541381836, "TOKEN": "harrington"}, {"X": 32.45955276489258, "Y": -40.4554443359375, "TOKEN": "narrate"}, {"X": -33.441551208496094, "Y": 17.2301025390625, "TOKEN": "rationalist"}, {"X": 6.959319114685059, "Y": 7.150486946105957, "TOKEN": "folger"}, {"X": -21.265193939208984, "Y": -74.28599548339844, "TOKEN": "attic"}, {"X": -5.516240119934082, "Y": 90.17183685302734, "TOKEN": "transfer"}, {"X": -38.1225700378418, "Y": -22.173934936523438, "TOKEN": "faithless"}, {"X": 42.20004653930664, "Y": -46.681602478027344, "TOKEN": "felt"}, {"X": 92.75897979736328, "Y": -4.742764472961426, "TOKEN": "robert"}, {"X": -1.468088150024414, "Y": 22.44178009033203, "TOKEN": "boothbay"}, {"X": 36.570579528808594, "Y": 42.318790435791016, "TOKEN": "plea"}, {"X": 38.43666076660156, "Y": 60.813270568847656, "TOKEN": "merman"}, {"X": -51.32926559448242, "Y": -27.718236923217773, "TOKEN": "sneaker"}, {"X": 40.546024322509766, "Y": 63.695884704589844, "TOKEN": "mitford"}, {"X": -15.027458190917969, "Y": 56.6837158203125, "TOKEN": "earlsfort"}, {"X": 29.71164321899414, "Y": 54.299285888671875, "TOKEN": "suspect"}, {"X": -43.609535217285156, "Y": -10.851313591003418, "TOKEN": "transactional"}, {"X": 43.353397369384766, "Y": -26.05005645751953, "TOKEN": "minh"}, {"X": -23.203449249267578, "Y": -38.25625228881836, "TOKEN": "underdog"}, {"X": -46.36949157714844, "Y": 27.045320510864258, "TOKEN": "henley"}, {"X": 37.4839973449707, "Y": 49.4427490234375, "TOKEN": "reorganize"}, {"X": -11.805500984191895, "Y": -30.505216598510742, "TOKEN": "reconsider"}, {"X": -58.83887481689453, "Y": 10.084151268005371, "TOKEN": "reincarnation"}, {"X": -38.0692253112793, "Y": -22.281957626342773, "TOKEN": "negev"}, {"X": 18.59181022644043, "Y": 70.90449523925781, "TOKEN": "leonard"}, {"X": 50.216678619384766, "Y": 34.04111099243164, "TOKEN": "sammy"}, {"X": 20.34654426574707, "Y": 32.40589904785156, "TOKEN": "sent"}, {"X": 39.790897369384766, "Y": 8.276704788208008, "TOKEN": "gerald"}, {"X": -19.721298217773438, "Y": 46.27766799926758, "TOKEN": "mim"}, {"X": 47.98031234741211, "Y": 35.79792404174805, "TOKEN": "lovelace"}, {"X": 8.487677574157715, "Y": 82.94029998779297, "TOKEN": "condemn"}, {"X": -6.186466217041016, "Y": 11.428539276123047, "TOKEN": "spry"}, {"X": 53.98406982421875, "Y": -9.48531436920166, "TOKEN": "alley"}, {"X": -48.51509475708008, "Y": -55.85635757446289, "TOKEN": "loved"}, {"X": -33.20085144042969, "Y": -49.665679931640625, "TOKEN": "thereto"}, {"X": -19.909910202026367, "Y": -1.744773507118225, "TOKEN": "noto"}, {"X": 22.255136489868164, "Y": -3.4818122386932373, "TOKEN": "ministers"}, {"X": -13.058439254760742, "Y": -77.34706115722656, "TOKEN": "marche"}, {"X": 28.28786277770996, "Y": -64.22432708740234, "TOKEN": "cassidy"}, {"X": 83.11421966552734, "Y": 21.11771011352539, "TOKEN": "album"}, {"X": 80.088134765625, "Y": 2.1271276473999023, "TOKEN": "feeling"}, {"X": 27.7108154296875, "Y": -61.93539810180664, "TOKEN": "parental"}, {"X": -10.925180435180664, "Y": 2.2370107173919678, "TOKEN": "johannes"}, {"X": 47.194332122802734, "Y": 34.133323669433594, "TOKEN": "moody"}, {"X": 38.918800354003906, "Y": -37.70933151245117, "TOKEN": "click"}, {"X": -15.061928749084473, "Y": -49.074520111083984, "TOKEN": "implore"}, {"X": -35.64772033691406, "Y": -36.612548828125, "TOKEN": "gavel"}, {"X": 41.915462493896484, "Y": 41.51777267456055, "TOKEN": "tenacity"}, {"X": -60.21207046508789, "Y": -16.795276641845703, "TOKEN": "hagele"}, {"X": 17.09191131591797, "Y": -57.15317916870117, "TOKEN": "hesitant"}, {"X": 9.58546257019043, "Y": 55.87252426147461, "TOKEN": "chaperon"}, {"X": -21.040271759033203, "Y": -18.3548583984375, "TOKEN": "disrupt"}, {"X": -57.70547103881836, "Y": -41.388404846191406, "TOKEN": "susya"}, {"X": -23.860797882080078, "Y": -29.565834045410156, "TOKEN": "ecumenical"}, {"X": 12.32252025604248, "Y": 34.638973236083984, "TOKEN": "prejudicial"}, {"X": 40.233463287353516, "Y": 6.295865535736084, "TOKEN": "minneapolis"}, {"X": 28.980012893676758, "Y": -43.04945755004883, "TOKEN": "critically"}]}}, {"mode": "vega-lite"});
+</script></div></div>
+</div>
+</div>
+<div class="section" id="word-analogies">
+<h3><span class="section-number">4.3.2. </span>Word analogies<a class="headerlink" href="#word-analogies" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="model-exploration-ii-document-similarity">
+<h2><span class="section-number">4.4. </span>Model Exploration II: Document Similarity<a class="headerlink" href="#model-exploration-ii-document-similarity" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">doc</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">]</span>
+<span class="n">mean_embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mean_embeddings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reduced_docs</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span>
+    <span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+    <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> 
+    <span class="n">init</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">,</span> 
+    <span class="n">angle</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">357</span>
+<span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">mean_embeddings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">document_clusters</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">reduced_docs</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">])</span>
+<span class="n">document_clusters</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">document_clusters</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="s1">&#39;NAME&#39;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">650</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">650</span><span class="p">)</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+<div id="altair-viz-d834cd47afe846aea8b5f1af974fd66d"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-d834cd47afe846aea8b5f1af974fd66d") {
+      outputDiv = document.getElementById("altair-viz-d834cd47afe846aea8b5f1af974fd66d");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-e1e7add7203b84e6a731049dc26745a6"}, "mark": {"type": "circle", "size": 30}, "encoding": {"tooltip": {"field": "NAME", "type": "nominal"}, "x": {"field": "X", "type": "quantitative"}, "y": {"field": "Y", "type": "quantitative"}}, "height": 650, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "width": 650, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-e1e7add7203b84e6a731049dc26745a6": [{"X": 1.0436769723892212, "Y": -15.223711013793945, "NAME": "Ada Lovelace"}, {"X": 5.383549213409424, "Y": -10.282012939453125, "NAME": "Robert E Lee"}, {"X": -1.290680170059204, "Y": -11.188051223754883, "NAME": "Andrew Johnson"}, {"X": 3.0237860679626465, "Y": -13.581714630126953, "NAME": "Bedford Forrest"}, {"X": 1.020272135734558, "Y": 7.249014854431152, "NAME": "Lucretia Mott"}, {"X": -4.026670932769775, "Y": 13.301169395446777, "NAME": "Charles Darwin"}, {"X": -1.377792239189148, "Y": 27.354766845703125, "NAME": "Ulysses Grant"}, {"X": 1.478208065032959, "Y": 17.831684112548828, "NAME": "Mary Ewing Outerbridge"}, {"X": 10.058887481689453, "Y": 18.410640716552734, "NAME": "Emma Lazarus"}, {"X": -0.6508902311325073, "Y": -13.222214698791504, "NAME": "Louisa M Alcott"}, {"X": 2.2051947116851807, "Y": -14.771252632141113, "NAME": "P T Barnum"}, {"X": -5.110454559326172, "Y": -6.691699981689453, "NAME": "R L Stevenson"}, {"X": 7.692688941955566, "Y": -10.349786758422852, "NAME": "Fred Douglass"}, {"X": -2.3114097118377686, "Y": 9.757878303527832, "NAME": "Harriet Beecher Stowe"}, {"X": -10.342584609985352, "Y": 6.3722147941589355, "NAME": "Stephen Crane"}, {"X": -11.133955955505371, "Y": -18.649520874023438, "NAME": "Nietzsche"}, {"X": -7.794493675231934, "Y": 12.800591468811035, "NAME": "William McKinley"}, {"X": 7.088996887207031, "Y": 9.696410179138184, "NAME": "Queen Victoria"}, {"X": -0.07400007545948029, "Y": 22.88347625732422, "NAME": "Benjamin Harrison"}, {"X": -4.241641998291016, "Y": -14.379605293273926, "NAME": "Elizabeth Cady Stanton"}, {"X": 10.36722183227539, "Y": -0.9320990443229675, "NAME": "James M N Whistler"}, {"X": -2.1550612449645996, "Y": -1.4133614301681519, "NAME": "Emily Warren Roebling"}, {"X": -9.055768966674805, "Y": -7.74592399597168, "NAME": "Susan B Anthony"}, {"X": 12.725931167602539, "Y": -9.481352806091309, "NAME": "Qiu Jin"}, {"X": 6.293872833251953, "Y": 21.665159225463867, "NAME": "Cleveland"}, {"X": -8.769759178161621, "Y": -19.32776641845703, "NAME": "Sarah Orne Jewett"}, {"X": 1.9169647693634033, "Y": 6.467153549194336, "NAME": "Geronimo"}, {"X": -9.259706497192383, "Y": 3.5702877044677734, "NAME": "William James"}, {"X": 12.5375337600708, "Y": -7.37875509262085, "NAME": "Florence Nightingale"}, {"X": 6.759349822998047, "Y": 13.68262004852295, "NAME": "Tolstoy"}, {"X": -1.6633415222167969, "Y": 20.478275299072266, "NAME": "Joseph Pulitzer"}, {"X": -1.07438063621521, "Y": 21.250423431396484, "NAME": "John P Holland"}, {"X": -6.83270263671875, "Y": -19.679899215698242, "NAME": "Alfred Thayer Mahan"}, {"X": -0.856480062007904, "Y": -15.73010540008545, "NAME": "John Muir"}, {"X": -2.1905570030212402, "Y": 0.7397403120994568, "NAME": "F W Taylor"}, {"X": 3.522453784942627, "Y": 6.4137282371521, "NAME": "B T Washington"}, {"X": 4.834399700164795, "Y": -15.093713760375977, "NAME": "J J Hill"}, {"X": -14.705832481384277, "Y": -13.825225830078125, "NAME": "Jack London"}, {"X": -12.452920913696289, "Y": -14.820978164672852, "NAME": "Martian Theory"}, {"X": -11.36883544921875, "Y": 5.980419635772705, "NAME": "Hilaire G E Degas"}, {"X": 4.080256462097168, "Y": -0.11896390467882156, "NAME": "C J Walker"}, {"X": 3.5216822624206543, "Y": -15.521769523620605, "NAME": "Carnegie Started"}, {"X": 6.051353454589844, "Y": 6.662660598754883, "NAME": "Anna H Shaw"}, {"X": 12.148126602172852, "Y": -8.186203956604004, "NAME": "Marlene Dietrich"}, {"X": -0.4620097577571869, "Y": -7.794965744018555, "NAME": "Nellie Bly"}, {"X": 4.704814434051514, "Y": -10.498473167419434, "NAME": "Alexander Graham Bell"}, {"X": -1.556540846824646, "Y": 0.8289863467216492, "NAME": "Warren Harding"}, {"X": -10.828200340270996, "Y": -14.564764976501465, "NAME": "Harry Houdini"}, {"X": 2.3496570587158203, "Y": -10.114822387695312, "NAME": "Victoria Martin"}, {"X": 1.1388108730316162, "Y": 14.868206977844238, "NAME": "Mabel Craty"}, {"X": 2.2309911251068115, "Y": 16.284982681274414, "NAME": "Marie Curie"}, {"X": -10.139142036437988, "Y": 5.008787155151367, "NAME": "Balfour"}, {"X": 6.85632848739624, "Y": 16.561725616455078, "NAME": "Elmer Sperry"}, {"X": -2.526794672012329, "Y": -13.128914833068848, "NAME": "William Howard Taft"}, {"X": 1.0987613201141357, "Y": 26.910018920898438, "NAME": "Conan Doyle"}, {"X": -2.7894461154937744, "Y": 10.659319877624512, "NAME": "Ida B Wells"}, {"X": 13.334440231323242, "Y": -5.778804302215576, "NAME": "Melvil Dewey"}, {"X": 8.041815757751465, "Y": -14.52861213684082, "NAME": "Thomas Edison"}, {"X": -9.044207572937012, "Y": -17.088911056518555, "NAME": "Knute Rocke"}, {"X": 0.8969491124153137, "Y": 26.025964736938477, "NAME": "John Philip Sousa"}, {"X": 0.7644451260566711, "Y": -3.646244764328003, "NAME": "Florenz Ziegfeld"}, {"X": -9.710164070129395, "Y": -14.752138137817383, "NAME": "Calvin Coolidge"}, {"X": -7.5564141273498535, "Y": -20.13295555114746, "NAME": "Ring Lardner"}, {"X": -3.993804931640625, "Y": 12.029212951660156, "NAME": "Louis C Tiffany"}, {"X": -7.873703956604004, "Y": -15.591748237609863, "NAME": "T A Watson"}, {"X": -3.897186756134033, "Y": -13.409420013427734, "NAME": "Justice Holmes"}, {"X": 1.6930077075958252, "Y": -15.938042640686035, "NAME": "Jane Addams"}, {"X": -6.361776828765869, "Y": -10.3412446975708, "NAME": "Will Rogers"}, {"X": 6.646432399749756, "Y": 2.765641212463379, "NAME": "Adolph S Ochs"}, {"X": -5.499648571014404, "Y": 9.466191291809082, "NAME": "Anne Macy"}, {"X": 4.095733642578125, "Y": 9.499251365661621, "NAME": "John W Heisman"}, {"X": -0.8279978632926941, "Y": -1.7104637622833252, "NAME": "Maxim Gorky"}, {"X": 5.485657215118408, "Y": -1.2363109588623047, "NAME": "Maurice Ravel"}, {"X": -11.29272747039795, "Y": -15.977848052978516, "NAME": "Edith Wharton"}, {"X": 11.858955383300781, "Y": -4.784594535827637, "NAME": "John Rockefeller"}, {"X": 3.9296398162841797, "Y": 14.23450756072998, "NAME": "Clarence Darrow"}, {"X": -2.4305176734924316, "Y": -6.739629745483398, "NAME": "George E Hale"}, {"X": -7.335700988769531, "Y": -13.853321075439453, "NAME": "Constantin Stanislavsky"}, {"X": -2.204374074935913, "Y": -5.85352087020874, "NAME": "W B Yeats"}, {"X": -2.614017963409424, "Y": 22.908620834350586, "NAME": "Pope Pius XI"}, {"X": 5.050683975219727, "Y": 2.9108428955078125, "NAME": "Howard Carter"}, {"X": -13.271931648254395, "Y": -15.500670433044434, "NAME": "Scott Fitzgerald"}, {"X": -10.52569580078125, "Y": 3.3811984062194824, "NAME": "Marcus Garvey"}, {"X": 5.269814968109131, "Y": -3.73801326751709, "NAME": "Frank Conrad"}, {"X": 4.089005947113037, "Y": 7.032678604125977, "NAME": "Lou Gehrig"}, {"X": -1.375449299812317, "Y": -10.525741577148438, "NAME": "James Joyce"}, {"X": 5.683528900146484, "Y": 23.083131790161133, "NAME": "Virginia Woolf"}, {"X": 3.742851495742798, "Y": -16.5231990814209, "NAME": "George M Cohan"}, {"X": -9.839826583862305, "Y": -12.306705474853516, "NAME": "J H Kellogg"}, {"X": 3.6419577598571777, "Y": 8.707935333251953, "NAME": "George Washington Carver"}, {"X": 6.502083778381348, "Y": 0.446593701839447, "NAME": "Alfred E Smith"}, {"X": 9.570975303649902, "Y": 15.308117866516113, "NAME": "Ida M Tarbell"}, {"X": 7.097512722015381, "Y": 3.474794864654541, "NAME": "Ernie Pyle"}, {"X": 12.605866432189941, "Y": -5.301804542541504, "NAME": "Harry S Truman"}, {"X": -2.7543137073516846, "Y": 8.049945831298828, "NAME": "George Patton"}, {"X": -2.568493366241455, "Y": -8.866106986999512, "NAME": "FDR"}, {"X": 8.445205688476562, "Y": 16.070669174194336, "NAME": "Jerome Kern"}, {"X": 7.084424018859863, "Y": -7.1400275230407715, "NAME": "Adolf Hitler"}, {"X": 9.22289752960205, "Y": 16.20072364807129, "NAME": "Bela Bartok"}, {"X": -9.099610328674316, "Y": -12.583551406860352, "NAME": "Gertrude Stein"}, {"X": 6.208930969238281, "Y": 20.67906379699707, "NAME": "Lord Keynes"}, {"X": 6.3162055015563965, "Y": 18.842487335205078, "NAME": "C E M Clung"}, {"X": -2.6547000408172607, "Y": 24.42755126953125, "NAME": "Willa Cather"}, {"X": 2.1999781131744385, "Y": 22.763856887817383, "NAME": "Al Capone"}, {"X": 5.641637325286865, "Y": 3.8804991245269775, "NAME": "Fiorello La Guardia"}, {"X": 5.137564182281494, "Y": 17.84491539001465, "NAME": "Max Planck"}, {"X": 1.0944336652755737, "Y": 25.01394271850586, "NAME": "Henry Ford"}, {"X": 9.782977104187012, "Y": -7.788779258728027, "NAME": "John Pershing"}, {"X": 4.258543491363525, "Y": 16.542648315429688, "NAME": "Sergei Eisenstein"}, {"X": 5.991433143615723, "Y": -12.898764610290527, "NAME": "Mohandas K Gandhi"}, {"X": 0.13228587806224823, "Y": -12.837425231933594, "NAME": "Babe Ruth"}, {"X": -0.8084169030189514, "Y": 2.639737606048584, "NAME": "Mitchell"}, {"X": -14.526588439941406, "Y": -15.932612419128418, "NAME": "A J Dempster"}, {"X": 9.212106704711914, "Y": -12.098580360412598, "NAME": "Edna St V Millay"}, {"X": -1.028628945350647, "Y": -2.4556171894073486, "NAME": "Henry L Stimson"}, {"X": 9.11909294128418, "Y": -1.8836015462875366, "NAME": "Fanny Brice"}, {"X": 0.3956589102745056, "Y": 24.502161026000977, "NAME": "Henrietta Lacks"}, {"X": 2.6748898029327393, "Y": -1.831681489944458, "NAME": "Eva Peron"}, {"X": 10.439915657043457, "Y": -12.365999221801758, "NAME": "John Dewey"}, {"X": -2.131946563720703, "Y": 18.0556583404541, "NAME": "Chaim Weizmann"}, {"X": 8.633319854736328, "Y": -11.004733085632324, "NAME": "Charles Spaulding"}, {"X": -8.118708610534668, "Y": -11.029777526855469, "NAME": "Fred Vinson"}, {"X": -11.632328033447266, "Y": 4.65457820892334, "NAME": "Marjorie Rawlings"}, {"X": -9.573351860046387, "Y": -16.186532974243164, "NAME": "Joseph Stalin"}, {"X": -5.113715171813965, "Y": -11.51323127746582, "NAME": "Jim Thorpe"}, {"X": 8.687108993530273, "Y": 0.065888911485672, "NAME": "Eugene O Neill"}, {"X": 2.1378707885742188, "Y": 19.810993194580078, "NAME": "Anne O Hare McCormick"}, {"X": 9.079408645629883, "Y": -14.853802680969238, "NAME": "Frida Kahlo"}, {"X": 7.441279888153076, "Y": 20.945297241210938, "NAME": "Getulio Vargas"}, {"X": 3.1944022178649902, "Y": 26.10591697692871, "NAME": "Enrico Fermi"}, {"X": 9.494955062866211, "Y": -13.697184562683105, "NAME": "Henri Matisse"}, {"X": 7.131191730499268, "Y": 22.356224060058594, "NAME": "Liberty H Bailey"}, {"X": -10.727275848388672, "Y": -0.012220660224556923, "NAME": "Lionel Barrymore"}, {"X": 1.0301129817962646, "Y": -11.80627155303955, "NAME": "Thomas Mann"}, {"X": 11.495288848876953, "Y": -8.49572467803955, "NAME": "Albert Einstein"}, {"X": -1.4167661666870117, "Y": 19.281234741210938, "NAME": "Margaret Abbott"}, {"X": -0.002716809744015336, "Y": 24.93377113342285, "NAME": "Walter White"}, {"X": 6.212245941162109, "Y": -6.646781921386719, "NAME": "Cy Young"}, {"X": 8.429659843444824, "Y": 15.278668403625488, "NAME": "Dale Carnegie"}, {"X": -2.639944314956665, "Y": -11.630813598632812, "NAME": "Babe Zaharias"}, {"X": 6.078996658325195, "Y": 19.540128707885742, "NAME": "Charles Merrill"}, {"X": 2.7877938747406006, "Y": 1.7520911693572998, "NAME": "Thomas J Watson Sr"}, {"X": 6.288692951202393, "Y": -10.069703102111816, "NAME": "Gerard Swope"}, {"X": -2.9850738048553467, "Y": -17.025129318237305, "NAME": "Christian Dior"}, {"X": -6.661557674407959, "Y": 13.083443641662598, "NAME": "W C Handy"}, {"X": -10.467887878417969, "Y": 2.126265287399292, "NAME": "Billie Holiday"}, {"X": -0.41775840520858765, "Y": -3.242154598236084, "NAME": "Frank Lloyd Wright"}, {"X": 5.721298694610596, "Y": 0.570527195930481, "NAME": "Ethel Barrymore"}, {"X": -3.30462384223938, "Y": 6.736757755279541, "NAME": "Cecil De Mille"}, {"X": 5.5198493003845215, "Y": 24.71673583984375, "NAME": "Ross G Harrison"}, {"X": 7.96347713470459, "Y": 22.13810157775879, "NAME": "John Dulles"}, {"X": -9.354832649230957, "Y": -18.379491806030273, "NAME": "Boris Pasternak"}, {"X": -11.522795677185059, "Y": -13.587068557739258, "NAME": "Beno Gutenberg"}, {"X": 6.362788677215576, "Y": 17.684202194213867, "NAME": "Emily Post"}, {"X": -0.4585287272930145, "Y": 10.373298645019531, "NAME": "Richard Wright"}, {"X": -2.2572953701019287, "Y": -12.130806922912598, "NAME": "Hammarskjold"}, {"X": 6.403804779052734, "Y": -12.289825439453125, "NAME": "Ernest Hemingway"}, {"X": -5.83218240737915, "Y": -5.056324005126953, "NAME": "Primitive Artist"}, {"X": -3.9642906188964844, "Y": -14.878534317016602, "NAME": "Emily Balch"}, {"X": 5.151905536651611, "Y": 5.438796520233154, "NAME": "Sam Rayburn"}, {"X": 13.05613899230957, "Y": -6.919816493988037, "NAME": "Carl G Jung"}, {"X": -6.052615642547607, "Y": -17.44904136657715, "NAME": "Marilyn Monroe"}, {"X": 6.786091327667236, "Y": -7.693351745605469, "NAME": "Eleanor Roosevelt"}, {"X": 8.379753112792969, "Y": -9.120463371276855, "NAME": "William Faulkner"}, {"X": -4.311144828796387, "Y": 15.169633865356445, "NAME": "Sylvia Plath"}, {"X": -6.216962814331055, "Y": -19.968765258789062, "NAME": "John F Kennedy"}, {"X": 2.094639301300049, "Y": 25.781824111938477, "NAME": "Robert Frost"}, {"X": 3.7079367637634277, "Y": -14.739221572875977, "NAME": "W E B DuBois"}, {"X": -1.9667224884033203, "Y": 11.13024616241455, "NAME": "Herbert Hoover"}, {"X": -5.123528003692627, "Y": 14.497893333435059, "NAME": "Douglas MacArthur"}, {"X": 5.164449214935303, "Y": 20.187711715698242, "NAME": "Sean O Casey"}, {"X": -1.3600318431854248, "Y": -14.70390796661377, "NAME": "Rachel Carson"}, {"X": -8.343953132629395, "Y": -6.254578113555908, "NAME": "Cole Porter"}, {"X": -4.999648571014404, "Y": -14.150384902954102, "NAME": "Nella Larsen"}, {"X": 1.117016077041626, "Y": -5.40985631942749, "NAME": "Adlai Ewing Stevenson"}, {"X": -9.85092544555664, "Y": -1.8103007078170776, "NAME": "David O Selznick"}, {"X": 1.2580753564834595, "Y": 9.504045486450195, "NAME": "Churchill"}, {"X": 6.444395542144775, "Y": 12.018608093261719, "NAME": "Branch Rickey"}, {"X": -5.527791976928711, "Y": -16.458669662475586, "NAME": "Martin Buber"}, {"X": -0.4246808886528015, "Y": -6.507030010223389, "NAME": "Edward R Murrow"}, {"X": -6.749246597290039, "Y": 14.056851387023926, "NAME": "Albert Schweitzer"}, {"X": -5.075278282165527, "Y": -13.885205268859863, "NAME": "Shirley Jackson"}, {"X": 8.724000930786133, "Y": -9.625048637390137, "NAME": "Margaret Sanger"}, {"X": -4.31027364730835, "Y": -5.9203619956970215, "NAME": "Chester Nimitz"}, {"X": 3.4032113552093506, "Y": 15.072368621826172, "NAME": "Buster Keaton"}, {"X": -0.8412348628044128, "Y": 11.201543807983398, "NAME": "Lenny Bruce"}, {"X": 3.0785257816314697, "Y": 24.843334197998047, "NAME": "Walt Disney"}, {"X": 6.020773410797119, "Y": 1.7138787508010864, "NAME": "Alfred P Sloan Jr"}, {"X": -6.299282550811768, "Y": -7.46948766708374, "NAME": "Gregory Pincus"}, {"X": 8.861178398132324, "Y": -3.1377363204956055, "NAME": "Henry R Luce"}, {"X": 5.35988187789917, "Y": 3.6434152126312256, "NAME": "Langston Hughes"}, {"X": -12.346123695373535, "Y": -13.257552146911621, "NAME": "J Robert Oppenheimer"}, {"X": 9.631209373474121, "Y": -1.4002001285552979, "NAME": "Robert Francis Kennedy"}, {"X": 4.952964782714844, "Y": 23.02256965637207, "NAME": "Helen Keller"}, {"X": 6.089046955108643, "Y": 14.098881721496582, "NAME": "Upton Sinclair"}, {"X": 5.973411560058594, "Y": 5.098936080932617, "NAME": "Martin Luther King Jr"}, {"X": 7.922730445861816, "Y": 14.240031242370605, "NAME": "Yuri Gagarin"}, {"X": 4.647147178649902, "Y": 13.79348373413086, "NAME": "Mies van der Rohe"}, {"X": -6.756107330322266, "Y": 6.394549369812012, "NAME": "David Eisenhower"}, {"X": -0.07486123591661453, "Y": -1.538686752319336, "NAME": "Coleman Hawkins"}, {"X": -11.197665214538574, "Y": -12.13691234588623, "NAME": "Madhubala"}, {"X": -3.6898717880249023, "Y": 9.128800392150879, "NAME": "Judy Garland"}, {"X": 5.980682849884033, "Y": 16.117263793945312, "NAME": "Maureen Connolly"}, {"X": -3.932814121246338, "Y": 14.333466529846191, "NAME": "Ho Chi Minh"}, {"X": -0.03239036351442337, "Y": 27.76180648803711, "NAME": "Sonja Henie"}, {"X": 1.6110117435455322, "Y": 26.67952537536621, "NAME": "Everett Dirksen"}, {"X": 1.5595920085906982, "Y": 15.674195289611816, "NAME": "Walter Reuther"}, {"X": 10.07560920715332, "Y": -9.303274154663086, "NAME": "Edouard Daladier"}, {"X": 8.289923667907715, "Y": -6.935177803039551, "NAME": "Erich Maria Remarque"}, {"X": -0.9263541102409363, "Y": -6.849827289581299, "NAME": "De Gaulle Rallied"}, {"X": -3.2779736518859863, "Y": 15.878786087036133, "NAME": "Coco Chanel"}, {"X": -12.243185043334961, "Y": -4.126824855804443, "NAME": "Florence Blanchfield"}, {"X": -0.3350420296192169, "Y": 1.6660304069519043, "NAME": "Khrushchev"}, {"X": 4.596048355102539, "Y": 0.5407874584197998, "NAME": "Diane Arbus"}, {"X": 4.178346157073975, "Y": 15.242536544799805, "NAME": "Ralph Bunche"}, {"X": 2.3874051570892334, "Y": -9.691572189331055, "NAME": "Bobby Jones"}, {"X": -2.0054121017456055, "Y": -4.7071146965026855, "NAME": "Louis Armstrong"}, {"X": -3.7021992206573486, "Y": 11.123576164245605, "NAME": "Dean Acheson"}, {"X": -10.301267623901367, "Y": -0.9941145777702332, "NAME": "Igor Stravinsky"}, {"X": 9.75674819946289, "Y": 16.45220947265625, "NAME": "Hugo Black"}, {"X": 3.9214017391204834, "Y": -8.460508346557617, "NAME": "Mahalia Jackson"}, {"X": 6.3440656661987305, "Y": 13.598991394042969, "NAME": "Jackie Robinson"}, {"X": -3.5963571071624756, "Y": 23.049530029296875, "NAME": "The Duke of Windsor"}, {"X": 1.9652271270751953, "Y": 7.888441562652588, "NAME": "J Edgar Hoover"}, {"X": -2.2226080894470215, "Y": 15.595157623291016, "NAME": "Lyndon Johnson"}, {"X": -1.3560686111450195, "Y": 12.751185417175293, "NAME": "Otto Klemperer"}, {"X": -6.308718681335449, "Y": -11.097999572753906, "NAME": "Eddie Rickenbacker"}, {"X": 8.17159652709961, "Y": 2.5151875019073486, "NAME": "Jeanette Rankin"}, {"X": -10.762091636657715, "Y": -17.130184173583984, "NAME": "Pablo Picasso"}, {"X": 0.14750425517559052, "Y": 26.141632080078125, "NAME": "Roberto Clemente"}, {"X": 5.277431964874268, "Y": -9.730001449584961, "NAME": "Nancy Mitford"}, {"X": -0.6325147747993469, "Y": -4.852507591247559, "NAME": "Earl Warren"}, {"X": -4.666232585906982, "Y": -16.018171310424805, "NAME": "Sylvia Plath"}, {"X": 4.754003524780273, "Y": 16.522294998168945, "NAME": "Ed Sullivan"}, {"X": 9.152490615844727, "Y": 0.45481643080711365, "NAME": "Katharine Cornell"}, {"X": -14.57042121887207, "Y": -12.675127983093262, "NAME": "Charles Lindbergh"}, {"X": 0.26663893461227417, "Y": 11.678983688354492, "NAME": "Haile Selassie"}, {"X": -1.2092841863632202, "Y": 17.642078399658203, "NAME": "Elijah Muhammad"}, {"X": 1.3723777532577515, "Y": -3.8246009349823, "NAME": "Franco"}, {"X": -14.9567289352417, "Y": -12.265606880187988, "NAME": "Walker Evans"}, {"X": -7.909224033355713, "Y": 8.740509033203125, "NAME": "Chiang Kai shek"}, {"X": -5.284765720367432, "Y": 7.901132106781006, "NAME": "J Paul Getty"}, {"X": -3.5172317028045654, "Y": 20.205066680908203, "NAME": "Mao Tse Tung"}, {"X": 2.9203426837921143, "Y": -1.9803661108016968, "NAME": "Max Ernst"}, {"X": 2.3462820053100586, "Y": 21.488304138183594, "NAME": "Richard Daley"}, {"X": 6.2664103507995605, "Y": -5.310492515563965, "NAME": "Jacques Monod"}, {"X": 1.9866939783096313, "Y": 22.042776107788086, "NAME": "Adolph Zukor"}, {"X": -10.696894645690918, "Y": -2.154268503189087, "NAME": "Charles Chaplin"}, {"X": -0.8723302483558655, "Y": 0.9435485005378723, "NAME": "Joan Crawford"}, {"X": -0.4343777298927307, "Y": -17.667673110961914, "NAME": "Dash Ended"}, {"X": 7.729554176330566, "Y": -11.515883445739746, "NAME": "Maria Callas"}, {"X": -1.279685378074646, "Y": -3.8005738258361816, "NAME": "Golda Meir"}, {"X": -10.607656478881836, "Y": -12.26959228515625, "NAME": "Margaret Mead"}, {"X": 2.1903724670410156, "Y": 9.091689109802246, "NAME": "Pope Paul VI"}, {"X": 1.1706602573394775, "Y": 21.508102416992188, "NAME": "Bruce Catton"}, {"X": 0.13131874799728394, "Y": 20.5705509185791, "NAME": "Arthur Fiedler"}, {"X": -3.3551831245422363, "Y": 0.11557658016681671, "NAME": "John Wayne"}, {"X": 9.388587951660156, "Y": -2.7003748416900635, "NAME": "A Philip Randolph"}, {"X": -4.260419845581055, "Y": 2.2187445163726807, "NAME": "Stan Kenton"}, {"X": -11.197530746459961, "Y": 5.136904239654541, "NAME": "Richard Rodgers"}, {"X": 6.057537078857422, "Y": -2.8414523601531982, "NAME": "Jesse Owens"}, {"X": 5.904903411865234, "Y": 15.303786277770996, "NAME": "Alfred Hitchcock"}, {"X": 1.1766260862350464, "Y": 13.046588897705078, "NAME": "Jean Piaget"}, {"X": 7.573462009429932, "Y": 4.125914096832275, "NAME": "Jean Paul Sartre"}, {"X": -6.844695568084717, "Y": -13.56397819519043, "NAME": "Joe Louis"}, {"X": -3.512342929840088, "Y": 16.46470832824707, "NAME": "Robert Moses"}, {"X": 0.167233407497406, "Y": -11.267369270324707, "NAME": "Anwar el Sadat"}, {"X": -5.588684558868408, "Y": 1.9353820085525513, "NAME": "Ingrid Bergman"}, {"X": -9.771127700805664, "Y": -3.068976879119873, "NAME": "Anna Freud"}, {"X": 5.590599060058594, "Y": 2.119602680206299, "NAME": "Leonid Brezhnev"}, {"X": 0.7906122207641602, "Y": 22.401227951049805, "NAME": "Arthur Rubinstein"}, {"X": 3.786034345626831, "Y": 13.366616249084473, "NAME": "Thelonious Monk"}, {"X": -3.3228890895843506, "Y": -14.72812271118164, "NAME": "Lee Strasberg"}, {"X": -2.5067827701568604, "Y": 11.89478588104248, "NAME": "Satchel Paige"}, {"X": 5.656765460968018, "Y": 9.324530601501465, "NAME": "Jack Dempsey"}, {"X": -11.932147026062012, "Y": -12.708353996276855, "NAME": "Earl Hines"}, {"X": -0.09997892379760742, "Y": -4.0916876792907715, "NAME": "Muddy Waters"}, {"X": -0.8437759280204773, "Y": 26.54743766784668, "NAME": "Truman Capote"}, {"X": 3.1713578701019287, "Y": 23.126811981201172, "NAME": "Lillian Hellman"}, {"X": 7.507084846496582, "Y": -9.557318687438965, "NAME": "Johnny Weissmuller"}, {"X": 8.041820526123047, "Y": -8.164898872375488, "NAME": "Ansel Adams"}, {"X": -9.119455337524414, "Y": -15.935946464538574, "NAME": "Ethel Merman"}, {"X": 0.6934753656387329, "Y": 19.847103118896484, "NAME": "Indira Gandhi"}, {"X": -4.006731986999512, "Y": -7.116915702819824, "NAME": "Ray A Kroc"}, {"X": -9.851380348205566, "Y": 3.5370850563049316, "NAME": "Richard Burton"}, {"X": 7.367025375366211, "Y": 8.820770263671875, "NAME": "Count Basie"}, {"X": -6.227736473083496, "Y": 8.974373817443848, "NAME": "E B White"}, {"X": -8.43613338470459, "Y": -9.328516006469727, "NAME": "Orson Welles"}, {"X": -11.755339622497559, "Y": -1.8155064582824707, "NAME": "Roger Maris"}, {"X": 6.360649108886719, "Y": 22.59564208984375, "NAME": "James Cagney"}, {"X": -7.82750129699707, "Y": 1.7875560522079468, "NAME": "Georgia O Keeffe"}, {"X": 8.619837760925293, "Y": -0.810996413230896, "NAME": "Benny Goodman"}, {"X": 7.596767902374268, "Y": 18.35074806213379, "NAME": "Jorge Luis Borges"}, {"X": 0.5519703030586243, "Y": 0.2812604010105133, "NAME": "Bernard Malamud"}, {"X": -6.960808753967285, "Y": -12.315520286560059, "NAME": "Kate Smith"}, {"X": 0.2708933353424072, "Y": 2.3820066452026367, "NAME": "The Challenger"}, {"X": 12.329655647277832, "Y": -6.041660308837891, "NAME": "Primo Levi"}, {"X": -8.404129028320312, "Y": 10.64516544342041, "NAME": "Clare Boothe Luce"}, {"X": 4.571316719055176, "Y": 24.989273071289062, "NAME": "John Huston"}, {"X": -5.13675594329834, "Y": -12.280736923217773, "NAME": "Rita Hayworth"}, {"X": -3.374476432800293, "Y": 23.585521697998047, "NAME": "James Baldwin"}, {"X": -9.763059616088867, "Y": -13.57807731628418, "NAME": "Alf Landon"}, {"X": -6.488427639007568, "Y": 8.2061128616333, "NAME": "Andres Segovie"}, {"X": -2.849259376525879, "Y": 14.88258171081543, "NAME": "John Houseman"}, {"X": -13.717127799987793, "Y": -14.301712036132812, "NAME": "Louis L Amour"}, {"X": -6.487420558929443, "Y": 13.437825202941895, "NAME": "William B Shockley"}, {"X": -11.855620384216309, "Y": -15.536904335021973, "NAME": "Lucille Ball"}, {"X": -8.286920547485352, "Y": -20.942968368530273, "NAME": "Robert Penn Warren"}, {"X": 2.1030261516571045, "Y": 2.794635534286499, "NAME": "Ferdinand Marcos"}, {"X": 4.82574987411499, "Y": 21.11410140991211, "NAME": "Andrei Sakharov"}, {"X": 3.7509632110595703, "Y": -0.6405109167098999, "NAME": "Andrei A Gromyko"}, {"X": -0.14160817861557007, "Y": 14.416807174682617, "NAME": "I F Stone"}, {"X": -5.848932266235352, "Y": 7.841504096984863, "NAME": "Vladimir Horowitz"}, {"X": 6.838354587554932, "Y": 21.295307159423828, "NAME": "Hirohito"}, {"X": 8.068072319030762, "Y": -12.430747985839844, "NAME": "August A Busch Jr"}, {"X": 12.859874725341797, "Y": -8.822162628173828, "NAME": "Claude Pepper"}, {"X": 13.60632610321045, "Y": -6.523247241973877, "NAME": "Samuel Beckett"}, {"X": 5.339972496032715, "Y": 21.823986053466797, "NAME": "Greta Garbo"}, {"X": 4.271132946014404, "Y": 25.886507034301758, "NAME": "Sammy Davis Jr"}, {"X": 0.24885694682598114, "Y": -2.8585197925567627, "NAME": "Leonard Bernstein"}, {"X": 3.095566749572754, "Y": -12.9882230758667, "NAME": "Erte"}, {"X": 3.6584432125091553, "Y": 22.23921012878418, "NAME": "Ralph David Abernathy"}, {"X": 1.451722264289856, "Y": -16.810476303100586, "NAME": "Rex Harrison"}, {"X": 6.726892471313477, "Y": -11.131365776062012, "NAME": "Frank Capra"}, {"X": 4.057788372039795, "Y": -9.829766273498535, "NAME": "Dr Seuss"}, {"X": 7.736639499664307, "Y": -15.022441864013672, "NAME": "Miles Davis"}, {"X": 3.834101915359497, "Y": 19.634014129638672, "NAME": "Martha Graham"}, {"X": 5.828018665313721, "Y": 0.027393613010644913, "NAME": "Leo Durocher"}, {"X": -2.875568151473999, "Y": 23.865259170532227, "NAME": "Peggy Ashcroft"}, {"X": -12.788631439208984, "Y": -3.0767416954040527, "NAME": "Alex Haley"}, {"X": -0.5767665505409241, "Y": 27.18853759765625, "NAME": "John Cage"}, {"X": 6.672269821166992, "Y": -2.668050765991211, "NAME": "Menachem Begin"}, {"X": -9.217378616333008, "Y": 0.5996947288513184, "NAME": "Shirley Booth"}, {"X": 4.038685321807861, "Y": 4.413459777832031, "NAME": "Isaac Asimov"}, {"X": -3.6488168239593506, "Y": -8.627212524414062, "NAME": "William Shawn"}, {"X": 8.829580307006836, "Y": -13.704151153564453, "NAME": "Marsha P Johnson"}, {"X": 4.030731201171875, "Y": 23.357906341552734, "NAME": "Thurgood Marshall"}, {"X": -3.208299160003662, "Y": -9.74979305267334, "NAME": "Federico Fellini"}, {"X": -4.907754898071289, "Y": -15.677129745483398, "NAME": "Cesar Chavez"}, {"X": 3.7105937004089355, "Y": -13.683820724487305, "NAME": "Carlos Montoya"}, {"X": -9.966906547546387, "Y": -16.75543212890625, "NAME": "Dizzy Gillespie"}, {"X": -4.194682598114014, "Y": 10.81047534942627, "NAME": "Arthur Ashe"}, {"X": -0.6912766098976135, "Y": 24.339914321899414, "NAME": "William Golding"}, {"X": -10.863993644714355, "Y": 6.0218353271484375, "NAME": "Albert Sabin"}, {"X": -8.193249702453613, "Y": -14.465853691101074, "NAME": "Thomas P O Neill Jr"}, {"X": -7.1795334815979, "Y": -7.30817985534668, "NAME": "Richard Nixon"}, {"X": -2.2373011112213135, "Y": 17.117815017700195, "NAME": "Erik Erikson"}, {"X": -0.1372995525598526, "Y": -11.697320938110352, "NAME": "Linus C Pauling"}, {"X": -7.982931613922119, "Y": -9.835973739624023, "NAME": "Jessica Tandy"}, {"X": -2.35196590423584, "Y": -9.358851432800293, "NAME": "Jan Tinbergen"}, {"X": -9.454625129699707, "Y": -9.930418014526367, "NAME": "Jacqueline Kennedy"}, {"X": -0.2976911962032318, "Y": -10.338869094848633, "NAME": "Jonas Salk"}, {"X": -7.164866924285889, "Y": -8.359651565551758, "NAME": "Alfred Eisenstaedt"}, {"X": 0.44934871792793274, "Y": -14.42134952545166, "NAME": "Ginger Rogers"}, {"X": 8.288678169250488, "Y": -3.7785067558288574, "NAME": "George Abbott"}, {"X": -8.815804481506348, "Y": -8.840317726135254, "NAME": "Yitzhak Rabin"}, {"X": 2.3075873851776123, "Y": 26.426050186157227, "NAME": "Carl Sagan"}, {"X": 3.492833375930786, "Y": -11.389487266540527, "NAME": "Timothy Leary"}, {"X": -10.23017406463623, "Y": 0.770767092704773, "NAME": "Gene Kelly"}, {"X": 3.523427963256836, "Y": 1.4044909477233887, "NAME": "Allen Ginsberg"}, {"X": -2.9603261947631836, "Y": 13.351034164428711, "NAME": "Deng Xiaoping"}, {"X": -1.3562345504760742, "Y": -5.35254430770874, "NAME": "James Stewart"}, {"X": 4.273073196411133, "Y": 0.994319498538971, "NAME": "Bob Kane"}, {"X": -5.7496466636657715, "Y": -17.19118881225586, "NAME": "Benjamin Spock"}, {"X": -0.089112788438797, "Y": -15.383134841918945, "NAME": "Helen Moody"}, {"X": 14.011716842651367, "Y": -7.474308013916016, "NAME": "Maureen O Sullivan"}, {"X": -8.684881210327148, "Y": -13.356754302978516, "NAME": "Theodore Schultz"}, {"X": -12.924578666687012, "Y": -14.87127685546875, "NAME": "Alan B Shepard Jr"}, {"X": -4.064189434051514, "Y": 2.099522113800049, "NAME": "Galina Ulanova"}, {"X": -0.5962370038032532, "Y": 23.618764877319336, "NAME": "Bella Abzug"}, {"X": 3.107308864593506, "Y": 16.491647720336914, "NAME": "Fred W Friendly"}, {"X": -0.7009455561637878, "Y": -0.27270063757896423, "NAME": "Frank Sinatra"}, {"X": 14.484105110168457, "Y": -7.071707725524902, "NAME": "Hassan II"}, {"X": 4.832225322723389, "Y": 7.597238063812256, "NAME": "Iris Murdoch"}, {"X": -7.952820301055908, "Y": -19.470478057861328, "NAME": "King Hussein"}, {"X": 9.815710067749023, "Y": 16.00504493713379, "NAME": "Pierre Trudeau"}, {"X": 5.490109920501709, "Y": -9.058749198913574, "NAME": "Elliot Richardson"}, {"X": -12.473901748657227, "Y": -17.117013931274414, "NAME": "Charles M Schulz"}, {"X": -5.807671546936035, "Y": -14.389679908752441, "NAME": "Karen Sparck Jones"}]}}, {"mode": "vega-lite"});
+</script></div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "nlp"
+        },
+        kernelOptions: {
+            kernelName: "nlp",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'nlp'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="03_classification-and-feature-engineering.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title"><span class="section-number">3. </span>Classification and Feature Engineering</p>
+            </div>
+        </a>
+    </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Tyler Shoemaker and Carl Stahmer<br/>
+        
+          <div class="extra_footer">
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg"> 
+</a>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
