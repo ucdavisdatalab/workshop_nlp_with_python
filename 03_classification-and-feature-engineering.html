@@ -379,7 +379,7 @@ lemmatizer
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x11fa683c8&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x1251a53c8&gt;
 </pre></div>
 </div>
 </div>
@@ -418,7 +418,7 @@ spacytextblob
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_94889</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_97302</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="k">assert</span> <span class="s1">&#39;ner&#39;</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">,</span> <span class="s1">&#39;Named entity recognition is no longer in the pipeline!&#39;</span>
@@ -488,7 +488,7 @@ spacytextblob
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x14eb496d8&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x139b026d8&gt;
 </pre></div>
 </div>
 </div>
@@ -666,7 +666,7 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 </div>
-<p>Not bad at all! In fact, this model is probably a little <em>too</em> good: those straight 1.00 readings likely indicate that the model is <a class="reference external" href="https://www.ibm.com/cloud/learn/overfitting">overfit</a>; you’ll almost never see something like this happen when working with your own data. This is almmost cetainly due to the hodgepodge nature of our corpus, wehre the divisions between different document classes is particularly clear. In such a scenario, the model has learned to distinguish idiosyncracies of our corpus, rather than certain general features about what, say, constitutes a short story vs. an abstract. There are a number of ways to mitigate this problem, ranging from pruning the vocabulary we use in our DTM to sending a model entirely different features. The rest of this chapter is dedicated to this latter strategy.</p>
+<p>Not bad at all! In fact, this model is probably a little <em>too</em> good: those straight 1.00 readings likely indicate that the model is <a class="reference external" href="https://www.ibm.com/cloud/learn/overfitting">overfit</a>; when you’re working with your own data, you’ll almost never see first round results like this. This is almost cetainly due to the hodgepodge nature of our corpus, wehre the divisions between different document classes is particularly clear. In such a scenario, the model has learned to distinguish idiosyncracies of our corpus, rather than certain general features about what, say, constitutes a short story vs. an abstract. There are a number of ways to mitigate this problem, ranging from pruning the vocabulary we use in our DTM to sending a model entirely different features. The rest of this chapter is dedicated to this latter strategy.</p>
 </div>
 <div class="section" id="feature-engineering">
 <h2><span class="section-number">3.4. </span>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h2>
@@ -765,44 +765,44 @@ weighted avg       0.97      0.96      0.96        77
   </thead>
   <tbody>
     <tr>
-      <th>42</th>
-      <td>2356</td>
-      <td>0.289898</td>
+      <th>6</th>
+      <td>3416</td>
+      <td>0.212822</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>29</th>
-      <td>3787</td>
-      <td>0.255083</td>
+      <th>38</th>
+      <td>3684</td>
+      <td>0.232356</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>57</th>
-      <td>284</td>
-      <td>0.580986</td>
+      <th>70</th>
+      <td>89</td>
+      <td>0.696629</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>118</th>
-      <td>41</td>
-      <td>0.731707</td>
+      <th>116</th>
+      <td>358</td>
+      <td>0.393855</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>254</th>
-      <td>638</td>
-      <td>0.362069</td>
+      <th>194</th>
+      <td>678</td>
+      <td>0.349558</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
     <tr>
-      <th>252</th>
-      <td>284</td>
-      <td>0.179577</td>
+      <th>229</th>
+      <td>1711</td>
+      <td>0.275278</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
@@ -1272,8 +1272,8 @@ weighted avg       0.96      0.96      0.96        77
           By Tyler Shoemaker and Carl Stahmer<br/>
         
           <div class="extra_footer">
-            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
-  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg"> 
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg"> 
 </a>
 
           </div>

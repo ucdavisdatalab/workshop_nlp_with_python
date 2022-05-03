@@ -222,50 +222,92 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spacy-language-models">
-   2.1. spaCy Language Models
+  <a class="reference internal nav-link" href="#nlp-vs-text-mining-in-brief">
+   2.1. NLP vs. Text Mining: In Brief
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data-structures">
+     2.1.1. Data structures
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-driven-methods">
+     2.1.2. Model-driven methods
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spacy-language-models">
+   2.2. spaCy Language Models
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spacy-pipelines">
+     2.2.1.
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       spaCy
+      </span>
+     </code>
+     pipelines
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#downloading-a-model">
+     2.2.2. Downloading a model
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#annotations">
-   2.2. Annotations
+   2.3. Annotations
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#document-annotations">
-     2.2.1. Document Annotations
+     2.3.1. Document Annotations
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#token-annotations">
-     2.2.2. Token Annotations
+     2.3.2. Token Annotations
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#part-of-speech-tagging">
-   2.3. Part-of-Speech Tagging
+   2.4. Part-of-Speech Tagging
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-case-word-sense-disambiguation">
+     2.4.1. Use case: word sense disambiguation
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#dependency-parsing">
-   2.4. Dependency Parsing
+   2.5. Dependency Parsing
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#putting-everything-together">
-   2.5. Putting Everything Together
+   2.6. Putting Everything Together
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#finding-lemmas">
-     2.5.1. Finding lemmas
+     2.6.1. Finding lemmas
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#verb-subject-relations">
-     2.5.2. Verb-subject relations
+     2.6.2. Verb-subject relations
     </a>
    </li>
   </ul>
@@ -283,7 +325,7 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="text-annotation-with-spacy">
 <h1><span class="section-number">2. </span>Text Annotation with spaCy<a class="headerlink" href="#text-annotation-with-spacy" title="Permalink to this headline">¶</a></h1>
-<p>TODO: introduce language models and spaCy’s take on them</p>
+<p>This chapter introduces workshop participants to the general field of natural language processing, or NLP. While NLP is often used interchangeably with text mining/analytics in introductory settings, the former differs in important ways from many of the core methods in the latter. We will highlight a few such differences over the course of this session, and then more generally throughout the workshop series as a whole.</p>
 <div class="admonition-learning-objectives admonition">
 <p class="admonition-title">Learning objectives</p>
 <p>By the end of this chapter, you will be able to:</p>
@@ -295,8 +337,44 @@
 <li><p>Know how/where to look for more information about the linguistic data <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> makes available</p></li>
 </ul>
 </div>
+<div class="section" id="nlp-vs-text-mining-in-brief">
+<h2><span class="section-number">2.1. </span>NLP vs. Text Mining: In Brief<a class="headerlink" href="#nlp-vs-text-mining-in-brief" title="Permalink to this headline">¶</a></h2>
+<p>The short space of this reader, as well as that of our series, necessarily limits a conversation about everything that characterizes NLP from text mining/analytics. That there are differences at all is in itself worth noting and merits further exploration. But for the purposes of this series’s focus, there are two such instances of these differences that are especially worth calling out.</p>
+<div class="section" id="data-structures">
+<h3><span class="section-number">2.1.1. </span>Data structures<a class="headerlink" href="#data-structures" title="Permalink to this headline">¶</a></h3>
+<p>At the outset, one way of distinguishing NLP from text mining has to do with NLP’s underlying <strong>data structure</strong>. Generally speaking, NLP methods are <strong>maximally preservative</strong> when it comes to representing textual information in a way computers can read. Unlike text mining’s atomizing focus on <strong>bags of words</strong>, in NLP we often use literal transcriptions of the input text and run our analyses directly on that. This is because much of the information NLP methods provide is context-sensitive: we need to know, for example, the subject of a sentence in order to do dependency parsing; part-of-speech taggers are most effective when they have surrounding tokens to consider. Accordingly, our workflow needs to retain as much information about our documents as possible, for as long as possible. In fact, many NLP methods <em>build on each other</em>, so data about our documents will grow over the course of processing them (rather than getting pared down, as with text mining). The dominant paradigm, then, for thinking about how text data is represented in NLP is <strong>annotation</strong>: NLP tends to add, associate, or tag documents with extra information.</p>
+</div>
+<div class="section" id="model-driven-methods">
+<h3><span class="section-number">2.1.2. </span>Model-driven methods<a class="headerlink" href="#model-driven-methods" title="Permalink to this headline">¶</a></h3>
+<p>The other key difference between text mining and NLP – which goes hand-in-hand with the idea of annotation – lies in the fact that the latter tends to be more <strong>model-driven</strong>. NLP methods often rely on statistical models to create the above information, and ultimately these models have a lot of assumptions baked into them. Such assumptions range from philosophy of language (how do we know we’re analyzing meaning?) to the kind of training data on which they’re trained (what does the model represent, and what biases might thereby be involved?). Of course, it’s possible to build your own models, and indeed a later chapter will show you how to do so, but you’ll often find yourself using other researchers’ models when doing NLP work. It’s thus very important to know how researchers have built their models so you can do your own work responsibly.</p>
+<div class="admonition-keep-in-mind admonition">
+<p class="admonition-title">Keep in mind</p>
+<p>Throughout this series, we will be using NLP methods in the context of text-based data, but NLP applies more widely to speech data as well.</p>
+</div>
+</div>
+</div>
 <div class="section" id="spacy-language-models">
-<h2><span class="section-number">2.1. </span>spaCy Language Models<a class="headerlink" href="#spacy-language-models" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.2. </span>spaCy Language Models<a class="headerlink" href="#spacy-language-models" title="Permalink to this headline">¶</a></h2>
+<div class="margin sidebar">
+<p class="sidebar-title">Want to know more?</p>
+<p>Explosion, the company behind <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>, has a series of useful videos introducing the framework. <a class="reference external" href="https://www.youtube.com/watch?v=9k_EfV7Cns0&amp;t=1365s">This one</a> is a good place to start.</p>
+</div>
+<p>Much of this workshop series will use language models from <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>, one of the most popular NLP libraries in Python. <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> is both a framework and a model resource. It offers access to models through a unique set of coding workflows, which we’ll discuss below (you can also train your own models with the library). Learning about these workflows will help us add annotate documents with extra information that will, in turn, enable us to perform a number of different NLP tasks.</p>
+<div class="section" id="spacy-pipelines">
+<h3><span class="section-number">2.2.1. </span><code class="docutils literal notranslate"><span class="pre">spaCy</span></code> pipelines<a class="headerlink" href="#spacy-pipelines" title="Permalink to this headline">¶</a></h3>
+<p>In essence, a <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model is a collection of sub-models arranged into a <strong>pipeline</strong>. The idea here is that you send a document through this pipeline, and the model does the work of annotating your document. Once it has finished, you can access these annotations to perform whatever analysis you’d like to do.</p>
+<p><img alt="" src="_images/spacy_pipeline.png" /></p>
+<p>Every component, or <strong>pipe</strong>, in a <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> pipeline performs a different task, from tokenization to part-of-speeching tagging and named-entity recognition. Each model comes with a specific ordering of these tasks, but you can mix and match them after the fact, adding or removing pipes as you see fit. The result is a wide set of options; the present workshop series only samples a few core aspects of the library’s overall capabilities.</p>
+</div>
+<div class="section" id="downloading-a-model">
+<h3><span class="section-number">2.2.2. </span>Downloading a model<a class="headerlink" href="#downloading-a-model" title="Permalink to this headline">¶</a></h3>
+<p>The specific model we’ll be using is <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s medium-sized English model: <a class="reference external" href="https://github.com/explosion/spacy-models/releases/tag/en_core_web_sm-3.3.0">en_core_web_md</a>. It’s been trained on the <a class="reference external" href="https://catalog.ldc.upenn.edu/LDC2013T19">OntoNotes</a> corpus and it features several useful pipes, which we’ll discuss below.</p>
+<p>If you haven’t used <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> before, you’ll need to download this model. You can do so by running the following in a command line interface:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python -m spacy download en_core_web_md
+</pre></div>
+</div>
+<p>Just be sure you run this while working in the Python environment you’d like to use!</p>
+<p>Once this downloads, you can load the model with the code below. Note that it’s conventional to assign the model to a variable called <code class="docutils literal notranslate"><span class="pre">nlp</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
@@ -307,9 +385,10 @@
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="annotations">
-<h2><span class="section-number">2.2. </span>Annotations<a class="headerlink" href="#annotations" title="Permalink to this headline">¶</a></h2>
-<p>To annotate a document with the <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model, simply run it through the core function, <code class="docutils literal notranslate"><span class="pre">nlp()</span></code>. We’ll do so with a short poem by Gertrude Stein.</p>
+<h2><span class="section-number">2.3. </span>Annotations<a class="headerlink" href="#annotations" title="Permalink to this headline">¶</a></h2>
+<p>With the model loaded, we can send a document through the pipeline, which will in turn produce our text annotations. To annotate a document with the <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model, simply run it through the core function, <code class="docutils literal notranslate"><span class="pre">nlp()</span></code>. We’ll do so with a short poem by Gertrude Stein.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/session_one/stein_carafe.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -355,9 +434,9 @@
 </div>
 </div>
 </div>
-<p>This high number of attributes indicates an important point to keep in mind when working with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>: as opposed to other forms of text preprocessing, like changing the case of tokens, removing punctuation, or stemming a corpus, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> aims to <strong>maximally preserve information</strong> about your document. It keeps documents intact and in fact adds much more information about them than Python’s base string methods have. In this sense, we might say that <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> is additive in nature, whereas text mining methods are subtractive, or reductive.</p>
+<p>This high number of attributes indicates an important point to keep in mind when working with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> and NLP generally: as we mentioned before, the primary data model for NLP aims to <strong>maximally preserve information</strong> about your document. It keeps documents intact and in fact adds much more information about them than Python’s base string methods have. In this sense, we might say that <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> is additive in nature, whereas text mining methods are subtractive, or reductive.</p>
 <div class="section" id="document-annotations">
-<h3><span class="section-number">2.2.1. </span>Document Annotations<a class="headerlink" href="#document-annotations" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.3.1. </span>Document Annotations<a class="headerlink" href="#document-annotations" title="Permalink to this headline">¶</a></h3>
 <p>So, while the base representation of <code class="docutils literal notranslate"><span class="pre">carafe</span></code> looks like a string, under the surface there are all sorts of annotations about it. To access them, we use the attributes counted above. For example, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> adds extra segmentation information about a document, like which parts of it belong to different sentences. We can check to see whether this information has been attached to our text with the <code class="docutils literal notranslate"><span class="pre">.has_annotation()</span></code> method.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -398,12 +477,12 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator at 0x11b563728&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator at 0x11a054728&gt;
 </pre></div>
 </div>
 </div>
 </div>
-<p>…but you can see that there’s a small complication here: <code class="docutils literal notranslate"><span class="pre">.sents</span></code> returns a generator, not a list. The reason has to do with memory efficiency. Because <code class="docutils literal notranslate"><span class="pre">SpaCy</span></code> adds so much extra information about your document, this information could slow down your code or overwhelm your computer if the library didn’t store it in an efficient manner. Of course this isn’t a problem with our small poem, but you can imagine how it could become one with a big corpus.</p>
+<p>…but you can see that there’s a small complication here: <code class="docutils literal notranslate"><span class="pre">.sents</span></code> returns a generator, not a list. The reason has to do with memory efficiency. Because <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> adds so much extra information about your document, this information could slow down your code or overwhelm your computer if the library didn’t store it in an efficient manner. Of course this isn’t a problem with our small poem, but you can imagine how it could become one with a big corpus.</p>
 <p>To access the actual sentences in <code class="docutils literal notranslate"><span class="pre">carafe</span></code>, we’ll need to convert the generator to a list.</p>
 <div class="margin sidebar">
 <p class="sidebar-title">Want to learn more about generators?</p>
@@ -588,7 +667,7 @@ The difference
 </div></div></div>
 </div>
 <p>Excellent! Looks like we turned up a few: “the poor feckless ghosts,” “my wicked wife,” and “all the Danaans” are likely the kind of repeating phrases scholars think of in Homer’s text.</p>
-<p>Another way to look at entities in a text is with <code class="docutils literal notranslate"><span class="pre">.ents</span></code>. <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> uses <strong>named-entity recognition</strong> to extract significant objects, or entities, in a document. In general, anything that has a proper name associated with it is considered an entity, but things expressions of time and geographic location are also often tagged. Here are the first five from Book XI above.</p>
+<p>Another way to look at entities in a text is with <code class="docutils literal notranslate"><span class="pre">.ents</span></code>. <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> uses <strong>named-entity recognition</strong> to extract significant objects, or entities, in a document. In general, anything that has a proper name associated with it is considered an entity, but things like expressions of time and geographic location are also often tagged. Here are the first five from Book XI above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">entities</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">odyssey</span><span class="o">.</span><span class="n">ents</span><span class="p">)</span>
@@ -687,7 +766,7 @@ Perimedes
 <p>Don’t see an entity that you know to be in your document? You can add more to the <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model. Doing so is beyond the scope of our workshop session, but the library’s <code class="docutils literal notranslate"><span class="pre">EntityRuler()</span></code> <a class="reference external" href="https://spacy.io/api/entityruler">documentation</a> will show you how.</p>
 </div>
 <div class="section" id="token-annotations">
-<h3><span class="section-number">2.2.2. </span>Token Annotations<a class="headerlink" href="#token-annotations" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.3.2. </span>Token Annotations<a class="headerlink" href="#token-annotations" title="Permalink to this headline">¶</a></h3>
 <p>In addition to storing all of this information about texts, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> creates a substantial amount of annotations for each of the tokens in that document. The same logic as above applies to accessing this information.</p>
 <p>Let’s return to the Stein poem. Indexing <code class="docutils literal notranslate"><span class="pre">carafe</span></code> will return individual tokens:</p>
 <div class="cell docutils container">
@@ -770,7 +849,7 @@ Perimedes
 </div>
 </div>
 </div>
-<p>…and even vector space representations:</p>
+<p>…and even vector space representations (more about these on day three!):</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">carafe</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">vector</span>
@@ -1035,9 +1114,9 @@ Punctuation
 <p>Want some linguistic information? We can get that too. For example, here are prefixes and suffixes:</p>
 <div class="margin sidebar">
 <p class="sidebar-title">You might be wondering about those underscores…</p>
-<p>The syntax conventions of <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> use an underscore to access the actual attribute information for a token. Using an attribute without the underscore will return an id, which the library uses internally to piece together output.</p>
+<p>The syntax conventions of <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> use a trailing underscore to access the actual attribute information for a token. Using an attribute without the underscore will return an id, which the library uses internally to piece together output.</p>
 </div>
-<div class="cell tag_output_scroll docutils container">
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prefix_suffix</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">carafe</span><span class="p">:</span>
@@ -1245,7 +1324,7 @@ Punctuation
 </div>
 </div>
 <div class="section" id="part-of-speech-tagging">
-<h2><span class="section-number">2.3. </span>Part-of-Speech Tagging<a class="headerlink" href="#part-of-speech-tagging" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">2.4. </span>Part-of-Speech Tagging<a class="headerlink" href="#part-of-speech-tagging" title="Permalink to this headline">¶</a></h2>
 <p>One of the most common tasks in NLP involves assigning <strong>part-of-speech, or POS, tags</strong> to each token in a document. As we saw in the text mining series, these tags are a necessary step for certain text cleaning process, like lemmatization; you might also use them to identify subsets of your data, which you could separate out and model. Beyond text cleaning, POS tags can be useful for tasks like <strong>word sense disambiguation</strong>, where you try to determine which particular facet of meaning a given token represents.</p>
 <p>Regardless of the task, the process of getting POS tags from <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> will be the same. Each token in a document has an associated tag, which is accessible as an attribute.</p>
 <div class="cell tag_output_scroll docutils container">
@@ -1742,6 +1821,8 @@ Punctuation
 </table>
 </div></div></div>
 </div>
+<div class="section" id="use-case-word-sense-disambiguation">
+<h3><span class="section-number">2.4.1. </span>Use case: word sense disambiguation<a class="headerlink" href="#use-case-word-sense-disambiguation" title="Permalink to this headline">¶</a></h3>
 <p>This is all well and good in the abstract, but the power of POS tags lies in how they support other kinds of analysis. We’ll do a quick word sense disambiguation task here but will return to do something more complex in a little while.</p>
 <p>Between the two strings:</p>
 <ol class="simple">
@@ -1759,7 +1840,7 @@ Punctuation
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object Language.pipe at 0x1239ec1b0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object Language.pipe at 0x1224e91b0&gt;
 </pre></div>
 </div>
 </div>
@@ -1786,10 +1867,19 @@ I went down to the river bank.
 </div>
 </div>
 </div>
+<p>See how the tags differ between the two instances of “bank”? This indicates a difference in usage and, by proxy, a difference in meaning.</p>
+</div>
 </div>
 <div class="section" id="dependency-parsing">
-<h2><span class="section-number">2.4. </span>Dependency Parsing<a class="headerlink" href="#dependency-parsing" title="Permalink to this headline">¶</a></h2>
-<p>TODO: a discussion of dependency parsing.</p>
+<h2><span class="section-number">2.5. </span>Dependency Parsing<a class="headerlink" href="#dependency-parsing" title="Permalink to this headline">¶</a></h2>
+<p>Another tool that can help with tasks like disambiguating word sense is dependency parsing. We’ve actually used it already: it allowed us to extract those noun chunks above. Dependency parsing involves analyzing the grammatical structure of text (usually sentences) to identify relationships between the words therein. The basic idea is that every word in a linguistic unit (eg. a sentence) is linked to at least one other word via a tree structure, and these linkages are hierarchical in nature, with various modifications occuring across the levels of sentences, clauses, phrases, and even compound nouns. Dependency parsing can tell you information about:</p>
+<ol class="simple">
+<li><p>The primary <strong>subject</strong> of a linguistic unit (and whether it is an <strong>active</strong> or <strong>passive</strong> subject)</p></li>
+<li><p>Various <strong>heads</strong>, which determine the syntatic categories of a phrase; these are often nouns and verbs, and you can think of them as the local subjects of subunits</p></li>
+<li><p>Various <strong>dependents</strong>, which modify, either directly or indirectly, their heads (think adjectives, adverbs, etc.)</p></li>
+<li><p>The <strong>root</strong> of the unit, which is often (<a class="reference external" href="https://universaldependencies.org/u/dep/root.html">but not always!</a>) the primary verb</p></li>
+</ol>
+<p>Linguists have developed a number of different methods to parse dependencies, which we won’t discuss here. Take note though that most popular one in NLP is the <a class="reference external" href="https://universaldependencies.org">Universal Dependencies</a> framework; <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>, like most NLP models, uses this. The library also has some functionality for visualizing dependencies, which will help clarify what it is they are in the first place. Below, we visualize a sentence from the Stein poem.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spacy</span> <span class="kn">import</span> <span class="n">displacy</span>
@@ -1800,7 +1890,7 @@ I went down to the river bank.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="05e08680bb34437699d04dc61b9976c8-0" class="displacy" width="750" height="312.0" direction="ltr" style="max-width: none; height: 312.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
+<div class="output text_html"><span class="tex2jax_ignore"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:lang="en" id="13970fc742404b618c7121141cf4f17f-0" class="displacy" width="750" height="312.0" direction="ltr" style="max-width: none; height: 312.0px; color: #000000; background: #ffffff; font-family: Arial; direction: ltr">
 <text class="displacy-token" fill="currentColor" text-anchor="middle" y="222.0">
     <tspan class="displacy-word" fill="currentColor" x="50">The</tspan>
     <tspan class="displacy-tag" dy="2em" fill="currentColor" x="50">DET</tspan>
@@ -1822,30 +1912,31 @@ I went down to the river bank.
 </text>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-05e08680bb34437699d04dc61b9976c8-0-0" stroke-width="2px" d="M70,177.0 C70,89.5 220.0,89.5 220.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-13970fc742404b618c7121141cf4f17f-0-0" stroke-width="2px" d="M70,177.0 C70,89.5 220.0,89.5 220.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-05e08680bb34437699d04dc61b9976c8-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
+        <textPath xlink:href="#arrow-13970fc742404b618c7121141cf4f17f-0-0" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">det</textPath>
     </text>
     <path class="displacy-arrowhead" d="M70,179.0 L62,167.0 78,167.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-05e08680bb34437699d04dc61b9976c8-0-1" stroke-width="2px" d="M245,177.0 C245,2.0 575.0,2.0 575.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-13970fc742404b618c7121141cf4f17f-0-1" stroke-width="2px" d="M245,177.0 C245,2.0 575.0,2.0 575.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-05e08680bb34437699d04dc61b9976c8-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
+        <textPath xlink:href="#arrow-13970fc742404b618c7121141cf4f17f-0-1" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">nsubj</textPath>
     </text>
     <path class="displacy-arrowhead" d="M245,179.0 L237,167.0 253,167.0" fill="currentColor"/>
 </g>
 
 <g class="displacy-arrow">
-    <path class="displacy-arc" id="arrow-05e08680bb34437699d04dc61b9976c8-0-2" stroke-width="2px" d="M420,177.0 C420,89.5 570.0,89.5 570.0,177.0" fill="none" stroke="currentColor"/>
+    <path class="displacy-arc" id="arrow-13970fc742404b618c7121141cf4f17f-0-2" stroke-width="2px" d="M420,177.0 C420,89.5 570.0,89.5 570.0,177.0" fill="none" stroke="currentColor"/>
     <text dy="1.25em" style="font-size: 0.8em; letter-spacing: 1px">
-        <textPath xlink:href="#arrow-05e08680bb34437699d04dc61b9976c8-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">aux</textPath>
+        <textPath xlink:href="#arrow-13970fc742404b618c7121141cf4f17f-0-2" class="displacy-label" startOffset="50%" side="left" fill="currentColor" text-anchor="middle">aux</textPath>
     </text>
     <path class="displacy-arrowhead" d="M420,179.0 L412,167.0 428,167.0" fill="currentColor"/>
 </g>
 </svg></span></div></div>
 </div>
+<p>See how the arcs have arrows? Arrows point to the dependents within a linguistic unit, that is, they point to modifying relationships between words. Arrows arc out from a segment’s head, and the relationships they indicate are all specified with labels. As with the POS tags, you can use <code class="docutils literal notranslate"><span class="pre">spacy.explain()</span></code> on the dependency labels, which we’ll do below. The whole list of them is also available in this <a class="reference external" href="https://universaldependencies.org/u/dep/all.html">table of typologies</a>. Finally, somewhere in the tree you’ll find a word with no arrows pointing to it (here, “spreading”). This is the root. One of its dependents is the subject of the sentence (here, “difference”).</p>
 <p>Seeing these relationships are quite useful in and of themselves, but the real power of dependency parsing comes in all the extra data it can provide about a token. Using this technique, you can link tokens back to their heads, or find local groupings of tokens that all refer to the same head.</p>
 <p>Here’s how you could formalize that with a dataframe. Given this sentence:</p>
 <div class="cell docutils container">
@@ -2127,7 +2218,7 @@ dtype: int64
 </table>
 </div></div></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">sciPy</span></code> also has a special <code class="docutils literal notranslate"><span class="pre">.subtree</span></code> attribute for each token, which will also produce a similar set of local groupings. Note however that <code class="docutils literal notranslate"><span class="pre">.subtree</span></code> captures all tokens that hold a dependent relationship with the one in question, meaning that when you find the subtree of the root, you’re going to print out the entire sentence.</p>
+<p><code class="docutils literal notranslate"><span class="pre">spaCy</span></code> also has a special <code class="docutils literal notranslate"><span class="pre">.subtree</span></code> attribute for each token, which will also produce a similar set of local groupings. Note however that <code class="docutils literal notranslate"><span class="pre">.subtree</span></code> captures all tokens that hold a dependent relationship with the one in question, meaning that when you find the subtree of the root, you’re going to print out the entire sentence.</p>
 <p>As you might expect by now, <code class="docutils literal notranslate"><span class="pre">.subtree</span></code> returns a generator, so convert it to a list or use list comprehension to extract the tokens. We’ll do this in a separate function. Within this function, we’re going to use the <code class="docutils literal notranslate"><span class="pre">.text_with_ws</span></code> attribute of each token in the subtree to return an exact, string-like representation of the tree (this will include any whitespace characters that are attached to a token).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2255,12 +2346,12 @@ dtype: int64
 </div>
 </div>
 <div class="section" id="putting-everything-together">
-<h2><span class="section-number">2.5. </span>Putting Everything Together<a class="headerlink" href="#putting-everything-together" title="Permalink to this headline">¶</a></h2>
-<p>Now that we’ve walked through all these options (which are really only a small sliver of what you can do with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>!), let’s put them into action. Below, we’ll construct two short examples of how you might combine different aspects of token attributes to analyze a text.</p>
+<h2><span class="section-number">2.6. </span>Putting Everything Together<a class="headerlink" href="#putting-everything-together" title="Permalink to this headline">¶</a></h2>
+<p>Now that we’ve walked through all these options (which are really only a small sliver of what you can do with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>!), let’s put them into action. Below, we’ll construct two short examples of how you might combine different aspects of token attributes to analyze a text. Both of them are essentially <strong>information retrieval</strong> tasks, and you might imagine doing something similar to extract and analyze particular words in your corpus, or to find different grammatical patterns that could be of significance (as we’ll discuss in the next session).</p>
 <div class="section" id="finding-lemmas">
-<h3><span class="section-number">2.5.1. </span>Finding lemmas<a class="headerlink" href="#finding-lemmas" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">2.6.1. </span>Finding lemmas<a class="headerlink" href="#finding-lemmas" title="Permalink to this headline">¶</a></h3>
 <p>In the first, we’ll use the <code class="docutils literal notranslate"><span class="pre">.lemma_</span></code> attribute to search through Book XI of <em>The Odyssey</em> and match its tokens to a few key words. If you’ve read <em>The Odyssey</em>, you’ll know that Book XI is where Odysseus and his fellow sailors have to travel down to the underworld Hades, where they speak with the dead. We already saw one example of this: Odysseus attempts to embrace his dead mother after communing with her. The whole trip to Hades is an emotionally tumultuous experience for the travelers, and peppered throughout Book XI are expressions of grief.</p>
-<p>With <code class="docutils literal notranslate"><span class="pre">.lemma</span></code>, we can search for these expressions. We’ll roll through the text and determine whether a token lemma matches one of a selected set. When we find a match, we’ll get the subtree of this token’s <em>head</em>. That is, we’ll find the head upon which this token depends, and then we’ll use that to reconstruct the local context for the token.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">.lemma_</span></code>, we can search for these expressions. We’ll roll through the text and determine whether a token lemma matches one of a selected set. When we find a match, we’ll get the subtree of this token’s <em>head</em>. That is, we’ll find the head upon which this token depends, and then we’ll use that to reconstruct the local context for the token.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorrowful_lemmas</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2386,8 +2477,8 @@ dtype: int64
 </div>
 </div>
 <div class="section" id="verb-subject-relations">
-<h3><span class="section-number">2.5.2. </span>Verb-subject relations<a class="headerlink" href="#verb-subject-relations" title="Permalink to this headline">¶</a></h3>
-<p>For this next example, we’ll use dependency tags to find the subject sentences in Book XI. As before, we’ll go through each token in the document, this time checking to see whether it has the <code class="docutils literal notranslate"><span class="pre">nsubj</span></code> or <code class="docutils literal notranslate"><span class="pre">nsubjpass</span></code> tag for its <code class="docutils literal notranslate"><span class="pre">.dep_</span></code> attribute. These refer to the subjects of the sentence’s root. We’ll also check to see whether a token is a noun (otherwise we’d get a lot of articles like ‘who’, ‘them’, etc.). If a token matches these two conditions, we’ll find its head verb as well as the token’s subtree. Note that this time, the subtree will refer directly to the token in question, not to the head. This will let us capture some descriptive information about each sentence subject.</p>
+<h3><span class="section-number">2.6.2. </span>Verb-subject relations<a class="headerlink" href="#verb-subject-relations" title="Permalink to this headline">¶</a></h3>
+<p>For this next example, we’ll use dependency tags to find the subject sentences in Book XI. As before, we’ll go through each token in the document, this time checking to see whether it has the <code class="docutils literal notranslate"><span class="pre">nsubj</span></code> or <code class="docutils literal notranslate"><span class="pre">nsubjpass</span></code> tag for its <code class="docutils literal notranslate"><span class="pre">.dep_</span></code> attribute, which denote the subjects of the sentence’s root. We’ll also check to see whether a token is a noun (otherwise we’d get a lot of articles like “who,” “them,” etc.). If a token matches these two conditions, we’ll find its head verb as well as the token’s subtree. Note that this time, the subtree will refer directly to the token in question, not to the head. This will let us capture some descriptive information about each sentence subject.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nsubj</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2507,7 +2598,30 @@ dtype: int64
 <p>143 rows × 3 columns</p>
 </div></div></div>
 </div>
-<p>How many time do each of our selected subjects appear?</p>
+<p>Let’s look at a few subtrees. Note how sometimes they are simple noun chunks, while in other cases they expand to whole phrases.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">nsubj_df</span><span class="p">[</span><span class="s1">&#39;SUBTREE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;+ </span><span class="si">{</span><span class="n">chunk</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+ &quot;&#39;Ulysses
++ their armour
++ the ghost of Achilles
++ Both these heroes
++ my property
++ the wind
++ the poor creature
++ the gods
++ no one
++ our august queen
+</pre></div>
+</div>
+</div>
+</div>
+<p>Time to zoom out. How many time do each of our selected subjects appear?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nsubj_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;SUBJECT&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
@@ -2585,6 +2699,8 @@ dtype: int64
 </div>
 </div>
 </div>
+<p>Such information provides another way of looking at something like topicality. Rather than using, say, a bag of words approach to build a topic model, you could instead segment your text into chunks like the above and start tallying up token distributions. Such distributions might help you identify the primary subject in a passage of text, whether that be a character or something like a concept. Or, you could leverage them to investigate how different subjects are talked about, say by throwing POS tags into the mix to further nuance relationships across entities.</p>
+<p>Our next session will demonstrate what such investigations look like in action. For now however, the main takeway is that the above annotation structures provide you witha host of different ways to segment and facet your text data. You are by no means limited to single token counts when working computationally analyzing text. Indeed, sometimes the most compelling ways to expore a corpus lie in the broader, fuzzier relationships that NLP annotations help us identify.</p>
 </div>
 </div>
 </div>
@@ -2648,8 +2764,8 @@ dtype: int64
           By Tyler Shoemaker and Carl Stahmer<br/>
         
           <div class="extra_footer">
-            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
-  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg"> 
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg"> 
 </a>
 
           </div>
