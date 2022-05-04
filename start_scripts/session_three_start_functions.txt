@@ -22,8 +22,33 @@ import numpy as np
 from gensim.models import Word2Vec
 from sklearn.manifold import TSNE
 import altair as alt
+import textwrap
 from google.colab import drive
 drive.mount('/gdrive')
 
 # functions
 # ---------
+
+def sample_embeddings(vectors, samp=1000):
+    n_vectors = vectors.shape[0]
+    mask = random.sample(range(n_vectors), samp)
+    vectors = vectors[mask]
+    vocab = [model.index_to_key[idx] for idx in mask]
+    
+    return vectors, vocab
+
+def prepare_vis_data(vectors, labels):
+    reduced = TSNE(
+        n_components=2,
+        learning_rate='auto',
+        init='random',
+        angle=0.65,
+        random_state=357
+    ).fit_transform(vectors)
+    
+    vis_data = pd.DataFrame(reduced, columns=['X', 'Y'])
+    vis_data['LABEL'] = labels
+    
+    return vis_data
+
+
