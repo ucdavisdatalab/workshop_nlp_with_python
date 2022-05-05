@@ -379,7 +379,7 @@ lemmatizer
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x11c826668&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x12538b3c8&gt;
 </pre></div>
 </div>
 </div>
@@ -418,7 +418,7 @@ spacytextblob
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_4211</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_5842</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> 
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="k">assert</span> <span class="s1">&#39;ner&#39;</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">,</span> <span class="s1">&#39;Named entity recognition is no longer in the pipeline!&#39;</span>
@@ -488,7 +488,7 @@ spacytextblob
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x1311c46d8&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x1544a1c78&gt;
 </pre></div>
 </div>
 </div>
@@ -765,44 +765,44 @@ weighted avg       0.97      0.96      0.96        77
   </thead>
   <tbody>
     <tr>
-      <th>50</th>
-      <td>3597</td>
-      <td>0.231582</td>
+      <th>43</th>
+      <td>3434</td>
+      <td>0.253349</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>34</th>
-      <td>2999</td>
-      <td>0.258419</td>
+      <th>42</th>
+      <td>2356</td>
+      <td>0.289898</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>137</th>
-      <td>22</td>
-      <td>1.000000</td>
+      <th>126</th>
+      <td>39</td>
+      <td>0.871795</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>113</th>
-      <td>212</td>
-      <td>0.688679</td>
+      <th>76</th>
+      <td>101</td>
+      <td>0.702970</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>164</th>
-      <td>291</td>
-      <td>0.247423</td>
+      <th>224</th>
+      <td>196</td>
+      <td>0.127551</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
     <tr>
-      <th>175</th>
-      <td>230</td>
-      <td>0.352174</td>
+      <th>158</th>
+      <td>847</td>
+      <td>0.302243</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
@@ -1209,7 +1209,6 @@ weighted avg       0.96      0.96      0.96        77
 </div>
 </div>
 <p>Surprisingly well, actually! In fact, this second model is arguably <em>better</em> than the first one we built. It’s probably still overfitted to fiction, but the scores for the other document classes indicate that it’s been able to generalize out from specific words to a broader class of features that typify one kind of document from the next. And – just as important – it’s been able to do so with a far smaller set of features. Whereas the DTM we used to train the first model had ~18.5k features, this one only needs six.</p>
-<p>These results might cause us to ask: What other features might we use in this situation? What are other measurable ways of thinking about the nature of text? How might such considerations change depending on the corpus we’re using? While all these questions are beyond the scope of present chapter, we hope you’ll keep them in mind as you do your own work with NLP.</p>
 </div>
 </div>
 
