@@ -1,0 +1,25 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+urlcolor: blue
+---
+\raggedright
+
+Assessment: Natural Language Processing with Python
+===================================================
+
+**Instructions**
+
+To earn a micro-badge for this workshop, write code for/answer the prompts on 
+the next page. You should do your work in a notebook environment (like Jupyter); 
+include all code, code outputs, and short answers directly in your notebook. 
+Submit this notebook to GradPathways by exporting it to an `html` file (in 
+Jupyter Notebooks, you can do this by going to `File > Save Page As` in your 
+browser).
+
+**Links**
+
++ [GradPathways Badge](https://ucd.badgr.com/public/badges/mugtjcgjSCirltrfe_91NA)
++ [Event page](https://datalab.ucdavis.edu/eventscalendar/natural-language-processing-with-python-3-part-series-3/)
++ [Workshop reader](https://ucdavisdatalab.github.io/workshop_nlp_with_python/)
