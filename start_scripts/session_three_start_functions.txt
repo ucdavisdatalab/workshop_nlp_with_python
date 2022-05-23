@@ -24,7 +24,7 @@ from sklearn.manifold import TSNE
 import altair as alt
 import textwrap
 from google.colab import drive
-drive.mount('/gdrive')
+drive.mount('/content/drive')
 
 # functions
 # ---------

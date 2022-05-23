@@ -1,14 +1,13 @@
 # install libraries
 # -----------------
 
-!pip install spacy, spacytextblob, matplotlib
+!pip install spacy, matplotlib
 !python -m spacy download en_core_web_md
 
 # load spaCy model (requires special handling on Colab)
 # -----------------------------------------------------
 
 import en_core_web_md
-from spacytextblob.spacytextblob import SpacyTextBlob
 
 nlp = en_core_web_md.load()
 
@@ -20,7 +19,7 @@ from collections import Counter
 import pandas as pd
 import numpy as np
 from google.colab import drive
-drive.mount('/gdrive')
+drive.mount('/content/drive')
 
 # convert a subtree to text
 # -------------------------
