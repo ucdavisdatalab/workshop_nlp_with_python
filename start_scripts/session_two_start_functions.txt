@@ -1,8 +1,9 @@
 # install libraries
 # -----------------
 
-!pip install spacy, spacytextblob, matplotlib
+!pip install spacytextblob, spacy, matplotlib
 !python -m spacy download en_core_web_md
+!python -m textblob.download_corpora
 
 # load spaCy model (requires special handling on Colab)
 # -----------------------------------------------------
