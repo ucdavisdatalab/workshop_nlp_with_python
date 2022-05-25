@@ -8,7 +8,6 @@
 # -----------------------------------------------------
 
 import en_core_web_md
-from spacytextblob.spacytextblob import SpacyTextBlob
 
 nlp = en_core_web_md.load()
 
