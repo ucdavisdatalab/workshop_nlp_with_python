@@ -1,14 +1,14 @@
 # install libraries
 # -----------------
 
-!pip install spacy, altair, gensim
+!pip install spacy, altair
+!pip install -Iv gensim==4.0.1
 !python -m spacy download en_core_web_md
 
 # load spaCy model (requires special handling on Colab)
 # -----------------------------------------------------
 
 import en_core_web_md
-from spacytextblob.spacytextblob import SpacyTextBlob
 
 nlp = en_core_web_md.load()
 
