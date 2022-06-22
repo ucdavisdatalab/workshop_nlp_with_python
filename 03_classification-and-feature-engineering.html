@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>3. Classification and Feature Engineering &#8212; Natural Language Processing with Python</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet" />
-  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,51 +20,65 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script >let toggleHintShow = 'Click to show';</script>
-    <script >let toggleHintHide = 'Click to hide';</script>
-    <script >let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"processClass": "tex2jax_process|mathjax_process|math|output_area"}})</script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Word Embeddings" href="04_word-embeddings.html" />
     <link rel="prev" title="2. Text Annotation with spaCy" href="02_text-annotation-with-spacy.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -71,9 +87,10 @@
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -91,14 +108,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="index.html">
-   Overview
-  </a>
- </li>
-</ul>
-<ul class="current nav bd-sidenav">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="01_logistics.html">
    1. Before We Begin…
@@ -122,107 +140,209 @@
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/03_classification-and-feature-engineering.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/ucdavisdatalab/workshop_nlp_with_python"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/ucdavisdatalab/workshop_nlp_with_python/issues/new?title=Issue%20on%20page%20%2F03_classification-and-feature-engineering.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/ucdavisdatalab/workshop_nlp_with_python/master?urlpath=tree/03_classification-and-feature-engineering.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/ucdavisdatalab/workshop_nlp_with_python/master?urlpath=tree/03_classification-and-feature-engineering.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/ucdavisdatalab/workshop_nlp_with_python"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/ucdavisdatalab/workshop_nlp_with_python/issues/new?title=Issue%20on%20page%20%2F03_classification-and-feature-engineering.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/03_classification-and-feature-engineering.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#workflow-set-up">
    3.1. Workflow set up
@@ -310,17 +430,120 @@
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Classification and Feature Engineering</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#workflow-set-up">
+   3.1. Workflow set up
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#changing-spacy-pipeline-components">
+     3.1.1. Changing
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       spaCy
+      </span>
+     </code>
+     pipeline components
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generating-labels">
+     3.1.2. Generating labels
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lazy-loading">
+     3.1.3. Lazy loading
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preprocessing">
+   3.2. Preprocessing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modeling-i-tf-idf">
+   3.3. Modeling I: tf-idf
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-engineering">
+   3.4. Feature Engineering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#document-length">
+     3.4.1. Document length
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lexicon-i-hapax-richness">
+     3.4.2. Lexicon I: hapax richness
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inspecting-our-work">
+     3.4.3. Inspecting our work
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#active-vs-passive-voice">
+     3.4.4. Active vs. passive voice
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lexicon-ii-abstract-nouns">
+     3.4.5. Lexicon II: abstract nouns
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lexicon-iii-cardinal-numbers">
+     3.4.6. Lexicon III: cardinal numbers
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sentiment">
+     3.4.7. Sentiment
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modeling-ii-other-features">
+   3.5. Modeling II: Other Features
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="classification-and-feature-engineering">
-<h1><span class="section-number">3. </span>Classification and Feature Engineering<a class="headerlink" href="#classification-and-feature-engineering" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="classification-and-feature-engineering">
+<h1><span class="section-number">3. </span>Classification and Feature Engineering<a class="headerlink" href="#classification-and-feature-engineering" title="Permalink to this headline">#</a></h1>
 <p>This chapter demonstrates how to apply what we’ve learned so far about document annotation with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>. Specifically, we will be discussing how to build a text classifier. Classification is a core task in NLP, and such models usually work by making predictions on the basis of probability distributions across a corpus’s features. However, we won’t dive too deeply into the details of modeling (eg., the underlying math, model selection, fine tuning, and so on); instead, we will focus on the features we send to our model. If you attended our <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/index.html">Getting Started with Textual Data</a> series, you may remember that computationally analyzing text requires us to <strong>engineer</strong>, or create, features. Often, these features are token counts. But there are other features we can use to represent information about our data, and document annotation gives us the tools to create them. This chapter, then, will demonstrate how to do so and, along the way, it will discuss what considerations go into the process.</p>
 <p>We’ll work with a small corpus to test out some of these features. Admittedly, the documents therein are a bit of a weird mix: our corpus is comprised of ~50 Sherlock Holmes short stories (courtesy of the McGill <a class="reference external" href="https://txtlab.org">txtLAB</a>), 100 movie summaries from the <a class="reference external" href="http://www.cs.cmu.edu/~ark/personas/">CMU Movie Summary Corpus</a>, and 100 <a class="reference external" href="https://journals.plos.org/plosone/">PLOS ONE</a> biomedical abstracts. Why such a disparate corpus? Well, our focus here is on how different approaches to feature engineering might help you partition texts in your own corpora, so our intent is less about showing you a completely real word situation and more about outlining a few options you might pursue when using NLP methods in your research. For this reason, having very different types of text will make it clear how these features divide up a corpus. While we think these options are translatable across a variety of documents and research areas, know that, to an extent, the results we’ll discuss in this chapter are somewhat artificial.</p>
 <div class="admonition-learning-objectives admonition">
@@ -335,8 +558,8 @@
 <li><p>Validate your engineered features</p></li>
 </ul>
 </div>
-<div class="section" id="workflow-set-up">
-<h2><span class="section-number">3.1. </span>Workflow set up<a class="headerlink" href="#workflow-set-up" title="Permalink to this headline">¶</a></h2>
+<section id="workflow-set-up">
+<h2><span class="section-number">3.1. </span>Workflow set up<a class="headerlink" href="#workflow-set-up" title="Permalink to this headline">#</a></h2>
 <p>With the preliminaries out of the way, let’s get started. As before, we’ll begin by loading our <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -360,15 +583,15 @@
 tagger
 parser
 senter
-ner
 attribute_ruler
 lemmatizer
+ner
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="changing-spacy-pipeline-components">
-<h3><span class="section-number">3.1.1. </span>Changing <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> pipeline components<a class="headerlink" href="#changing-spacy-pipeline-components" title="Permalink to this headline">¶</a></h3>
+<section id="changing-spacy-pipeline-components">
+<h3><span class="section-number">3.1.1. </span>Changing <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> pipeline components<a class="headerlink" href="#changing-spacy-pipeline-components" title="Permalink to this headline">#</a></h3>
 <p>We’ll need to <strong>add a pipe</strong> to the pipline. In this case, we’re using a sentiment analysis tool that’s been ported over from the <a class="reference external" href="https://textblob.readthedocs.io/en/dev/">TextBlob</a> library (which is itself a useful tool for NLP!). Adding it to the pipeline is simply a matter of using <code class="docutils literal notranslate"><span class="pre">nlp.add_pipe()</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -379,7 +602,7 @@ lemmatizer
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x12538b3c8&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;spacytextblob.spacytextblob.SpacyTextBlob at 0x121e347f0&gt;
 </pre></div>
 </div>
 </div>
@@ -397,9 +620,9 @@ lemmatizer
 tagger
 parser
 senter
-ner
 attribute_ruler
 lemmatizer
+ner
 spacytextblob
 </pre></div>
 </div>
@@ -418,9 +641,8 @@ spacytextblob
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">h7</span><span class="o">/</span><span class="n">tzxfms7d2z7gwlgtbvw15msc0000gn</span><span class="o">/</span><span class="n">T</span><span class="o">/</span><span class="n">ipykernel_5842</span><span class="o">/</span><span class="mf">2213502185.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="nn">Input In [5],</span> in <span class="ni">&lt;cell line: 3&gt;</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">nlp</span><span class="o">.</span><span class="n">remove_pipe</span><span class="p">(</span><span class="s1">&#39;ner&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> 
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="k">assert</span> <span class="s1">&#39;ner&#39;</span> <span class="ow">in</span> <span class="n">nlp</span><span class="o">.</span><span class="n">component_names</span><span class="p">,</span> <span class="s1">&#39;Named entity recognition is no longer in the pipeline!&#39;</span>
 
 <span class="ne">AssertionError</span>: Named entity recognition is no longer in the pipeline!
@@ -429,18 +651,18 @@ spacytextblob
 </div>
 </div>
 <p>Later on we’ll discuss how to use the extra component we’ve just added to our model. But for now, let’s move on to loading our corpus.</p>
-</div>
-<div class="section" id="generating-labels">
-<h3><span class="section-number">3.1.2. </span>Generating labels<a class="headerlink" href="#generating-labels" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="generating-labels">
+<h3><span class="section-number">3.1.2. </span>Generating labels<a class="headerlink" href="#generating-labels" title="Permalink to this headline">#</a></h3>
 <p>First, we need to make some labels. Each file is labeled with its text type. We’ll go through every file name and extract that information to build a list of labels, which we’ll later associate with our corpus.</p>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title">What this loop does:</p>
 <ol class="simple">
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">glob</span></code> to get all <code class="docutils literal notranslate"><span class="pre">.txt</span></code> filepaths</p></li>
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">re.findall()</span></code> to determine which genre name is in the filepath</p></li>
 <li><p>Append a corresponding integer to a list of labels. This list will be in the same order as our files (an important alignment for later work)</p></li>
 </ol>
-</div>
+</aside>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">glob</span>
@@ -463,9 +685,9 @@ spacytextblob
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="lazy-loading">
-<h3><span class="section-number">3.1.3. </span>Lazy loading<a class="headerlink" href="#lazy-loading" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="lazy-loading">
+<h3><span class="section-number">3.1.3. </span>Lazy loading<a class="headerlink" href="#lazy-loading" title="Permalink to this headline">#</a></h3>
 <p>With this done, we can load and process our files. There are around 250 of them, and some are fairly long. To handle this, we’ll use a slightly different process than what we’ve been doing so far. Instead of loading everything into memory all at once, we’ll incrementally stream in files using a <strong>generator</strong> and let <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> automatically call up the next file when it’s finished processing. This is called <strong>lazy loading</strong>. It’s a good idea to do this kind of thing when you’re working with large corpora: it’s far more memory efficient, and it saves you the trouble of needing to write a bunch of <code class="docutils literal notranslate"><span class="pre">for</span></code> loops to manage the preprocessing work.</p>
 <p>The code is fairly straightforward. All we need to do is send a function our filepaths and have it <code class="docutils literal notranslate"><span class="pre">yield</span></code> out opened files.</p>
 <div class="cell docutils container">
@@ -488,7 +710,7 @@ spacytextblob
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x1544a1c78&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;generator object lazy_load at 0x135f8f820&gt;
 </pre></div>
 </div>
 </div>
@@ -519,12 +741,12 @@ Holmes w
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="preprocessing">
-<h2><span class="section-number">3.2. </span>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="preprocessing">
+<h2><span class="section-number">3.2. </span>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">#</a></h2>
 <p>With our model, labels, and loading function all set up, we can start processing our files. We’re going to use a fairly simple cleaning function to weed out extra cruft in our documents. For every document, this function – which we’ll call <code class="docutils literal notranslate"><span class="pre">clean()</span></code> – will return a list of lowercased and lemmatized words (provided these words aren’t stop words!).</p>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title">Details about our cleaning function</p>
 <p>For every token in a document:</p>
 <ol class="simple">
@@ -533,7 +755,7 @@ Holmes w
 <li><p>If it isn’t, get its lemma, then convert it to lowercase</p></li>
 <li><p>Append the converted token to <code class="docutils literal notranslate"><span class="pre">cleaned</span></code></p></li>
 </ol>
-</div>
+</aside>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
@@ -559,9 +781,9 @@ Holmes w
 </div>
 </div>
 <p>Another reason for using a lazy loader on our files has to do with later work we’ll do in this session: though our work so far has involved creating <em>bag of words</em> representations of the corpus, later steps will require full text representations. With <code class="docutils literal notranslate"><span class="pre">lazy_load()</span></code> written, we can easily reprocess our corpus whenever we’d like.</p>
-</div>
-<div class="section" id="modeling-i-tf-idf">
-<h2><span class="section-number">3.3. </span>Modeling I: tf-idf<a class="headerlink" href="#modeling-i-tf-idf" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="modeling-i-tf-idf">
+<h2><span class="section-number">3.3. </span>Modeling I: tf-idf<a class="headerlink" href="#modeling-i-tf-idf" title="Permalink to this headline">#</a></h2>
 <p>Once our texts have been cleaned, we can build a simple model to predict the three different document classes in our corpus. If you’re thinking, <em>But a model requires numeric data, and so far we just have bags of words</em>, you’d be right. There’s one more step that we need to do before actually building the model. It should be a familiar one: we need to transform our cleaned documents into a document-term matrix (DTM), which will hold the weighted term counts for the entire corpus. In essence, this data structure will hold all the features that our model will use to make its predictions. Every token (or more properly, <em>type</em>) is a feature, the value of which a document may or may not have.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> makes creating our DTM an easy task. Just remember that our cleaned texts are currently stored as a list of lists. We need to join them back into strings before sending them to the vectorizer.</p>
 <div class="cell docutils container">
@@ -603,7 +825,7 @@ Holmes w
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of documents to train the model: 179 
 Number of documents for testing the model: 77 
-Total features from the document-term matrix: 18,610
+Total features from the document-term matrix: 18,644
 </pre></div>
 </div>
 </div>
@@ -639,10 +861,10 @@ Posterior = \frac{Prior \cdot Likelihood}{Evidence}
 <li><p>Recall: the proportion of correct labels the model was able to successfully find</p></li>
 <li><p>F1 score: a weighted score of the first two</p></li>
 </ol>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title">For more on these metrics…</p>
 <p>Take a look at the <a class="reference external" href="https://developers.google.com/machine-learning/crash-course/classification/precision-and-recall">classification module</a> on Google’s Machine Learning Crash Course to see how these metrics are calculated.</p>
-</div>
+</aside>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
@@ -656,20 +878,20 @@ Posterior = \frac{Prior \cdot Likelihood}{Evidence}
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
      fiction       1.00      1.00      1.00        22
-     summary       1.00      0.91      0.95        33
-    abstract       0.88      1.00      0.94        22
+     summary       1.00      0.94      0.97        33
+    abstract       0.92      1.00      0.96        22
 
-    accuracy                           0.96        77
-   macro avg       0.96      0.97      0.96        77
-weighted avg       0.97      0.96      0.96        77
+    accuracy                           0.97        77
+   macro avg       0.97      0.98      0.98        77
+weighted avg       0.98      0.97      0.97        77
 </pre></div>
 </div>
 </div>
 </div>
 <p>Not bad at all! In fact, this model is probably a little <em>too</em> good: those straight 1.00 readings likely indicate that the model is <a class="reference external" href="https://www.ibm.com/cloud/learn/overfitting">overfit</a>; when you’re working with your own data, you’ll almost never see first round results like this. This is almost cetainly due to the hodgepodge nature of our corpus, wehre the divisions between different document classes is particularly clear. In such a scenario, the model has learned to distinguish idiosyncracies of our corpus, rather than certain general features about what, say, constitutes a short story vs. an abstract. There are a number of ways to mitigate this problem, ranging from pruning the vocabulary we use in our DTM to sending a model entirely different features. The rest of this chapter is dedicated to this latter strategy.</p>
-</div>
-<div class="section" id="feature-engineering">
-<h2><span class="section-number">3.4. </span>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="feature-engineering">
+<h2><span class="section-number">3.4. </span>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">#</a></h2>
 <p>Training a classifier with tf-idf scores is an absolutely valid method. Indeed, it’s often a very effective method: we expect different types of documents to contain different types of words. But there are other features we can use to train a classifier, which don’t rely so heavily on particular words. There are a number of scenarios for which you might consider using such features. Among such scenarios is the one above, where word types are so closely bound to document classes that a model overfits itself. What would happen, for example, if we sent this classifier a document that doesn’t contain any of the outlier words that help the model make a decision? Or what if we sent it a short story that contains word types classed as biomedical abstracts? In such instances, the model would likely fail in its predictions. We need, then, another set of features to make decisions about document types. This is where feature engineering with document annotation steps in.</p>
 <p>There are two key aspects of feature engineering. You need to know:</p>
 <ol class="simple">
@@ -681,18 +903,18 @@ weighted avg       0.97      0.96      0.96        77
 <p>In our case, we already know that there are three different genres in our corpus. We also know in a general sense some things about each of these genres. Abstracts, for example, are brief, fairly objective documents; often, they’re written in the third person with passive voice. The same goes for plot summaries, though we might expect the formality of the language in summaries to be different than abstracts. On the other hand, fiction tends to be longer than the other two genres, and it also tends to have a more varied vocabulary.</p>
 <p>To be sure, these are general assumptions, which may or may not mesh with our actual corpus. But they’re a good starting point, and we can write some code to generate metrics that will show whether our assumptions are, in fact, correct.</p>
 <p>We’ll do so in two passes. Our <strong>first set of features</strong> will rely on the cleaned, bag-of-word representations of the corpus documents, which we’ve already produced above. <strong>The second</strong>, on the other hand, will collect information about things like grammatical structure or part-of-speech tags, and thus they will require us to use full, as-is representations of our documents.</p>
-<div class="section" id="document-length">
-<h3><span class="section-number">3.4.1. </span>Document length<a class="headerlink" href="#document-length" title="Permalink to this headline">¶</a></h3>
+<section id="document-length">
+<h3><span class="section-number">3.4.1. </span>Document length<a class="headerlink" href="#document-length" title="Permalink to this headline">#</a></h3>
 <p>The first of our metrics is a simple one: document length. Document length is a surprisingly effective indicator of different genres, and, even better, it’s very easy information to collect. In fact, there’s no need to write custom code; we can just use <code class="docutils literal notranslate"><span class="pre">len()</span></code>.</p>
-</div>
-<div class="section" id="lexicon-i-hapax-richness">
-<h3><span class="section-number">3.4.2. </span>Lexicon I: hapax richness<a class="headerlink" href="#lexicon-i-hapax-richness" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="lexicon-i-hapax-richness">
+<h3><span class="section-number">3.4.2. </span>Lexicon I: hapax richness<a class="headerlink" href="#lexicon-i-hapax-richness" title="Permalink to this headline">#</a></h3>
 <p>With our document length function written, we can use its output to create another metric, called <strong>hapax richness</strong>. If you’ll recall from the <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/04_corpus-analytics.html#raw-metrics-terms">second day</a> of our Getting Started with Textual Data workshop series, a hapax (short for “hapax legomenon”) is a word that occurs only once in a document. Researchers, especially those working in authorship attribution, will use such words to create a measure of a document’s lexical complexity: the more hapaxes in a document, the more lexically complex that document is said to be.</p>
 <p>Generating a hapax richness metric involves finding all hapaxes in a document. Once we’ve done so, we simply take the sum of those tokens over the total number of tokens in a document.</p>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title">Using a Counter</p>
 <p>A <code class="docutils literal notranslate"><span class="pre">Counter</span></code> is a subclass of the standard Python dictionary. They’re very useful for tracking the frequency of items in some collection of data. Here, we simply wrap a document inside a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> and Python will automatically convert that document’s tokens into frequency data. This enables us to take a subset of those tokens with ease.</p>
-</div>
+</aside>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
@@ -707,9 +929,9 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="inspecting-our-work">
-<h3><span class="section-number">3.4.3. </span>Inspecting our work<a class="headerlink" href="#inspecting-our-work" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="inspecting-our-work">
+<h3><span class="section-number">3.4.3. </span>Inspecting our work<a class="headerlink" href="#inspecting-our-work" title="Permalink to this headline">#</a></h3>
 <p>Now that we have two methods of generating metrics about our corpus, let’s run each document through them and put the results in a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe. We’ll also include the labels from before, which will require us to <code class="docutils literal notranslate"><span class="pre">zip</span></code> the document list together with the list that contains our labels.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -765,44 +987,44 @@ weighted avg       0.97      0.96      0.96        77
   </thead>
   <tbody>
     <tr>
-      <th>43</th>
-      <td>3434</td>
-      <td>0.253349</td>
+      <th>5</th>
+      <td>2247</td>
+      <td>0.291500</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>42</th>
-      <td>2356</td>
-      <td>0.289898</td>
+      <th>40</th>
+      <td>3008</td>
+      <td>0.262965</td>
       <td>1</td>
       <td>fiction</td>
     </tr>
     <tr>
-      <th>126</th>
-      <td>39</td>
-      <td>0.871795</td>
+      <th>119</th>
+      <td>319</td>
+      <td>0.507837</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>76</th>
-      <td>101</td>
-      <td>0.702970</td>
+      <th>58</th>
+      <td>193</td>
+      <td>0.564767</td>
       <td>2</td>
       <td>summary</td>
     </tr>
     <tr>
-      <th>224</th>
-      <td>196</td>
-      <td>0.127551</td>
+      <th>187</th>
+      <td>1321</td>
+      <td>0.363361</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
     <tr>
-      <th>158</th>
-      <td>847</td>
-      <td>0.302243</td>
+      <th>245</th>
+      <td>273</td>
+      <td>0.399267</td>
       <td>3</td>
       <td>abstract</td>
     </tr>
@@ -850,17 +1072,17 @@ weighted avg       0.97      0.96      0.96        77
     <tr>
       <th>abstract</th>
       <td>547.980000</td>
-      <td>0.346419</td>
+      <td>0.347145</td>
     </tr>
     <tr>
       <th>fiction</th>
       <td>3286.678571</td>
-      <td>0.250794</td>
+      <td>0.250807</td>
     </tr>
     <tr>
       <th>summary</th>
       <td>178.930000</td>
-      <td>0.630816</td>
+      <td>0.630855</td>
     </tr>
   </tbody>
 </table>
@@ -909,33 +1131,33 @@ weighted avg       0.97      0.96      0.96        77
       <th rowspan="2" valign="top">abstract</th>
       <th>LENGTH</th>
       <td>1.000000</td>
-      <td>-0.337493</td>
+      <td>-0.336967</td>
     </tr>
     <tr>
       <th>HAPAX</th>
-      <td>-0.337493</td>
+      <td>-0.336967</td>
       <td>1.000000</td>
     </tr>
     <tr>
       <th rowspan="2" valign="top">fiction</th>
       <th>LENGTH</th>
       <td>1.000000</td>
-      <td>-0.882208</td>
+      <td>-0.880695</td>
     </tr>
     <tr>
       <th>HAPAX</th>
-      <td>-0.882208</td>
+      <td>-0.880695</td>
       <td>1.000000</td>
     </tr>
     <tr>
       <th rowspan="2" valign="top">summary</th>
       <th>LENGTH</th>
       <td>1.000000</td>
-      <td>-0.778418</td>
+      <td>-0.778452</td>
     </tr>
     <tr>
       <th>HAPAX</th>
-      <td>-0.778418</td>
+      <td>-0.778452</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -944,7 +1166,7 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 <p>It makes sense that length and hapax richness tend to be negatively correlated: the longer a text is, the more likely we are to see repeated words. In this sense, as it stands our hapax feature might not be as representative as we’d like it to be, especially when it comes to a document class like fiction. Surely there are rare, potentially important words in the fiction, but they’re largely blurred by the length of the documents. To mitigate this, we could use a <strong>window size</strong> to determine hapax richness, modifying the code above, for example, to break texts into smaller chunks and get a mean hapax score for all chunks. We won’t do this now, but keep in mind that you may have to make such modifications when engineering features.</p>
 <p>Raw metrics are useful, but so are visualizations. Below, we put together a quick function to show the by-label distribution of features in our data. The resultant histograms will make it clear whether our features are actually helping to partition our data, or whether they’re just muddling distinctions between document classes even more.</p>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title">What our graphing function does:</p>
 <ol class="simple">
 <li><p>Create a <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> subplots figure and axis</p></li>
@@ -952,7 +1174,7 @@ weighted avg       0.97      0.96      0.96        77
 <li><p>Create a histogram showing the number of documents with a certain value range for the feature</p></li>
 </ol>
 <p>Note: we’re using a little scaling on the bins to correct for the class imbalances.</p>
-</div>
+</aside>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -961,7 +1183,7 @@ weighted avg       0.97      0.96      0.96        77
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
     
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">groupby</span><span class="p">):</span>
-        <span class="n">n_bins</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="o">.</span><span class="mi">25</span><span class="p">)</span>
+        <span class="n">n_bins</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="mf">.25</span><span class="p">)</span>
         <span class="n">d</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number of documents&quot;</span><span class="p">)</span>
@@ -981,9 +1203,9 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 <p>These histograms usefully show us divisions among our classes. While the document lengths of summaries and abstracts have a similar shape and magnitude, there’s good separability between their two distributions in the hapax richness scores. And throughout, documents labeled with fiction are notably different from the other two classes; a classifier is sure to register this. Indeed, this difference could serve as a counter to the suggestion above about creating a window size for hapax richness. Though windowing the documents might create a more realistic representation, we’re already seeing useful separability within the hapax metric as it stands. In this sense, you might approach feature engineering with a fair bit of pragmatism, especially with regard to the wider goals of your research question. It may be that the fact that there’s a difference at all is enough, regardless of whether it’s the best, most nuanced representation of your data.</p>
 <p>For our purposes, what we have so far is, in fact, enough. We can feel pretty confident that the two features we’ve engineered so far will serve as useful metrics for a classifier, which is our ultimate intent for our session. With this established, it’s time to move on to more complex metrics: ones that depend on full text representations of the documents.</p>
-</div>
-<div class="section" id="active-vs-passive-voice">
-<h3><span class="section-number">3.4.4. </span>Active vs. passive voice<a class="headerlink" href="#active-vs-passive-voice" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="active-vs-passive-voice">
+<h3><span class="section-number">3.4.4. </span>Active vs. passive voice<a class="headerlink" href="#active-vs-passive-voice" title="Permalink to this headline">#</a></h3>
 <p>The reason the following metrics are more complex is twofold. First, they require a little bit more in the way of coding than the ones above; and second, they require us to think more carefully about relationships across our corpus (often with a fair bit of hypothesizing!). To wit: the first of our full text metrics concerns the distinction between active and passive voice. The hypothesis here is that the objective, report-like nature of abstracts (and perhaps summaries) will have more passive voice overall than in fiction, which tends to be focused on present action. To measure this, we’ll use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s dependency parser to identify the percentage of passive voice subjects in a document, versus active subjects.</p>
 <p>We’ll implement this in a function, which will tally the number of passive subjects and the number of active subjects in each sentence of the document. Then, it will sum together the total number of subjects and divide the number of passive subjects by that total. As above, we’ll use a <code class="docutils literal notranslate"><span class="pre">Counter</span></code> to store the intermediary information generated throughout this function.</p>
 <div class="cell docutils container">
@@ -1001,9 +1223,9 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="lexicon-ii-abstract-nouns">
-<h3><span class="section-number">3.4.5. </span>Lexicon II: abstract nouns<a class="headerlink" href="#lexicon-ii-abstract-nouns" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="lexicon-ii-abstract-nouns">
+<h3><span class="section-number">3.4.5. </span>Lexicon II: abstract nouns<a class="headerlink" href="#lexicon-ii-abstract-nouns" title="Permalink to this headline">#</a></h3>
 <p>The code for our second metric will follow a similar structure to the code above. Below, we use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tags to identify nouns in a document. Then we determine whether these are abstract nouns, on the theory that abstracts and summaries are likely to have more nouns that denote ideas, qualities, relationships, etc. than fiction.</p>
 <p>But how do we find an abstract noun? One simple way is to consider a noun’s suffix. Suffixes like <em>-acy</em> or <em>-ism</em> (e.g. accuracy, isomorphism) and <em>-hip</em> or <em>-ity</em> (e.g. relationship, fixity) are good, general markers of abstract nouns. They’re not always a perfect match, but they can give us a general sense of what kind of noun it is that we’re working with.</p>
 <div class="cell docutils container">
@@ -1025,9 +1247,9 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="lexicon-iii-cardinal-numbers">
-<h3><span class="section-number">3.4.6. </span>Lexicon III: cardinal numbers<a class="headerlink" href="#lexicon-iii-cardinal-numbers" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="lexicon-iii-cardinal-numbers">
+<h3><span class="section-number">3.4.6. </span>Lexicon III: cardinal numbers<a class="headerlink" href="#lexicon-iii-cardinal-numbers" title="Permalink to this headline">#</a></h3>
 <p>So far we’ve been eliding potentially important differences between abstracts and summaries. Let’s develop a metric that might help us distinguish between the two of them. One such metric could be a simple count of the number of cardinal numbers in a document: we’d expect summaries to have less than abstracts (whether because the latter reports various metrics, or because they often contain citations, dates, etc.). Using <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tagger will help us identify these tokens. Once identified, it’s just a matter of incrementing a count.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1043,9 +1265,9 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 <p>Note that we’ll want to convert the return from this function into a percentage over total tokens. We’ll do so in a later processing function that ties together everything we’ve written so far.</p>
-</div>
-<div class="section" id="sentiment">
-<h3><span class="section-number">3.4.7. </span>Sentiment<a class="headerlink" href="#sentiment" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="sentiment">
+<h3><span class="section-number">3.4.7. </span>Sentiment<a class="headerlink" href="#sentiment" title="Permalink to this headline">#</a></h3>
 <p>The final metric we’ll generate attempts to capture something about the sentiment of each document. <strong>Sentiment analysis</strong> is a popular NLP technique, which researchers use to determine affective and subjective information. Implementations vary, but most will assign a numeric value that represents the <strong>polarity</strong> of a text, that is, its general tendency toward negative, neutral, or positive sentiment. Typically, these values are a bounded range of <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>, with <code class="docutils literal notranslate"><span class="pre">-1</span></code> being the most negative sentiment, <code class="docutils literal notranslate"><span class="pre">1</span></code> the most positive, and <code class="docutils literal notranslate"><span class="pre">0</span></code> for neutral. Some implementations will also score the <strong>subjectivity</strong> of a text, with scores closer to <code class="docutils literal notranslate"><span class="pre">0</span></code> representing more “objective” texts and those tending toward <code class="docutils literal notranslate"><span class="pre">1</span></code> representing highly “subjective” texts.</p>
 <p>The data and methods that drive sentiment analysis are highly varied. The newest implementations use deep learning models to capture fine-grained nuances in text strings, while older versions of the technique are lexicon-based. The latter usually score texts with a combination of rule-based matching and predetermined values for words.</p>
 <p>If you use sentiment analysis, especially lexicon-based sentiment analysis (as we’re doing here), it’s important to keep in mind that the scores are, well, subjective. Someone had to go in and decide what <em>they</em> thought the sentiment of words or phrases are. If you were to read the same text, you might not agree. When possible, try to find the dictionary that supplies the analyzer and get a sense of the classification rules that produce a value (for example, <a class="reference external" href="https://github.com/sloria/TextBlob/blob/dev/textblob/en/en-sentiment.xml">here is the dictionary</a> that drives the <code class="docutils literal notranslate"><span class="pre">TextBlob</span></code> analyzer below). Good sentiment analysis toolkits will make this information readily available.</p>
@@ -1066,10 +1288,10 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 <p>With all of our advanced feature engineering functions written, we can process our corpus. We’ll call the above functions together using a single <code class="docutils literal notranslate"><span class="pre">get_stats()</span></code> function, which returns a dictionary of feature–value pairs.</p>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title">In a real life setting…</p>
 <p>…you might use <code class="docutils literal notranslate"><span class="pre">get_stats()</span></code> to do your text cleaning and basic feature engineering as well. That would save you the trouble of processing your corpus twice.</p>
-</div>
+</aside>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
@@ -1135,15 +1357,15 @@ weighted avg       0.97      0.96      0.96        77
 </div>
 </div>
 <p>Interestingly, the sentiment score does not appear to be particularly separable. All of our classes are mostly lumped together in terms of magnitude and range. We’ll need to keep this in mind when building our model – in fact we may even toss this feature out altogether. On the other hand, our three other features seem like they will serve our model well. There’s good separation between the classes, and within the classes themselves the features appear to be fairly well distributed.</p>
-</div>
-</div>
-<div class="section" id="modeling-ii-other-features">
-<h2><span class="section-number">3.5. </span>Modeling II: Other Features<a class="headerlink" href="#modeling-ii-other-features" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="modeling-ii-other-features">
+<h2><span class="section-number">3.5. </span>Modeling II: Other Features<a class="headerlink" href="#modeling-ii-other-features" title="Permalink to this headline">#</a></h2>
 <p>From here, we can build another model. This time, however, we send it the new features we’ve just engineered, rather than the big DTM from before. The workflow will be almost entirely the same, though there are two changes we need to implement:</p>
-<div class="margin sidebar">
+<aside class="margin sidebar">
 <p class="sidebar-title">More about distributions</p>
 <p>See this <a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/05.05-naive-bayes.html">excerpt</a> from the <em>Python Data Science Handbook</em> for a detailed explanation of the differences between distribution types in Bayesian modeling.</p>
-</div>
+</aside>
 <ol class="simple">
 <li><p>We need to scale our data. This isn’t actually necessary for naive Bayes models, but some of our features contain negative values, which the model won’t accept. What we’ll do, then, is normalize all of our features to a <code class="docutils literal notranslate"><span class="pre">[0,1]</span></code> scale. This will preserve the structure of our features but will remove the problematic values. We can do so with <code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code></p></li>
 <li><p>We need to change the type of distribution our model assumes. A multinomial distribution is the norm for text, as it works well with data that can translated into counts. But we’re no longer working with text data per se; we’re working with data <em>about</em> text, and the values represented therein are continuous. Because of this, we’ll use a model that assumes a Gaussian, or normal, distribution. This we can do with <code class="docutils literal notranslate"><span class="pre">GaussianNB</span></code></p></li>
@@ -1209,8 +1431,8 @@ weighted avg       0.96      0.96      0.96        77
 </div>
 </div>
 <p>Surprisingly well, actually! In fact, this second model is arguably <em>better</em> than the first one we built. It’s probably still overfitted to fiction, but the scores for the other document classes indicate that it’s been able to generalize out from specific words to a broader class of features that typify one kind of document from the next. And – just as important – it’s been able to do so with a far smaller set of features. Whereas the DTM we used to train the first model had ~18.5k features, this one only needs six.</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1234,59 +1456,53 @@ weighted avg       0.96      0.96      0.96        77
 
               </div>
               
-        
-            
-
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="02_text-annotation-with-spacy.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title"><span class="section-number">2. </span>Text Annotation with spaCy</p>
-            </div>
-        </a>
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="02_text-annotation-with-spacy.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title"><span class="section-number">2. </span>Text Annotation with spaCy</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="04_word-embeddings.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Word Embeddings</p>
     </div>
-     <div id="next">
-        <a class="right-next" href="04_word-embeddings.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title"><span class="section-number">4. </span>Word Embeddings</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
-        
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Tyler Shoemaker and Carl Stahmer<br/>
-        
-          <div class="extra_footer">
-            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Tyler Shoemaker and Carl Stahmer<br/>
+  
+    <div class="extra_footer">
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
   <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg"> 
 </a>
 
-          </div>
-      </p>
     </div>
-  </footer>
-</main>
+</p>
+        </footer>
+    </div>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 
-  
+
   </body>
 </html>
