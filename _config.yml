@@ -30,3 +30,4 @@ html:
 sphinx:
   config:
     html_show_copyright: false
+    language: en-us
