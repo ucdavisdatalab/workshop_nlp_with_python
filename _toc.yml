@@ -1,9 +1,14 @@
 format: jb-book
-root: index
-options:
-  numbered: true
-chapters:
-  - file: 01_logistics.ipynb
-  - file: 02_text-annotation-with-spacy.ipynb
-  - file: 03_classification-and-feature-engineering.ipynb
-  - file: 04_word-embeddings.ipynb
+root: chapters/index
+parts:
+  - caption: Chapters
+    numbered: true
+    chapters:
+      - file: chapters/01_logistics
+      - file: chapters/02_text-annotation-with-spacy
+      - file: chapters/03_classification-and-feature-engineering
+      - file: chapters/04_word-embeddings
+  - caption: Assessment
+    chapters:
+      - file: chapters/90_assessment
+
