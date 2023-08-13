@@ -1,0 +1,2661 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en-us" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>4. Word Embeddings &#8212; Natural Language Processing with Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/04_word-embeddings';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Assessment" href="90_assessment.html" />
+    <link rel="prev" title="3. Classification and Feature Engineering" href="03_classification-and-feature-engineering.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en-us"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/datalab-logo-full-color-rgb.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/datalab-logo-full-color-rgb.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_logistics.html">1. Before We Begin…</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_text-annotation-with-spacy.html">2. Text Annotation with spaCy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_classification-and-feature-engineering.html">3. Classification and Feature Engineering</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Word Embeddings</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Assessment</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="90_assessment.html">Assessment</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ucdavisdatalab/workshop_nlp_with_python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ucdavisdatalab/workshop_nlp_with_python/issues/new?title=Issue%20on%20page%20%2Fchapters/04_word-embeddings.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/chapters/04_word-embeddings.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Word Embeddings</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings-introduction">4.1. Word Embeddings: Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">4.2. Preliminaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-an-embeddings-model">4.3. Using an Embeddings Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-model">4.3.1. Loading a model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#token-mappings">4.3.2. Token mappings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-vocabulary-tokens">4.3.3. Out-of-vocabulary tokens</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-relationships">4.4. Word Relationships</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#similar-tokens">4.4.1. Similar tokens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concept-modeling">4.4.2. Concept modeling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analogies">4.4.3. Analogies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#document-similarity">4.5. Document Similarity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding">4.5.1. Encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing">4.5.2. Visualizing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering">4.5.3. Clustering</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="word-embeddings">
+<h1><span class="section-number">4. </span>Word Embeddings<a class="headerlink" href="#word-embeddings" title="Permalink to this headline">#</a></h1>
+<p>Our sessions so far have worked off the idea of document annotation to produce
+metadata about texts. We’ve used this information for everything from
+information retrieval tasks (Chapter 2) to predictive classification (Chapter
+3). Along the way, we’ve also made some passing discussions about how such
+annotations work to quantify or identify the semantics of those tasks (our work
+with POS tags, for example). But what we haven’t yet done is produce a model of
+semantic meaning ourselves. This is another core task of NLP, and there are
+several different ways to approach building a statistical representation of
+tokens’ meanings. The present chapter discusses one of the most popular methods
+of doing so: <strong>word embeddings</strong>. Below, we’ll overview what word embeddings
+are, demonstrate how to build and use them, talk about important considerations
+regarding bias, and apply all this to a document clustering task.</p>
+<p>The corpus we’ll use is Melanie Walsh’s <a class="reference external" href="https://melaniewalsh.github.io/Intro-Cultural-Analytics/00-Datasets/00-Datasets.html">collection</a> of ~380 obituaries from
+the <em>New York Times</em>. If you participated in our Getting Started with Textual
+Data series, you’ll be familiar with this corpus: we used it <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/05_clustering-and-classification.html">in the context of
+tf-idf scores</a>. Our return to it here is meant to chime with that
+discussion, for word embeddings enable us to perform a similar kind of text
+vectorization. Though, as we’ll discuss, the resultant vectors will be
+considerably more feature-rich than what we could achieve with tf-idf alone.</p>
+<div class="admonition-learning-objectives admonition">
+<p class="admonition-title">Learning objectives</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul class="simple">
+<li><p>Explain what word embeddings are</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">gensim</span></code> to train and load word embeddings models</p></li>
+<li><p>Identify and analyze word relationships in these models</p></li>
+<li><p>Recognize how bias can inhere in embeddings</p></li>
+<li><p>Encode documents with a word embeddings model</p></li>
+</ul>
+</div>
+<section id="word-embeddings-introduction">
+<h2><span class="section-number">4.1. </span>Word Embeddings: Introduction<a class="headerlink" href="#word-embeddings-introduction" title="Permalink to this headline">#</a></h2>
+<p>Prior to the advent of <a class="reference external" href="https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)">Transformer</a> models, word embedding served
+as a state-of-the-art technique for representing semantic relationships between
+tokens. The technique was first introduced in 2013, and it spawned a host of
+different variants that completely flooded the field of NLP until about 2018.
+In part, word embedding’s popularity stems from the relatively simple intuition
+behind it, which is known as the <strong>distributional hypothesis</strong>: “you shall know
+a word by the company it keeps!” (J.R. Firth). Words that appear in similar
+contexts, in other words, have similar meanings, and what word embeddings do is
+represent that context-specific information through a set of features. As a
+result, similar words share similar data representations, and we can leverage
+that similarity to explore the semantic space of a corpus, to encode documents
+with feature-rich data, and more.</p>
+<p>If you’re familiar with tf-idf vectors, the underlying data structure of word
+embeddings is the same: every word is represented by a vector of features. But
+a key difference lies in the <strong>sparsity</strong> of the vectors – or, in the case of
+word embeddings, the <em>lack</em> of sparsity. As we saw in the last chapter, tf-idf
+vectors can suffer from the <a class="reference external" href="https://en.wikipedia.org/wiki/Curse_of_dimensionality">curse of dimensionality</a>, something that’s
+compounded by the fact that such vectors must contain features for every word
+in corpus, regardless of whether a document has that word. This means tf-idf
+vectors are highly sparse: they contain many 0s. Word embeddings, on the other
+hand, do not. They’re what we call <strong>dense</strong> representations. Each one is a
+fixed-length, non-sparse vector (of 50-300 dimensions, usually) that is much
+more information-rich than tf-idf. As a result, embeddings tend to be capable
+of representing more nuanced relationships between corpus words – a performance
+improvement that is further boosted by the fact that many of the most popular
+models had the advantage of being trained on billions and billions of tokens.</p>
+<p>The other major difference between tehse vectors and tf-idf lies in how the
+former are created. While at root, word embeddings represent token
+co-occurrence data (just like a document-term matrix), they are the product of
+millions of guesses made by a neural network. Training this network involves
+making predictions about a target word, based on that word’s context. We are
+not going to delve into the math behind these predictions (though <a class="reference external" href="https://medium.com/analytics-vidhya/maths-behind-word2vec-explained-38d74f32726b">this
+post</a> does); however, it is worth noting that there are two different
+training set ups for a word embedding model:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">For more on CBOW vs. skip-gram</p>
+<p>Check out this blog post, <a class="reference external" href="https://iksinc.online/tag/continuous-bag-of-words-cbow/">Words as Vectors</a>.</p>
+</aside>
+<ol class="arabic simple">
+<li><p><strong>Common Bag of Words (CBOW)</strong>: given a window of words on either side of a
+target, the network tries to predict what word the target should be</p></li>
+<li><p><strong>Skip-grams</strong>: the network starts with the word in the middle of a window
+and picks random words within this window to use as its prediction targets</p></li>
+</ol>
+<p>As you may have noticed, these are just mirrored versions of one another. CBOW
+starts from context, while skip-gram tries to rebuild context. Regardless, in
+both cases the network attempts to maximize the likelihood of its predictions,
+updating its weights accordingly over the course of training. Words that
+repeatedly appear in similar contexts will help shape thse weights, and in turn
+the model will associate such words with similar vector representations. If
+you’d like to see all this in action, Xin Rong has produced a <a class="reference external" href="https://ronxin.github.io/wevi/">fantastic
+interactive visualization</a>of how word embedding models learn.</p>
+<p>Of course, the other way to understand how word embeddings work is to use them
+yourself. We’ll move on to doing so now.</p>
+</section>
+<section id="preliminaries">
+<h2><span class="section-number">4.2. </span>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">#</a></h2>
+<p>Here are the libraries we will use in this chapter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">KeyedVectors</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">AgglomerativeClustering</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We also initialize an input directory and load a file manifest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/session_three&quot;</span><span class="p">)</span>
+
+<span class="n">manifest</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">indir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;manifest.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">manifest</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 379 entries, 0 to 378
+Data columns (total 3 columns):
+ #   Column     Non-Null Count  Dtype 
+---  ------     --------------  ----- 
+ 0   name       379 non-null    object
+ 1   year       379 non-null    int64 
+ 2   file_name  379 non-null    object
+dtypes: int64(1), object(2)
+memory usage: 11.8+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>And finally we’ll load the obituaries. While the past two sessions have
+required full-text representations of documents, word embeddings work best with
+bags of words, especially when it comes to doing analysis with them.
+Accordingly, each of the files in the corpus have already processed by a text
+cleaning pipeline: they represent the lowercase, stopped, and lemmatized
+versions of the originals.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;file_name&#39;</span><span class="p">]:</span>
+    <span class="k">with</span> <span class="n">indir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;obits/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fin</span><span class="p">:</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">corpus</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With this time, it’s time to move to the model.</p>
+</section>
+<section id="using-an-embeddings-model">
+<h2><span class="section-number">4.3. </span>Using an Embeddings Model<a class="headerlink" href="#using-an-embeddings-model" title="Permalink to this headline">#</a></h2>
+<p>At this point, we are at a crossroads. On the one hand, we could train a word
+embeddings model using our corpus documents as is. The <code class="docutils literal notranslate"><span class="pre">gensim</span></code> library offers
+functionality for this, and it’s a relatively easy operation. On the other, we
+could use pre-made embeddings, which are usually trained on a more general –
+and much larger – set of documents. There is a trade-off here:</p>
+<ul class="simple">
+<li><p>Training a corpus-specific model will more faithfully represent the token
+behavior of the texts we’d like to analyze, but these representations could
+be <em>too</em> specific, especially if the model doesn’t have enough data to train
+on; the resultant embeddings may be closer to topic models than to word-level
+semantics</p></li>
+<li><p>Using pre-made embeddings gives us the benefit of generalization: the vectors
+will cleave more closely to how we understand language; but such embeddings
+might a) miss out on certain nuances we’d like to capture, or b) introduce
+biases into our corpus (more on this below)</p></li>
+</ul>
+<p>In our case, the decision is difficult. When preparing this reader, we (Tyler
+and Carl) found that a model trained on the obituaries alone did not produce
+vectors that could fully demonstrate the capabilities of the word embedding
+technique. The corpus is just a little too specific, and perhaps a little too
+small. We could’ve used a larger corpus, but doing so would introduce
+slow-downs in the workshop session. Because of this, we’ve gone with a pre-made
+model: the Stanford <a class="reference external" href="https://nlp.stanford.edu/projects/glove/">GloVe</a> embeddings (the 200-dimension version).
+GloVe was trained on billions of tokens, spanning Wikipedia data, newswire
+articles, even Twitter. More, the model’s developers offer several different
+dimension sizes, which are helpful for selecting embeddings with the right
+amount of detail.</p>
+<p>That said, going with GloVe introduces its own problems. For one thing, we
+can’t show you how to train a word embeddings model itself – at least not live.
+The code to do so, however, is reproduced below:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">Model parameters</p>
+<p>There are many different parameters to select from in <code class="docutils literal notranslate"><span class="pre">gensim</span></code>. You can find
+them in the <a class="reference external" href="https://radimrehurek.com/gensim/models/word2vec.html#gensim.models.word2vec.Word2Vec">Word2Vec documentation</a>.</p>
+</aside>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">Word2Vec</span>
+
+<span class="n">n_dimensions</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span><span class="n">n_dimensions</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">build_vocab</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">total_words</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">corpus_total_words</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Another problem has to do with the data GloVe was trained on. It’s so large
+that we can’t account for all the content, and this becomes particularly
+detrimental when it comes to bias. <a class="reference external" href="https://www.technologyreview.com/2016/07/27/158634/how-vector-space-mathematics-reveals-the-hidden-sexism-in-language/">Researchers have found</a> that general
+embeddings models reproduce gender-discriminatory language, even hate speech,
+by virtue of the fact that they are trained on huge amounts of text data, often
+without consideration of whether the content of such data is something one
+would endorse. GloVe is <a class="reference external" href="http://arxiv.org/abs/1607.06520">known to be biased</a> in this way. We’ll show an
+example later on in this chapter and will discuss this in much more detail
+during our live session, but for now just note that the effects of bias <em>do</em>
+shape how we represent our corpus, and it’s important to keep an eye out for
+this when working with the data.</p>
+<section id="loading-a-model">
+<h3><span class="section-number">4.3.1. </span>Loading a model<a class="headerlink" href="#loading-a-model" title="Permalink to this headline">#</a></h3>
+<p>With all that said, we can move on. Below, we load GloVe embeddings into our workspace using a <code class="docutils literal notranslate"><span class="pre">gensim</span></code> wrapper.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_path</span> <span class="o">=</span> <span class="n">indir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;glove/glove-wiki-gigaword_200d.bin&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KeyedVectors</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="o">.</span><span class="n">as_posix</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">KeyedVectors</span></code> object acts much like a Python dictionary, and you can do
+certain Python operations directly on it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of tokens in the model:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of tokens in the model: 400000
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="token-mappings">
+<h3><span class="section-number">4.3.2. </span>Token mappings<a class="headerlink" href="#token-mappings" title="Permalink to this headline">#</a></h3>
+<p>Each token in the model has an associated index. This mapping is accessible via
+<code class="docutils literal notranslate"><span class="pre">.key_to_index</span></code>.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">key_to_index</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;the&#39;: 0,
+ &#39;,&#39;: 1,
+ &#39;.&#39;: 2,
+ &#39;of&#39;: 3,
+ &#39;to&#39;: 4,
+ &#39;and&#39;: 5,
+ &#39;in&#39;: 6,
+ &#39;a&#39;: 7,
+ &#39;&quot;&#39;: 8,
+ &quot;&#39;s&quot;: 9,
+ &#39;for&#39;: 10,
+ &#39;-&#39;: 11,
+ &#39;that&#39;: 12,
+ &#39;on&#39;: 13,
+ &#39;is&#39;: 14,
+ &#39;was&#39;: 15,
+ &#39;said&#39;: 16,
+ &#39;with&#39;: 17,
+ &#39;he&#39;: 18,
+ &#39;as&#39;: 19,
+ &#39;it&#39;: 20,
+ &#39;by&#39;: 21,
+ &#39;at&#39;: 22,
+ &#39;(&#39;: 23,
+ &#39;)&#39;: 24,
+ &#39;from&#39;: 25,
+ &#39;his&#39;: 26,
+ &quot;&#39;&#39;&quot;: 27,
+ &#39;``&#39;: 28,
+ &#39;an&#39;: 29,
+ &#39;be&#39;: 30,
+ &#39;has&#39;: 31,
+ &#39;are&#39;: 32,
+ &#39;have&#39;: 33,
+ &#39;but&#39;: 34,
+ &#39;were&#39;: 35,
+ &#39;not&#39;: 36,
+ &#39;this&#39;: 37,
+ &#39;who&#39;: 38,
+ &#39;they&#39;: 39,
+ &#39;had&#39;: 40,
+ &#39;i&#39;: 41,
+ &#39;which&#39;: 42,
+ &#39;will&#39;: 43,
+ &#39;their&#39;: 44,
+ &#39;:&#39;: 45,
+ &#39;or&#39;: 46,
+ &#39;its&#39;: 47,
+ &#39;one&#39;: 48,
+ &#39;after&#39;: 49,
+ &#39;new&#39;: 50,
+ &#39;been&#39;: 51,
+ &#39;also&#39;: 52,
+ &#39;we&#39;: 53,
+ &#39;would&#39;: 54,
+ &#39;two&#39;: 55,
+ &#39;more&#39;: 56,
+ &quot;&#39;&quot;: 57,
+ &#39;first&#39;: 58,
+ &#39;about&#39;: 59,
+ &#39;up&#39;: 60,
+ &#39;when&#39;: 61,
+ &#39;year&#39;: 62,
+ &#39;there&#39;: 63,
+ &#39;all&#39;: 64,
+ &#39;--&#39;: 65,
+ &#39;out&#39;: 66,
+ &#39;she&#39;: 67,
+ &#39;other&#39;: 68,
+ &#39;people&#39;: 69,
+ &quot;n&#39;t&quot;: 70,
+ &#39;her&#39;: 71,
+ &#39;percent&#39;: 72,
+ &#39;than&#39;: 73,
+ &#39;over&#39;: 74,
+ &#39;into&#39;: 75,
+ &#39;last&#39;: 76,
+ &#39;some&#39;: 77,
+ &#39;government&#39;: 78,
+ &#39;time&#39;: 79,
+ &#39;$&#39;: 80,
+ &#39;you&#39;: 81,
+ &#39;years&#39;: 82,
+ &#39;if&#39;: 83,
+ &#39;no&#39;: 84,
+ &#39;world&#39;: 85,
+ &#39;can&#39;: 86,
+ &#39;three&#39;: 87,
+ &#39;do&#39;: 88,
+ &#39;;&#39;: 89,
+ &#39;president&#39;: 90,
+ &#39;only&#39;: 91,
+ &#39;state&#39;: 92,
+ &#39;million&#39;: 93,
+ &#39;could&#39;: 94,
+ &#39;us&#39;: 95,
+ &#39;most&#39;: 96,
+ &#39;_&#39;: 97,
+ &#39;against&#39;: 98,
+ &#39;u.s.&#39;: 99,
+ &#39;so&#39;: 100,
+ &#39;them&#39;: 101,
+ &#39;what&#39;: 102,
+ &#39;him&#39;: 103,
+ &#39;united&#39;: 104,
+ &#39;during&#39;: 105,
+ &#39;before&#39;: 106,
+ &#39;may&#39;: 107,
+ &#39;since&#39;: 108,
+ &#39;many&#39;: 109,
+ &#39;while&#39;: 110,
+ &#39;where&#39;: 111,
+ &#39;states&#39;: 112,
+ &#39;because&#39;: 113,
+ &#39;now&#39;: 114,
+ &#39;city&#39;: 115,
+ &#39;made&#39;: 116,
+ &#39;like&#39;: 117,
+ &#39;between&#39;: 118,
+ &#39;did&#39;: 119,
+ &#39;just&#39;: 120,
+ &#39;national&#39;: 121,
+ &#39;day&#39;: 122,
+ &#39;country&#39;: 123,
+ &#39;under&#39;: 124,
+ &#39;such&#39;: 125,
+ &#39;second&#39;: 126,
+ &#39;then&#39;: 127,
+ &#39;company&#39;: 128,
+ &#39;group&#39;: 129,
+ &#39;any&#39;: 130,
+ &#39;through&#39;: 131,
+ &#39;china&#39;: 132,
+ &#39;four&#39;: 133,
+ &#39;being&#39;: 134,
+ &#39;down&#39;: 135,
+ &#39;war&#39;: 136,
+ &#39;back&#39;: 137,
+ &#39;off&#39;: 138,
+ &#39;south&#39;: 139,
+ &#39;american&#39;: 140,
+ &#39;minister&#39;: 141,
+ &#39;police&#39;: 142,
+ &#39;well&#39;: 143,
+ &#39;including&#39;: 144,
+ &#39;team&#39;: 145,
+ &#39;international&#39;: 146,
+ &#39;week&#39;: 147,
+ &#39;officials&#39;: 148,
+ &#39;still&#39;: 149,
+ &#39;both&#39;: 150,
+ &#39;even&#39;: 151,
+ &#39;high&#39;: 152,
+ &#39;part&#39;: 153,
+ &#39;told&#39;: 154,
+ &#39;those&#39;: 155,
+ &#39;end&#39;: 156,
+ &#39;former&#39;: 157,
+ &#39;these&#39;: 158,
+ &#39;make&#39;: 159,
+ &#39;billion&#39;: 160,
+ &#39;work&#39;: 161,
+ &#39;our&#39;: 162,
+ &#39;home&#39;: 163,
+ &#39;school&#39;: 164,
+ &#39;party&#39;: 165,
+ &#39;house&#39;: 166,
+ &#39;old&#39;: 167,
+ &#39;later&#39;: 168,
+ &#39;get&#39;: 169,
+ &#39;another&#39;: 170,
+ &#39;tuesday&#39;: 171,
+ &#39;news&#39;: 172,
+ &#39;long&#39;: 173,
+ &#39;five&#39;: 174,
+ &#39;called&#39;: 175,
+ &#39;1&#39;: 176,
+ &#39;wednesday&#39;: 177,
+ &#39;military&#39;: 178,
+ &#39;way&#39;: 179,
+ &#39;used&#39;: 180,
+ &#39;much&#39;: 181,
+ &#39;next&#39;: 182,
+ &#39;monday&#39;: 183,
+ &#39;thursday&#39;: 184,
+ &#39;friday&#39;: 185,
+ &#39;game&#39;: 186,
+ &#39;here&#39;: 187,
+ &#39;?&#39;: 188,
+ &#39;should&#39;: 189,
+ &#39;take&#39;: 190,
+ &#39;very&#39;: 191,
+ &#39;my&#39;: 192,
+ &#39;north&#39;: 193,
+ &#39;security&#39;: 194,
+ &#39;season&#39;: 195,
+ &#39;york&#39;: 196,
+ &#39;how&#39;: 197,
+ &#39;public&#39;: 198,
+ &#39;early&#39;: 199,
+ &#39;according&#39;: 200,
+ &#39;several&#39;: 201,
+ &#39;court&#39;: 202,
+ &#39;say&#39;: 203,
+ &#39;around&#39;: 204,
+ &#39;foreign&#39;: 205,
+ &#39;10&#39;: 206,
+ &#39;until&#39;: 207,
+ &#39;set&#39;: 208,
+ &#39;political&#39;: 209,
+ &#39;says&#39;: 210,
+ &#39;market&#39;: 211,
+ &#39;however&#39;: 212,
+ &#39;family&#39;: 213,
+ &#39;life&#39;: 214,
+ &#39;same&#39;: 215,
+ &#39;general&#39;: 216,
+ &#39;–&#39;: 217,
+ &#39;left&#39;: 218,
+ &#39;good&#39;: 219,
+ &#39;top&#39;: 220,
+ &#39;university&#39;: 221,
+ &#39;going&#39;: 222,
+ &#39;number&#39;: 223,
+ &#39;major&#39;: 224,
+ &#39;known&#39;: 225,
+ &#39;points&#39;: 226,
+ &#39;won&#39;: 227,
+ &#39;six&#39;: 228,
+ &#39;month&#39;: 229,
+ &#39;dollars&#39;: 230,
+ &#39;bank&#39;: 231,
+ &#39;2&#39;: 232,
+ &#39;iraq&#39;: 233,
+ &#39;use&#39;: 234,
+ &#39;members&#39;: 235,
+ &#39;each&#39;: 236,
+ &#39;area&#39;: 237,
+ &#39;found&#39;: 238,
+ &#39;official&#39;: 239,
+ &#39;sunday&#39;: 240,
+ &#39;place&#39;: 241,
+ &#39;go&#39;: 242,
+ &#39;based&#39;: 243,
+ &#39;among&#39;: 244,
+ &#39;third&#39;: 245,
+ &#39;times&#39;: 246,
+ &#39;took&#39;: 247,
+ &#39;right&#39;: 248,
+ &#39;days&#39;: 249,
+ &#39;local&#39;: 250,
+ &#39;economic&#39;: 251,
+ &#39;countries&#39;: 252,
+ &#39;see&#39;: 253,
+ &#39;best&#39;: 254,
+ &#39;report&#39;: 255,
+ &#39;killed&#39;: 256,
+ &#39;held&#39;: 257,
+ &#39;business&#39;: 258,
+ &#39;west&#39;: 259,
+ &#39;does&#39;: 260,
+ &#39;own&#39;: 261,
+ &#39;%&#39;: 262,
+ &#39;came&#39;: 263,
+ &#39;law&#39;: 264,
+ &#39;months&#39;: 265,
+ &#39;women&#39;: 266,
+ &quot;&#39;re&quot;: 267,
+ &#39;power&#39;: 268,
+ &#39;think&#39;: 269,
+ &#39;service&#39;: 270,
+ &#39;children&#39;: 271,
+ &#39;bush&#39;: 272,
+ &#39;show&#39;: 273,
+ &#39;/&#39;: 274,
+ &#39;help&#39;: 275,
+ &#39;chief&#39;: 276,
+ &#39;saturday&#39;: 277,
+ &#39;system&#39;: 278,
+ &#39;john&#39;: 279,
+ &#39;support&#39;: 280,
+ &#39;series&#39;: 281,
+ &#39;play&#39;: 282,
+ &#39;office&#39;: 283,
+ &#39;following&#39;: 284,
+ &#39;me&#39;: 285,
+ &#39;meeting&#39;: 286,
+ &#39;expected&#39;: 287,
+ &#39;late&#39;: 288,
+ &#39;washington&#39;: 289,
+ &#39;games&#39;: 290,
+ &#39;european&#39;: 291,
+ &#39;league&#39;: 292,
+ &#39;reported&#39;: 293,
+ &#39;final&#39;: 294,
+ &#39;added&#39;: 295,
+ &#39;without&#39;: 296,
+ &#39;british&#39;: 297,
+ &#39;white&#39;: 298,
+ &#39;history&#39;: 299,
+ &#39;man&#39;: 300,
+ &#39;men&#39;: 301,
+ &#39;became&#39;: 302,
+ &#39;want&#39;: 303,
+ &#39;march&#39;: 304,
+ &#39;case&#39;: 305,
+ &#39;few&#39;: 306,
+ &#39;run&#39;: 307,
+ &#39;money&#39;: 308,
+ &#39;began&#39;: 309,
+ &#39;open&#39;: 310,
+ &#39;name&#39;: 311,
+ &#39;trade&#39;: 312,
+ &#39;center&#39;: 313,
+ &#39;3&#39;: 314,
+ &#39;israel&#39;: 315,
+ &#39;oil&#39;: 316,
+ &#39;too&#39;: 317,
+ &#39;al&#39;: 318,
+ &#39;film&#39;: 319,
+ &#39;win&#39;: 320,
+ &#39;led&#39;: 321,
+ &#39;east&#39;: 322,
+ &#39;central&#39;: 323,
+ &#39;20&#39;: 324,
+ &#39;air&#39;: 325,
+ &#39;come&#39;: 326,
+ &#39;chinese&#39;: 327,
+ &#39;town&#39;: 328,
+ &#39;leader&#39;: 329,
+ &#39;army&#39;: 330,
+ &#39;line&#39;: 331,
+ &#39;never&#39;: 332,
+ &#39;little&#39;: 333,
+ &#39;played&#39;: 334,
+ &#39;prime&#39;: 335,
+ &#39;death&#39;: 336,
+ &#39;companies&#39;: 337,
+ &#39;least&#39;: 338,
+ &#39;put&#39;: 339,
+ &#39;forces&#39;: 340,
+ &#39;past&#39;: 341,
+ &#39;de&#39;: 342,
+ &#39;half&#39;: 343,
+ &#39;june&#39;: 344,
+ &#39;saying&#39;: 345,
+ &#39;know&#39;: 346,
+ &#39;federal&#39;: 347,
+ &#39;french&#39;: 348,
+ &#39;peace&#39;: 349,
+ &#39;earlier&#39;: 350,
+ &#39;capital&#39;: 351,
+ &#39;force&#39;: 352,
+ &#39;great&#39;: 353,
+ &#39;union&#39;: 354,
+ &#39;near&#39;: 355,
+ &#39;released&#39;: 356,
+ &#39;small&#39;: 357,
+ &#39;department&#39;: 358,
+ &#39;every&#39;: 359,
+ &#39;health&#39;: 360,
+ &#39;japan&#39;: 361,
+ &#39;head&#39;: 362,
+ &#39;ago&#39;: 363,
+ &#39;night&#39;: 364,
+ &#39;big&#39;: 365,
+ &#39;cup&#39;: 366,
+ &#39;election&#39;: 367,
+ &#39;region&#39;: 368,
+ &#39;director&#39;: 369,
+ &#39;talks&#39;: 370,
+ &#39;program&#39;: 371,
+ &#39;far&#39;: 372,
+ &#39;today&#39;: 373,
+ &#39;statement&#39;: 374,
+ &#39;july&#39;: 375,
+ &#39;although&#39;: 376,
+ &#39;district&#39;: 377,
+ &#39;again&#39;: 378,
+ &#39;born&#39;: 379,
+ &#39;development&#39;: 380,
+ &#39;leaders&#39;: 381,
+ &#39;council&#39;: 382,
+ &#39;close&#39;: 383,
+ &#39;record&#39;: 384,
+ &#39;along&#39;: 385,
+ &#39;county&#39;: 386,
+ &#39;france&#39;: 387,
+ &#39;went&#39;: 388,
+ &#39;point&#39;: 389,
+ &#39;must&#39;: 390,
+ &#39;spokesman&#39;: 391,
+ &#39;your&#39;: 392,
+ &#39;member&#39;: 393,
+ &#39;plan&#39;: 394,
+ &#39;financial&#39;: 395,
+ &#39;april&#39;: 396,
+ &#39;recent&#39;: 397,
+ &#39;campaign&#39;: 398,
+ &#39;become&#39;: 399,
+ &#39;troops&#39;: 400,
+ &#39;whether&#39;: 401,
+ &#39;lost&#39;: 402,
+ &#39;music&#39;: 403,
+ &#39;15&#39;: 404,
+ &#39;got&#39;: 405,
+ &#39;israeli&#39;: 406,
+ &#39;30&#39;: 407,
+ &#39;need&#39;: 408,
+ &#39;4&#39;: 409,
+ &#39;lead&#39;: 410,
+ &#39;already&#39;: 411,
+ &#39;russia&#39;: 412,
+ &#39;though&#39;: 413,
+ &#39;might&#39;: 414,
+ &#39;free&#39;: 415,
+ &#39;hit&#39;: 416,
+ &#39;rights&#39;: 417,
+ &#39;11&#39;: 418,
+ &#39;information&#39;: 419,
+ &#39;away&#39;: 420,
+ &#39;12&#39;: 421,
+ &#39;5&#39;: 422,
+ &#39;others&#39;: 423,
+ &#39;control&#39;: 424,
+ &#39;within&#39;: 425,
+ &#39;large&#39;: 426,
+ &#39;economy&#39;: 427,
+ &#39;press&#39;: 428,
+ &#39;agency&#39;: 429,
+ &#39;water&#39;: 430,
+ &#39;died&#39;: 431,
+ &#39;career&#39;: 432,
+ &#39;making&#39;: 433,
+ &#39;...&#39;: 434,
+ &#39;deal&#39;: 435,
+ &#39;attack&#39;: 436,
+ &#39;side&#39;: 437,
+ &#39;seven&#39;: 438,
+ &#39;better&#39;: 439,
+ &#39;less&#39;: 440,
+ &#39;september&#39;: 441,
+ &#39;once&#39;: 442,
+ &#39;clinton&#39;: 443,
+ &#39;main&#39;: 444,
+ &#39;due&#39;: 445,
+ &#39;committee&#39;: 446,
+ &#39;building&#39;: 447,
+ &#39;conference&#39;: 448,
+ &#39;club&#39;: 449,
+ &#39;january&#39;: 450,
+ &#39;decision&#39;: 451,
+ &#39;stock&#39;: 452,
+ &#39;america&#39;: 453,
+ &#39;given&#39;: 454,
+ &#39;give&#39;: 455,
+ &#39;often&#39;: 456,
+ &#39;announced&#39;: 457,
+ &#39;television&#39;: 458,
+ &#39;industry&#39;: 459,
+ &#39;order&#39;: 460,
+ &#39;young&#39;: 461,
+ &quot;&#39;ve&quot;: 462,
+ &#39;palestinian&#39;: 463,
+ &#39;age&#39;: 464,
+ &#39;start&#39;: 465,
+ &#39;administration&#39;: 466,
+ &#39;russian&#39;: 467,
+ &#39;prices&#39;: 468,
+ &#39;round&#39;: 469,
+ &#39;december&#39;: 470,
+ &#39;nations&#39;: 471,
+ &quot;&#39;m&quot;: 472,
+ &#39;human&#39;: 473,
+ &#39;india&#39;: 474,
+ &#39;defense&#39;: 475,
+ &#39;asked&#39;: 476,
+ &#39;total&#39;: 477,
+ &#39;october&#39;: 478,
+ &#39;players&#39;: 479,
+ &#39;bill&#39;: 480,
+ &#39;important&#39;: 481,
+ &#39;southern&#39;: 482,
+ &#39;move&#39;: 483,
+ &#39;fire&#39;: 484,
+ &#39;population&#39;: 485,
+ &#39;rose&#39;: 486,
+ &#39;november&#39;: 487,
+ &#39;include&#39;: 488,
+ &#39;further&#39;: 489,
+ &#39;nuclear&#39;: 490,
+ &#39;street&#39;: 491,
+ &#39;taken&#39;: 492,
+ &#39;media&#39;: 493,
+ &#39;different&#39;: 494,
+ &#39;issue&#39;: 495,
+ &#39;received&#39;: 496,
+ &#39;secretary&#39;: 497,
+ &#39;return&#39;: 498,
+ &#39;college&#39;: 499,
+ &#39;working&#39;: 500,
+ &#39;community&#39;: 501,
+ &#39;eight&#39;: 502,
+ &#39;groups&#39;: 503,
+ &#39;despite&#39;: 504,
+ &#39;level&#39;: 505,
+ &#39;largest&#39;: 506,
+ &#39;whose&#39;: 507,
+ &#39;attacks&#39;: 508,
+ &#39;germany&#39;: 509,
+ &#39;august&#39;: 510,
+ &#39;change&#39;: 511,
+ &#39;church&#39;: 512,
+ &#39;nation&#39;: 513,
+ &#39;german&#39;: 514,
+ &#39;station&#39;: 515,
+ &#39;london&#39;: 516,
+ &#39;weeks&#39;: 517,
+ &#39;having&#39;: 518,
+ &#39;18&#39;: 519,
+ &#39;research&#39;: 520,
+ &#39;black&#39;: 521,
+ &#39;services&#39;: 522,
+ &#39;story&#39;: 523,
+ &#39;6&#39;: 524,
+ &#39;europe&#39;: 525,
+ &#39;sales&#39;: 526,
+ &#39;policy&#39;: 527,
+ &#39;visit&#39;: 528,
+ &#39;northern&#39;: 529,
+ &#39;lot&#39;: 530,
+ &#39;across&#39;: 531,
+ &#39;per&#39;: 532,
+ &#39;current&#39;: 533,
+ &#39;board&#39;: 534,
+ &#39;football&#39;: 535,
+ &#39;ministry&#39;: 536,
+ &#39;workers&#39;: 537,
+ &#39;vote&#39;: 538,
+ &#39;book&#39;: 539,
+ &#39;fell&#39;: 540,
+ &#39;seen&#39;: 541,
+ &#39;role&#39;: 542,
+ &#39;students&#39;: 543,
+ &#39;shares&#39;: 544,
+ &#39;iran&#39;: 545,
+ &#39;process&#39;: 546,
+ &#39;agreement&#39;: 547,
+ &#39;quarter&#39;: 548,
+ &#39;full&#39;: 549,
+ &#39;match&#39;: 550,
+ &#39;started&#39;: 551,
+ &#39;growth&#39;: 552,
+ &#39;yet&#39;: 553,
+ &#39;moved&#39;: 554,
+ &#39;possible&#39;: 555,
+ &#39;western&#39;: 556,
+ &#39;special&#39;: 557,
+ &#39;100&#39;: 558,
+ &#39;plans&#39;: 559,
+ &#39;interest&#39;: 560,
+ &#39;behind&#39;: 561,
+ &#39;strong&#39;: 562,
+ &#39;england&#39;: 563,
+ &#39;named&#39;: 564,
+ &#39;food&#39;: 565,
+ &#39;period&#39;: 566,
+ &#39;real&#39;: 567,
+ &#39;authorities&#39;: 568,
+ &#39;car&#39;: 569,
+ &#39;term&#39;: 570,
+ &#39;rate&#39;: 571,
+ &#39;race&#39;: 572,
+ &#39;nearly&#39;: 573,
+ &#39;korea&#39;: 574,
+ &#39;enough&#39;: 575,
+ &#39;site&#39;: 576,
+ &#39;opposition&#39;: 577,
+ &#39;keep&#39;: 578,
+ &#39;25&#39;: 579,
+ &#39;call&#39;: 580,
+ &#39;future&#39;: 581,
+ &#39;taking&#39;: 582,
+ &#39;island&#39;: 583,
+ &#39;2008&#39;: 584,
+ &#39;2006&#39;: 585,
+ &#39;road&#39;: 586,
+ &#39;outside&#39;: 587,
+ &#39;really&#39;: 588,
+ &#39;century&#39;: 589,
+ &#39;democratic&#39;: 590,
+ &#39;almost&#39;: 591,
+ &#39;single&#39;: 592,
+ &#39;share&#39;: 593,
+ &#39;leading&#39;: 594,
+ &#39;trying&#39;: 595,
+ &#39;find&#39;: 596,
+ &#39;album&#39;: 597,
+ &#39;senior&#39;: 598,
+ &#39;minutes&#39;: 599,
+ &#39;together&#39;: 600,
+ &#39;congress&#39;: 601,
+ &#39;index&#39;: 602,
+ &#39;australia&#39;: 603,
+ &#39;results&#39;: 604,
+ &#39;hard&#39;: 605,
+ &#39;hours&#39;: 606,
+ &#39;land&#39;: 607,
+ &#39;action&#39;: 608,
+ &#39;higher&#39;: 609,
+ &#39;field&#39;: 610,
+ &#39;cut&#39;: 611,
+ &#39;coach&#39;: 612,
+ &#39;elections&#39;: 613,
+ &#39;san&#39;: 614,
+ &#39;issues&#39;: 615,
+ &#39;executive&#39;: 616,
+ &#39;february&#39;: 617,
+ &#39;production&#39;: 618,
+ &#39;areas&#39;: 619,
+ &#39;river&#39;: 620,
+ &#39;face&#39;: 621,
+ &#39;using&#39;: 622,
+ &#39;japanese&#39;: 623,
+ &#39;province&#39;: 624,
+ &#39;park&#39;: 625,
+ &#39;price&#39;: 626,
+ &#39;commission&#39;: 627,
+ &#39;california&#39;: 628,
+ &#39;father&#39;: 629,
+ &#39;son&#39;: 630,
+ &#39;education&#39;: 631,
+ &#39;7&#39;: 632,
+ &#39;village&#39;: 633,
+ &#39;energy&#39;: 634,
+ &#39;shot&#39;: 635,
+ &#39;short&#39;: 636,
+ &#39;africa&#39;: 637,
+ &#39;key&#39;: 638,
+ &#39;red&#39;: 639,
+ &#39;association&#39;: 640,
+ &#39;average&#39;: 641,
+ &#39;pay&#39;: 642,
+ &#39;exchange&#39;: 643,
+ &#39;eu&#39;: 644,
+ &#39;something&#39;: 645,
+ &#39;gave&#39;: 646,
+ &#39;likely&#39;: 647,
+ &#39;player&#39;: 648,
+ &#39;george&#39;: 649,
+ &#39;2007&#39;: 650,
+ &#39;victory&#39;: 651,
+ &#39;8&#39;: 652,
+ &#39;low&#39;: 653,
+ &#39;things&#39;: 654,
+ &#39;2010&#39;: 655,
+ &#39;pakistan&#39;: 656,
+ &#39;14&#39;: 657,
+ &#39;post&#39;: 658,
+ &#39;social&#39;: 659,
+ &#39;continue&#39;: 660,
+ &#39;ever&#39;: 661,
+ &#39;look&#39;: 662,
+ &#39;chairman&#39;: 663,
+ &#39;job&#39;: 664,
+ &#39;2000&#39;: 665,
+ &#39;soldiers&#39;: 666,
+ &#39;able&#39;: 667,
+ &#39;parliament&#39;: 668,
+ &#39;front&#39;: 669,
+ &#39;himself&#39;: 670,
+ &#39;problems&#39;: 671,
+ &#39;private&#39;: 672,
+ &#39;lower&#39;: 673,
+ &#39;list&#39;: 674,
+ &#39;built&#39;: 675,
+ &#39;13&#39;: 676,
+ &#39;efforts&#39;: 677,
+ &#39;dollar&#39;: 678,
+ &#39;miles&#39;: 679,
+ &#39;included&#39;: 680,
+ &#39;radio&#39;: 681,
+ &#39;live&#39;: 682,
+ &#39;form&#39;: 683,
+ &#39;david&#39;: 684,
+ &#39;african&#39;: 685,
+ &#39;increase&#39;: 686,
+ &#39;reports&#39;: 687,
+ &#39;sent&#39;: 688,
+ &#39;fourth&#39;: 689,
+ &#39;always&#39;: 690,
+ &#39;king&#39;: 691,
+ &#39;50&#39;: 692,
+ &#39;tax&#39;: 693,
+ &#39;taiwan&#39;: 694,
+ &#39;britain&#39;: 695,
+ &#39;16&#39;: 696,
+ &#39;playing&#39;: 697,
+ &#39;title&#39;: 698,
+ &#39;middle&#39;: 699,
+ &#39;meet&#39;: 700,
+ &#39;global&#39;: 701,
+ &#39;wife&#39;: 702,
+ &#39;2009&#39;: 703,
+ &#39;position&#39;: 704,
+ &#39;located&#39;: 705,
+ &#39;clear&#39;: 706,
+ &#39;ahead&#39;: 707,
+ &#39;2004&#39;: 708,
+ &#39;2005&#39;: 709,
+ &#39;iraqi&#39;: 710,
+ &#39;english&#39;: 711,
+ &#39;result&#39;: 712,
+ &#39;release&#39;: 713,
+ &#39;violence&#39;: 714,
+ &#39;goal&#39;: 715,
+ &#39;project&#39;: 716,
+ &#39;closed&#39;: 717,
+ &#39;border&#39;: 718,
+ &#39;body&#39;: 719,
+ &#39;soon&#39;: 720,
+ &#39;crisis&#39;: 721,
+ &#39;division&#39;: 722,
+ &#39;&amp;amp;&#39;: 723,
+ &#39;served&#39;: 724,
+ &#39;tour&#39;: 725,
+ &#39;hospital&#39;: 726,
+ &#39;kong&#39;: 727,
+ &#39;test&#39;: 728,
+ &#39;hong&#39;: 729,
+ &#39;u.n.&#39;: 730,
+ &#39;inc.&#39;: 731,
+ &#39;technology&#39;: 732,
+ &#39;believe&#39;: 733,
+ &#39;organization&#39;: 734,
+ &#39;published&#39;: 735,
+ &#39;weapons&#39;: 736,
+ &#39;agreed&#39;: 737,
+ &#39;why&#39;: 738,
+ &#39;nine&#39;: 739,
+ &#39;summer&#39;: 740,
+ &#39;wanted&#39;: 741,
+ &#39;republican&#39;: 742,
+ &#39;act&#39;: 743,
+ &#39;recently&#39;: 744,
+ &#39;texas&#39;: 745,
+ &#39;course&#39;: 746,
+ &#39;problem&#39;: 747,
+ &#39;senate&#39;: 748,
+ &#39;medical&#39;: 749,
+ &#39;un&#39;: 750,
+ &#39;done&#39;: 751,
+ &#39;reached&#39;: 752,
+ &#39;star&#39;: 753,
+ &#39;continued&#39;: 754,
+ &#39;investors&#39;: 755,
+ &#39;living&#39;: 756,
+ &#39;care&#39;: 757,
+ &#39;signed&#39;: 758,
+ &#39;17&#39;: 759,
+ &#39;art&#39;: 760,
+ &#39;provide&#39;: 761,
+ &#39;worked&#39;: 762,
+ &#39;presidential&#39;: 763,
+ &#39;gold&#39;: 764,
+ &#39;obama&#39;: 765,
+ &#39;morning&#39;: 766,
+ &#39;dead&#39;: 767,
+ &#39;opened&#39;: 768,
+ &quot;&#39;ll&quot;: 769,
+ &#39;event&#39;: 770,
+ &#39;previous&#39;: 771,
+ &#39;cost&#39;: 772,
+ &#39;instead&#39;: 773,
+ &#39;canada&#39;: 774,
+ &#39;band&#39;: 775,
+ &#39;teams&#39;: 776,
+ &#39;daily&#39;: 777,
+ &#39;2001&#39;: 778,
+ &#39;available&#39;: 779,
+ &#39;drug&#39;: 780,
+ &#39;coming&#39;: 781,
+ &#39;2003&#39;: 782,
+ &#39;investment&#39;: 783,
+ &#39;’s&#39;: 784,
+ &#39;michael&#39;: 785,
+ &#39;civil&#39;: 786,
+ &#39;woman&#39;: 787,
+ &#39;training&#39;: 788,
+ &#39;appeared&#39;: 789,
+ &#39;9&#39;: 790,
+ &#39;involved&#39;: 791,
+ &#39;indian&#39;: 792,
+ &#39;similar&#39;: 793,
+ &#39;situation&#39;: 794,
+ &#39;24&#39;: 795,
+ &#39;los&#39;: 796,
+ &#39;running&#39;: 797,
+ &#39;fighting&#39;: 798,
+ &#39;mark&#39;: 799,
+ &#39;40&#39;: 800,
+ &#39;trial&#39;: 801,
+ &#39;hold&#39;: 802,
+ &#39;australian&#39;: 803,
+ &#39;thought&#39;: 804,
+ &#39;!&#39;: 805,
+ &#39;study&#39;: 806,
+ &#39;fall&#39;: 807,
+ &#39;mother&#39;: 808,
+ &#39;met&#39;: 809,
+ &#39;relations&#39;: 810,
+ &#39;anti&#39;: 811,
+ &#39;2002&#39;: 812,
+ &#39;song&#39;: 813,
+ &#39;popular&#39;: 814,
+ &#39;base&#39;: 815,
+ &#39;tv&#39;: 816,
+ &#39;ground&#39;: 817,
+ &#39;markets&#39;: 818,
+ &#39;ii&#39;: 819,
+ &#39;newspaper&#39;: 820,
+ &#39;staff&#39;: 821,
+ &#39;saw&#39;: 822,
+ &#39;hand&#39;: 823,
+ &#39;hope&#39;: 824,
+ &#39;operations&#39;: 825,
+ &#39;pressure&#39;: 826,
+ &#39;americans&#39;: 827,
+ &#39;eastern&#39;: 828,
+ &#39;st.&#39;: 829,
+ &#39;legal&#39;: 830,
+ &#39;asia&#39;: 831,
+ &#39;budget&#39;: 832,
+ &#39;returned&#39;: 833,
+ &#39;considered&#39;: 834,
+ &#39;love&#39;: 835,
+ &#39;wrote&#39;: 836,
+ &#39;stop&#39;: 837,
+ &#39;fight&#39;: 838,
+ &#39;currently&#39;: 839,
+ &#39;charges&#39;: 840,
+ &#39;try&#39;: 841,
+ &#39;aid&#39;: 842,
+ &#39;ended&#39;: 843,
+ &#39;management&#39;: 844,
+ &#39;brought&#39;: 845,
+ &#39;cases&#39;: 846,
+ &#39;decided&#39;: 847,
+ &#39;failed&#39;: 848,
+ &#39;network&#39;: 849,
+ &#39;works&#39;: 850,
+ &#39;gas&#39;: 851,
+ &#39;turned&#39;: 852,
+ &#39;fact&#39;: 853,
+ &#39;vice&#39;: 854,
+ &#39;ca&#39;: 855,
+ &#39;mexico&#39;: 856,
+ &#39;trading&#39;: 857,
+ &#39;especially&#39;: 858,
+ &#39;reporters&#39;: 859,
+ &#39;afghanistan&#39;: 860,
+ &#39;common&#39;: 861,
+ &#39;looking&#39;: 862,
+ &#39;space&#39;: 863,
+ &#39;rates&#39;: 864,
+ &#39;manager&#39;: 865,
+ &#39;loss&#39;: 866,
+ &#39;2011&#39;: 867,
+ &#39;justice&#39;: 868,
+ &#39;thousands&#39;: 869,
+ &#39;james&#39;: 870,
+ &#39;rather&#39;: 871,
+ &#39;fund&#39;: 872,
+ &#39;thing&#39;: 873,
+ &#39;republic&#39;: 874,
+ &#39;opening&#39;: 875,
+ &#39;accused&#39;: 876,
+ &#39;winning&#39;: 877,
+ &#39;scored&#39;: 878,
+ &#39;championship&#39;: 879,
+ &#39;example&#39;: 880,
+ &#39;getting&#39;: 881,
+ &#39;biggest&#39;: 882,
+ &#39;performance&#39;: 883,
+ &#39;sports&#39;: 884,
+ &#39;1998&#39;: 885,
+ &#39;let&#39;: 886,
+ &#39;allowed&#39;: 887,
+ &#39;schools&#39;: 888,
+ &#39;means&#39;: 889,
+ &#39;turn&#39;: 890,
+ &#39;leave&#39;: 891,
+ &#39;no.&#39;: 892,
+ &#39;robert&#39;: 893,
+ &#39;personal&#39;: 894,
+ &#39;stocks&#39;: 895,
+ &#39;showed&#39;: 896,
+ &#39;light&#39;: 897,
+ &#39;arrested&#39;: 898,
+ &#39;person&#39;: 899,
+ &#39;either&#39;: 900,
+ &#39;offer&#39;: 901,
+ &#39;majority&#39;: 902,
+ &#39;battle&#39;: 903,
+ &#39;19&#39;: 904,
+ &#39;class&#39;: 905,
+ &#39;evidence&#39;: 906,
+ &#39;makes&#39;: 907,
+ &#39;society&#39;: 908,
+ &#39;products&#39;: 909,
+ &#39;regional&#39;: 910,
+ &#39;needed&#39;: 911,
+ &#39;stage&#39;: 912,
+ &#39;am&#39;: 913,
+ &#39;doing&#39;: 914,
+ &#39;families&#39;: 915,
+ &#39;construction&#39;: 916,
+ &#39;various&#39;: 917,
+ &#39;1996&#39;: 918,
+ &#39;sold&#39;: 919,
+ &#39;independent&#39;: 920,
+ &#39;kind&#39;: 921,
+ &#39;airport&#39;: 922,
+ &#39;paul&#39;: 923,
+ &#39;judge&#39;: 924,
+ &#39;internet&#39;: 925,
+ &#39;movement&#39;: 926,
+ &#39;room&#39;: 927,
+ &#39;followed&#39;: 928,
+ &#39;original&#39;: 929,
+ &#39;angeles&#39;: 930,
+ &#39;italy&#39;: 931,
+ &#39;`&#39;: 932,
+ &#39;data&#39;: 933,
+ &#39;comes&#39;: 934,
+ &#39;parties&#39;: 935,
+ &#39;nothing&#39;: 936,
+ &#39;sea&#39;: 937,
+ &#39;bring&#39;: 938,
+ &#39;2012&#39;: 939,
+ &#39;annual&#39;: 940,
+ &#39;officer&#39;: 941,
+ &#39;beijing&#39;: 942,
+ &#39;present&#39;: 943,
+ &#39;remain&#39;: 944,
+ &#39;nato&#39;: 945,
+ &#39;1999&#39;: 946,
+ &#39;22&#39;: 947,
+ &#39;remains&#39;: 948,
+ &#39;allow&#39;: 949,
+ &#39;florida&#39;: 950,
+ &#39;computer&#39;: 951,
+ &#39;21&#39;: 952,
+ &#39;contract&#39;: 953,
+ &#39;coast&#39;: 954,
+ &#39;created&#39;: 955,
+ &#39;demand&#39;: 956,
+ &#39;operation&#39;: 957,
+ &#39;events&#39;: 958,
+ &#39;islamic&#39;: 959,
+ &#39;beat&#39;: 960,
+ &#39;analysts&#39;: 961,
+ &#39;interview&#39;: 962,
+ &#39;helped&#39;: 963,
+ &#39;child&#39;: 964,
+ &#39;probably&#39;: 965,
+ &#39;spent&#39;: 966,
+ &#39;asian&#39;: 967,
+ &#39;effort&#39;: 968,
+ &#39;cooperation&#39;: 969,
+ &#39;shows&#39;: 970,
+ &#39;calls&#39;: 971,
+ &#39;investigation&#39;: 972,
+ &#39;lives&#39;: 973,
+ &#39;video&#39;: 974,
+ &#39;yen&#39;: 975,
+ &#39;runs&#39;: 976,
+ &#39;tried&#39;: 977,
+ &#39;bad&#39;: 978,
+ &#39;described&#39;: 979,
+ &#39;1994&#39;: 980,
+ &#39;toward&#39;: 981,
+ &#39;written&#39;: 982,
+ &#39;throughout&#39;: 983,
+ &#39;established&#39;: 984,
+ &#39;mission&#39;: 985,
+ &#39;associated&#39;: 986,
+ &#39;buy&#39;: 987,
+ &#39;growing&#39;: 988,
+ &#39;green&#39;: 989,
+ &#39;forward&#39;: 990,
+ &#39;competition&#39;: 991,
+ &#39;poor&#39;: 992,
+ &#39;latest&#39;: 993,
+ &#39;banks&#39;: 994,
+ &#39;question&#39;: 995,
+ &#39;1997&#39;: 996,
+ &#39;prison&#39;: 997,
+ &#39;feel&#39;: 998,
+ &#39;attention&#39;: 999,
+ ...}
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you want the vector representation for a token, use either the key or the
+index.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tok</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">index_to_key</span><span class="p">)</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">key_to_index</span><span class="p">[</span><span class="n">tok</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The index position for &#39;</span><span class="si">{</span><span class="n">tok</span><span class="si">}</span><span class="s2">&#39; is </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The index position for &#39;perspiration&#39; is 62606
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here’s its vector:</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.34274  , -0.096346 , -0.068774 ,  0.27166  ,  0.58393  ,
+        0.4885   ,  0.35937  , -0.011953 , -0.39845  , -0.089788 ,
+        0.15603  ,  0.8506   , -0.33452  ,  0.15425  , -0.63728  ,
+        0.36981  ,  0.29442  ,  0.16697  ,  0.39557  ,  0.087274 ,
+       -0.63985  , -0.78824  ,  0.12963  , -0.30478  ,  0.30588  ,
+       -0.9428   , -0.71538  ,  0.63288  , -0.3758   ,  0.0089048,
+       -0.20389  , -0.03423  ,  0.50402  ,  0.57832  , -0.05915  ,
+        0.58003  ,  0.11094  ,  0.23777  , -0.49017  ,  0.4157   ,
+        1.0752   , -0.27932  ,  0.042422 ,  0.69469  ,  0.42245  ,
+       -0.24776  , -0.085015 ,  0.74555  , -0.44582  ,  0.48842  ,
+       -0.45176  , -0.52999  , -0.21545  ,  0.01058  , -0.59661  ,
+       -0.84596  ,  0.37354  ,  0.36735  , -0.53753  , -0.090848 ,
+       -0.60677  , -0.52517  ,  0.59226  , -0.049745 , -0.29077  ,
+        0.1218   , -0.5877   , -0.12355  , -0.5767   , -0.81741  ,
+       -0.19884  ,  0.082269 , -0.38773  ,  0.018241 ,  0.87612  ,
+       -0.38079  , -0.32783  , -0.9378   , -0.83587  , -0.092289 ,
+       -0.01572  ,  0.38923  , -0.23625  , -0.30967  ,  0.21328  ,
+        0.13814  ,  0.61855  , -0.0563   ,  0.33381  , -0.60672  ,
+       -0.12138  , -0.29229  , -0.41458  ,  0.21075  ,  0.38038  ,
+       -0.44073  , -0.51294  ,  0.051154 ,  0.22223  , -0.32179  ,
+       -0.38819  , -0.0084361, -0.22002  ,  0.036284 , -0.71559  ,
+       -0.49694  , -0.30757  ,  0.85428  ,  0.11685  ,  0.1431   ,
+        0.34186  ,  0.56951  ,  0.44928  , -0.57333  ,  0.14289  ,
+       -0.20371  ,  0.25883  ,  0.22851  , -0.12032  ,  0.12165  ,
+        0.17145  , -0.13162  , -0.036695 ,  0.56897  , -0.2752   ,
+        0.052002 ,  0.32764  , -0.22634  , -0.4181   , -0.68478  ,
+       -0.45577  ,  0.047108 , -0.46204  ,  0.13557  ,  0.020219 ,
+        0.7134   , -0.21565  , -0.11103  , -0.15503  , -0.38013  ,
+        0.2318   ,  0.27972  ,  0.47752  , -0.43355  ,  0.14412  ,
+       -0.090529 ,  0.22596  ,  0.32498  , -0.48716  ,  0.38307  ,
+        0.34578  ,  0.30773  ,  0.2491   , -0.14593  , -0.56034  ,
+       -0.25143  , -0.26341  ,  0.11263  , -0.038317 ,  0.75337  ,
+        0.23006  , -0.23176  ,  0.21418  , -0.15695  ,  0.47327  ,
+       -0.32796  ,  0.36439  ,  0.097745 ,  0.17429  , -0.27614  ,
+        0.18461  ,  0.8482   ,  0.26821  ,  0.90364  ,  0.0064597,
+       -0.39557  , -0.14116  ,  0.10965  ,  0.075364 ,  0.23136  ,
+       -0.035852 , -0.063888 , -0.374    , -0.025579 ,  0.15312  ,
+        0.086371 , -0.69916  , -1.007    , -0.53633  ,  0.028306 ,
+        0.21238  ,  0.099689 ,  0.076415 , -0.41107  , -0.2494   ,
+       -0.97005  ,  0.3576   , -0.12426  , -0.40634  , -0.39888  ],
+      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here are some random tokens in the model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">index_to_key</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tok</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>phadungsil
+cornellà
+jadranka
+goshen
+ranco
+hominoid
+disposals
+brownridge
+fellbach
+annibale
+</pre></div>
+</div>
+</div>
+</div>
+<p>You may find some unexpected tokens in this output. Though it has been
+ostensibly trained on an English corpus, GloVe contains multilingual text. It
+also contains lots of noisy tokens, which range from erroneous segmentations
+(“drummer/percussionist” is one token, for example) to password-like strings
+and even HTML markup. Depending on your task, you may not notice these tokens,
+but they do in fact influence the overall shape of the model, and sometimes
+you’ll find them cropping up when you’re hunting around for similar terms and
+the like (more on this soon).</p>
+</section>
+<section id="out-of-vocabulary-tokens">
+<h3><span class="section-number">4.3.3. </span>Out-of-vocabulary tokens<a class="headerlink" href="#out-of-vocabulary-tokens" title="Permalink to this headline">#</a></h3>
+<p>While GloVe’s vocabulary sometimes seems <em>too</em> expansive, there are other
+instances where it’s too restricted.</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="s1">&#39;unshaped&#39;</span> <span class="ow">in</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;Not in vocabulary!&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">assert</span> <span class="s1">&#39;unshaped&#39;</span> <span class="ow">in</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;Not in vocabulary!&quot;</span>
+
+<span class="ne">AssertionError</span>: Not in vocabulary!
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the model wasn’t trained on a particular word, it won’t have a corresponding
+vector for that word either. This is crucial. Because models like GloVe only
+know what they’ve been trained on, you need to be aware of any potential
+discrepancies between their vocabularies and your corpus data. If you don’t
+keep this in mind, sending unseen, or <strong>out-of-vocabulary</strong>, tokens to GloVe
+will throw errors in your code.</p>
+<p>There are a few ways to handle this problem. The most common is to simply <em>not
+encode</em> tokens in your corpus that don’t have a corresponding vector in GloVe.
+Below, we construct two sets for our corpus data. The first contains all
+tokens in the corpus, while the second tracks which of those tokens are in
+the model. We identify whether the model has a token using its
+<code class="docutils literal notranslate"><span class="pre">.has_index_for()</span></code> method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vocab</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tok</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">corpus</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">)</span>
+<span class="n">in_glove</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tok</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">vocab</span> <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">has_index_for</span><span class="p">(</span><span class="n">tok</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total words in the corpus vocabulary:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Words not in GloVe:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_glove</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total words in the corpus vocabulary: 29330
+Words not in GloVe: 1842
+</pre></div>
+</div>
+</div>
+</div>
+<p>Any subsequent code we write will need to reference these sets to determine
+whether it should encode a token.</p>
+<p>While this is what we’ll indeed do below, obviously it isn’t an ideal
+situation. But it’s one of the consequences of using premade models. There are,
+however, a few other ways to handle out-of-vocabulary terms. Some models offer
+special “UNK” tokens, which you could associate with all of your problem
+tokens. This, at the very least, enables you to have <em>some</em> representation of
+your data. A more complex approach involves taking the mean embedding of the
+word vectors surrounding an unknown token; and depending on the model, you can
+also train it further, adding extra tokens from your domain-specific text.
+Instructions for this last option are available <a class="reference external" href="https://radimrehurek.com/gensim/models/word2vec.html#usage-examples">here</a> in the <code class="docutils literal notranslate"><span class="pre">gensim</span></code>
+documentation.</p>
+</section>
+</section>
+<section id="word-relationships">
+<h2><span class="section-number">4.4. </span>Word Relationships<a class="headerlink" href="#word-relationships" title="Permalink to this headline">#</a></h2>
+<p>Later on we’ll use GloVe to encode our corpus texts. But before we do, it’s
+worth demonstrating more generally some of the properties of word vectors.
+Vector representations of text allow us to perform various mathematical
+operations on our corpus that approximate (though maybe <em>only</em> approximate)
+semantics. The most common among these operations is finding the <strong>cosine
+similarity</strong> between two vectors. Our Getting Started with Textual Data series
+has a whole [chapter][chaper] on this measure, so if you haven’t encountered it
+before, we recommend you read that. But in short: cosine similarity measures
+the difference between vectors’ orientation in a feature space (here, the
+feature space is comprised of each of the vectors’ 200 dimensions). The closer
+two vectors are, the more likely they are to share semantic similarities.</p>
+<section id="similar-tokens">
+<h3><span class="section-number">4.4.1. </span>Similar tokens<a class="headerlink" href="#similar-tokens" title="Permalink to this headline">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">gensim</span></code> provides easy access to this measure and other such vector space
+operations. To find the cosine similarity between the vectors for two words in
+GloVe, simply use the model’s <code class="docutils literal notranslate"><span class="pre">.similarity()</span></code> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;calculate&#39;</span><span class="p">,</span> <span class="s1">&#39;compute&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Similarity of &#39;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Similarity of &#39;calculate&#39; and &#39;compute&#39;: 0.70
+</pre></div>
+</div>
+</div>
+</div>
+<p>The only difference between the score above and the one that you might produce,
+say, with <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>’s cosine similarity implementation is that <code class="docutils literal notranslate"><span class="pre">gensim</span></code>
+bounds its values from <code class="docutils literal notranslate"><span class="pre">[-1,1]</span></code>, whereas the latter uses a <code class="docutils literal notranslate"><span class="pre">[0,1]</span></code> scale. While
+in <code class="docutils literal notranslate"><span class="pre">gensim</span></code> it’s still the case that similar words score closer to <code class="docutils literal notranslate"><span class="pre">1</span></code>, highly
+dissimilar words will be closer to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+<p>At any rate, we can get the top <em>n</em> most similar words for a word using
+<code class="docutils literal notranslate"><span class="pre">.most_similar()</span></code>. The function defaults to 10 entries, but you can change that
+with the <code class="docutils literal notranslate"><span class="pre">topn</span></code> parameter. We’ll wrap this in a custom function, since we’ll
+call it a number of times.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">Code explanation</p>
+<p>As we’ll see, a model has a few similarity functions, so we define a <code class="docutils literal notranslate"><span class="pre">func</span></code>
+parameter that takes a callable and send that callable data from multiple
+positional arguments. We also take into account the possibility of keyword
+arguments.</p>
+</aside>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">show_most_similar</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">most_similar</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print cosine similarities.&quot;&quot;&quot;</span>
+    <span class="n">similarities</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="p">(</span><span class="n">similarities</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Word&#39;</span><span class="p">,</span> <span class="s1">&#39;Score&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we sample some tokens and find their most similar tokens.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">index_to_key</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tokens most similar to &#39;</span><span class="si">{</span><span class="n">tok</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">show_most_similar</span><span class="p">(</span><span class="n">tok</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokens most similar to &#39;muddles&#39;
+
+Word            Score
+-----------  --------
+muddling     0.543004
+traipses     0.521494
+sleepwalks   0.520099
+sifts        0.490618
+trundles     0.4882
+ambles       0.485887
+limps        0.484122
+tsuchihashi  0.482688
+riffling     0.475503
+part-way     0.473
+
+
+Tokens most similar to &#39;heartbeat&#39;
+
+Word             Score
+------------  --------
+heartbeats    0.625575
+irregular     0.541087
+pulse         0.533149
+arrhythmia    0.52514
+fibrillation  0.516604
+palpitations  0.499957
+pacemaker     0.497751
+rhythm        0.489455
+atrial        0.48542
+cardiac       0.478375
+
+
+Tokens most similar to &#39;gloire&#39;
+
+Word              Score
+-------------  --------
+méduse         0.588436
+minerve        0.581787
+patrie         0.558383
+década         0.548176
+l&#39;ange         0.544956
+redoutable     0.544414
+vénus          0.542301
+galissonnière  0.538082
+provinciën     0.528588
+qieyun         0.528
+
+
+Tokens most similar to &#39;petroleo&#39;
+
+Word                 Score
+----------------  --------
+brasileiro        0.714216
+petrobras         0.644095
+petroleos         0.566684
+brasileiras       0.527277
+ypf               0.517058
+mexicanos         0.514246
+empresa           0.4809
+siderurgica       0.478339
+ipiranga          0.468173
+telecomunicacoes  0.467728
+
+
+Tokens most similar to &#39;talvin&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Word          Score
+---------  --------
+jagdeep    0.591266
+pargat     0.555065
+satnam     0.554991
+lyallpuri  0.552406
+majithia   0.550709
+gurbaksh   0.550496
+gurdial    0.549251
+jaspreet   0.548922
+4-112      0.548149
+alpana     0.547274
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s also possible to find the <em>least</em> similar word. This is useful to show,
+because it pressures our idea of what counts as similarity. Mathematical
+similarity does not always align with concepts like synonyms and antonyms. For
+example, it’s probably safe to say that the semantic opposite of “good” – that
+is, its antonym – is “evil.” But in the world of vector spaces, the least
+similar word to “good” is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="n">topn</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;cw96&#39;, -0.6553234457969666)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Just noise! Relatively speaking, the vectors for “good” and “evil” are actually
+quite similar.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="s1">&#39;evil&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Similarity of &#39;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">&#39; and &#39;</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="si">:</span><span class="s2">0.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Similarity of &#39;good&#39; and &#39;evil&#39;: 0.34
+</pre></div>
+</div>
+</div>
+</div>
+<p>How do we make sense of this? Well, it has to do with the way the word
+embeddings are created. Since embeddings models are ultimately trained on
+co-occurrence data, words that tend to appear in similar kinds of contexts will
+be more similar in a mathematical sense than those that don’t.</p>
+<p>Keeping this in mind is also important for considerations of bias. Since, in
+one sense, <em>embeddings reflect the interchangeability between tokens</em>, they
+will reinforce negative, even harmful patterns in the data (which is to say in
+culture at large). For example, consider the most similar words for “doctor”
+and “nurse.” The latter is locked up within gendered language: according to
+GloVe, a nurse is like a midwife is like a mother.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;doctor&#39;</span><span class="p">,</span> <span class="s1">&#39;nurse&#39;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tokens most similar to &#39;</span><span class="si">{</span><span class="n">tok</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">show_most_similar</span><span class="p">(</span><span class="n">tok</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokens most similar to &#39;doctor&#39;
+
+Word             Score
+------------  --------
+physician     0.736021
+doctors       0.672406
+surgeon       0.655147
+dr.           0.652498
+nurse         0.651449
+medical       0.648189
+hospital      0.63638
+patient       0.619159
+dentist       0.584747
+psychiatrist  0.568571
+
+
+Tokens most similar to &#39;nurse&#39;
+
+Word            Score
+-----------  --------
+nurses       0.714051
+doctor       0.651449
+nursing      0.626937
+midwife      0.614592
+anesthetist  0.610603
+physician    0.610359
+hospital     0.609222
+mother       0.586503
+therapist    0.580488
+dentist      0.573556
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="concept-modeling">
+<h3><span class="section-number">4.4.2. </span>Concept modeling<a class="headerlink" href="#concept-modeling" title="Permalink to this headline">#</a></h3>
+<p>Beyond cosine similarity, there are other word relationships to explore via
+vector space math. For example, one way of modeling something like a <em>concept</em>
+is to think about what other concepts comprise it. In other words: what plus
+what creates a new concept? Could we identify concepts by adding together
+vectors to create a new vector? Which words would this new vector be closest to
+in the vector space? Using the <code class="docutils literal notranslate"><span class="pre">.similar_by_vector()</span></code> method, we can find out.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">concepts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;beach&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;sand&#39;</span><span class="p">,</span> <span class="s1">&#39;ocean&#39;</span><span class="p">)</span>
+    <span class="p">,</span> <span class="s1">&#39;hotel&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;vacation&#39;</span><span class="p">,</span> <span class="s1">&#39;room&#39;</span><span class="p">)</span>
+    <span class="p">,</span> <span class="s1">&#39;airplane&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;air&#39;</span><span class="p">,</span> <span class="s1">&#39;car&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">for</span> <span class="n">concept</span> <span class="ow">in</span> <span class="n">concepts</span><span class="p">:</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">concepts</span><span class="p">[</span><span class="n">concept</span><span class="p">]</span>
+    <span class="n">vector</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">+</span> <span class="n">model</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tokens most similar to &#39;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">&#39; + &#39;</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&#39; (for &#39;</span><span class="si">{</span><span class="n">concept</span><span class="si">}</span><span class="s2">&#39;)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">show_most_similar</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">similar_by_vector</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokens most similar to &#39;sand&#39; + &#39;ocean&#39; (for &#39;beach&#39;)
+
+Word        Score
+-------  --------
+sand     0.845458
+ocean    0.845268
+sea      0.687682
+beaches  0.667521
+waters   0.664894
+coastal  0.632485
+water    0.618701
+coast    0.604373
+dunes    0.599333
+surface  0.597545
+
+
+Tokens most similar to &#39;vacation&#39; + &#39;room&#39; (for &#39;hotel&#39;)
+
+Word          Score
+---------  --------
+vacation   0.82346
+room       0.810719
+rooms      0.704233
+bedroom    0.658199
+hotel      0.647865
+dining     0.634925
+stay       0.617807
+apartment  0.616495
+staying    0.615182
+home       0.606009
+
+
+Tokens most similar to &#39;air&#39; + &#39;car&#39; (for &#39;airplane&#39;)
+
+Word          Score
+---------  --------
+air        0.827957
+car        0.810086
+vehicle    0.719382
+cars       0.671697
+truck      0.645963
+vehicles   0.637166
+passenger  0.625993
+aircraft   0.62482
+jet        0.618584
+airplane   0.610345
+</pre></div>
+</div>
+</div>
+</div>
+<p>Not bad! While our target concepts aren’t the most similar words for these
+synthetic vectors, they’re often in the top-10 most similar results.</p>
+</section>
+<section id="analogies">
+<h3><span class="section-number">4.4.3. </span>Analogies<a class="headerlink" href="#analogies" title="Permalink to this headline">#</a></h3>
+<p>Most famously, word embeddings enable quasi-logical reasoning. Though, as we
+mentioned earlier, relationships between antonyms and synonyms do not
+necessarily map to a vector space, certain analogies do – at least under the
+right circumstances, and with particular training data. The logic here is that
+we identify a relationship between two words and we subtract one of those
+words’ vectors from the other. To that new vector we add in a vector for a
+target word, which forms the analogy. Querying for the word closest to this
+modified vector should produce a similar relation between the result and the
+target word as that between the original pair.</p>
+<p>Here, we ask: “strong is to stronger what clear is to X?” Ideally, we’d get
+“clearer.”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_most_similar</span><span class="p">(</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">most_similar</span>
+    <span class="p">,</span> <span class="n">positive</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;stronger&#39;</span><span class="p">,</span> <span class="s1">&#39;clear&#39;</span><span class="p">]</span>
+    <span class="p">,</span> <span class="n">negative</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;strong&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Word         Score
+--------  --------
+easier    0.633451
+should    0.630116
+clearer   0.62185
+better    0.602637
+must      0.601793
+need      0.595918
+meant     0.594797
+harder    0.591297
+anything  0.589579
+nothing   0.589187
+</pre></div>
+</div>
+</div>
+</div>
+<p>“Paris is to France what Berlin is to X?” Answer: “Germany.”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_most_similar</span><span class="p">(</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">most_similar</span>
+    <span class="p">,</span> <span class="n">positive</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;france&#39;</span><span class="p">,</span> <span class="s1">&#39;berlin&#39;</span><span class="p">]</span>
+    <span class="p">,</span> <span class="n">negative</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;paris&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Word        Score
+-------  --------
+germany  0.835242
+german   0.68448
+austria  0.612803
+poland   0.581331
+germans  0.574868
+munich   0.543591
+belgium  0.532413
+britain  0.529541
+europe   0.524402
+czech    0.515241
+</pre></div>
+</div>
+</div>
+</div>
+<p>Both of the above produce compelling results, though your mileage may vary.
+Consider the following: “arm is to hand what leg is to X?” We’d expect “foot.”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_most_similar</span><span class="p">(</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">most_similar</span>
+    <span class="p">,</span> <span class="n">positive</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hand&#39;</span><span class="p">,</span> <span class="s1">&#39;leg&#39;</span><span class="p">]</span>
+    <span class="p">,</span> <span class="n">negative</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;arm&#39;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Word         Score
+--------  --------
+final     0.543408
+table     0.540411
+legs      0.527352
+back      0.523477
+saturday  0.522487
+round     0.51625
+draw      0.516066
+second    0.5109
+place     0.509784
+side      0.508683
+</pre></div>
+</div>
+</div>
+</div>
+<p>Importantly, these results are always going to be specific to the data on which
+a model was trained. Claims made on the basis of word embeddings that aspire to
+general linguistic truths would be treading on shaky ground here.</p>
+</section>
+</section>
+<section id="document-similarity">
+<h2><span class="section-number">4.5. </span>Document Similarity<a class="headerlink" href="#document-similarity" title="Permalink to this headline">#</a></h2>
+<p>While the above word relationships are relatively abstract (and any such
+findings therefrom should be couched accordingly), we can ground them with a
+concrete task. In this final section, we use GloVe embeddings to encode our
+corpus documents. This involves associating a word vector for each token in an
+obituary. Of course, GloVe has not been trained on the obituaries, so there may
+be important differences in token behavior between that model and the corpus;
+but we can assume that the general nature of GloVe will give us a decent sense
+of the overall feature space of the corpus. The result will be an enriched
+representation of each document, the nuances of which may better help us
+identify things like similarities between obituaries in our corpus.</p>
+<p>The other consideration for using GloVe with our specific corpus concerns the
+out-of-vocabulary words we’ve already discussed. Before we can encode our
+documents, we need to filter out tokens for which GloVe has no representation.
+We can do so by referencing the <code class="docutils literal notranslate"><span class="pre">in_glove</span></code> set we produced above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pruned</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">:</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="p">[</span><span class="n">tok</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">in_glove</span><span class="p">]</span>
+    <span class="n">pruned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">keep</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="encoding">
+<h3><span class="section-number">4.5.1. </span>Encoding<a class="headerlink" href="#encoding" title="Permalink to this headline">#</a></h3>
+<p>Time to encode. This is an easy operation. All we need to do is run the list of
+document’s tokens directly into the model object and <code class="docutils literal notranslate"><span class="pre">gensim</span></code> will encode each
+accordingly. The result will be an <code class="docutils literal notranslate"><span class="pre">(n,</span> <span class="pre">200)</span></code> array, where <code class="docutils literal notranslate"><span class="pre">n</span></code> is the number of
+tokens we passed to the model; each one will have 200 dimensions.</p>
+<p>But if we kept this array as is, we’d run into trouble. Matrix operations often
+require identically shaped representations, so documents with different lengths
+would be incomparable. To get around this, we take the mean of all the vectors
+in a document. The result is a 200-dimension vector that stands as a general
+representation of a document.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embeddings</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">model</span><span class="p">[</span><span class="n">doc</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">pruned</span><span class="p">]</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s quickly check our work.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape of an encoded document:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="p">[</span><span class="n">pruned</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape of a document vectour:&quot;</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape of an encoded document: (485, 200)
+Shape of a document vectour: (200,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizing">
+<h3><span class="section-number">4.5.2. </span>Visualizing<a class="headerlink" href="#visualizing" title="Permalink to this headline">#</a></h3>
+<p>From here, we can use these embeddings for any task that requires feature
+vectors. For example, let’s plot our documents using t-SNE. First, we reduce
+the embeddings.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">Not sure what t-SNE is?</p>
+<p>Take a look at this <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/chapters/05_clustering-and-classification.html#visualizing-scores">section</a> on visualizing vectors in Getting
+Started With Textual Data.</p>
+</aside>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reducer</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span>
+    <span class="n">n_components</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+    <span class="p">,</span> <span class="n">init</span> <span class="o">=</span> <span class="s1">&#39;random&#39;</span>
+    <span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">357</span>
+    <span class="p">,</span> <span class="n">n_jobs</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="p">)</span>
+<span class="n">reduced</span> <span class="o">=</span> <span class="n">reducer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+<span class="n">vis</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">reduced</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">reduced</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we define a function to make our plot. We’ll add some people to look for
+along as well (in this case, a few baseball players)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sim_plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_colors</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a scatterplot and optionally color/label its points.&quot;&quot;&quot;</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">pal</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;colorblind&#39;</span><span class="p">,</span> <span class="n">n_colors</span> <span class="o">=</span> <span class="n">n_colors</span><span class="p">)</span> <span class="k">if</span> <span class="n">hue</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+        <span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="n">hue</span><span class="p">,</span> <span class="n">palette</span> <span class="o">=</span> <span class="n">pal</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.8</span>
+        <span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
+    <span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xticks</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">yticks</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Dim. 1&#39;</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;Dim. 2&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="n">to_label</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">labels</span><span class="p">)]</span>
+        <span class="n">to_label</span><span class="p">[[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">g</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+
+<span class="n">people</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Jackie Robinson&#39;</span><span class="p">,</span> <span class="s1">&#39;Lou Gehrig&#39;</span><span class="p">,</span> <span class="s1">&#39;Cy Young&#39;</span><span class="p">)</span>
+<span class="n">sim_plot</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">people</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0d4753f1b8d07708cb4b680fcd3f68dd037476f5eb232cfc22d9704346d1810b.png" src="../_images/0d4753f1b8d07708cb4b680fcd3f68dd037476f5eb232cfc22d9704346d1810b.png" />
+</div>
+</div>
+</section>
+<section id="clustering">
+<h3><span class="section-number">4.5.3. </span>Clustering<a class="headerlink" href="#clustering" title="Permalink to this headline">#</a></h3>
+<p>The document embeddings seem to be partitioned into different clusters. We’ll
+end by using a hierarchical clusterer to see if we can further specify these
+clusters. This involves using the <code class="docutils literal notranslate"><span class="pre">AgglomerativeClustering</span></code> object, which we
+fit to our embeddings. Hierarchical clustering requires a pre-defined number of
+clusters. In this case, we use 18.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">Why this number of clusters?</p>
+<p>We grid searched different numbers and measured the results with a <a class="reference external" href="https://towardsdatascience.com/silhouette-coefficient-validating-clustering-techniques-e976bb81d10c">silhouette
+coefficient</a>.</p>
+</aside>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agg</span> <span class="o">=</span> <span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+<span class="n">agg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>AgglomerativeClustering(n_clusters=18)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">AgglomerativeClustering</label><div class="sk-toggleable__content"><pre>AgglomerativeClustering(n_clusters=18)</pre></div></div></div></div></div></div></div>
+</div>
+<p>Now we assign the clusterer’s predicted labels to the visualization data
+DataFrame and re-plot the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vis</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">labels_</span>
+<span class="n">sim_plot</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">&#39;cluster&#39;</span><span class="p">,</span> <span class="n">n_colors</span> <span class="o">=</span> <span class="mi">18</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/942124837a2c19b5055803ae1bf5a8b97cead57a8e3bdafae4bea01dc86a3b54.png" src="../_images/942124837a2c19b5055803ae1bf5a8b97cead57a8e3bdafae4bea01dc86a3b54.png" />
+</div>
+</div>
+<p>These clusters seem to be both detailed and nicely partitioned, bracketing off,
+for example, classical musicians and composers (cluster 6) from jazz and
+popular musicians (cluster 10).</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">people</span> <span class="o">=</span> <span class="n">vis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">vis</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cluster:&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cluster: 6 
+
+Maurice Ravel
+Constantin Stanislavsky
+Bela Bartok
+Sergei Eisenstein
+Igor Stravinsky
+Otto Klemperer
+Maria Callas
+Arthur Fiedler
+Arthur Rubinstein
+Andres Segovie
+Vladimir Horowitz
+Leonard Bernstein
+Martha Graham
+John Cage
+Carlos Montoya
+Galina Ulanova
+
+
+Cluster: 10 
+
+Jerome Kern
+W C Handy
+Billie Holiday
+Cole Porter
+Coleman Hawkins
+Judy Garland
+Louis Armstrong
+Mahalia Jackson
+Stan Kenton
+Richard Rodgers
+Thelonious Monk
+Earl Hines
+Muddy Waters
+Ethel Merman
+Count Basie
+Benny Goodman
+Miles Davis
+Dizzy Gillespie
+Gene Kelly
+Frank Sinatra
+</pre></div>
+</div>
+</div>
+</div>
+<p>Consider further cluster 5, which seems to be about famous scientists.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">What’s going on with “Martian Theory”?</p>
+<p>It appears this is actually Percival Lowell, an astronomer (he did, however,
+advance the idea that Mars is inhabited). Apparently our metadata is a little
+messy!</p>
+</aside>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">vis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">vis</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Martian Theory
+Marie Curie
+Elmer Sperry
+George E Hale
+C E M Clung
+Max Planck
+A J Dempster
+Enrico Fermi
+Ross G Harrison
+Beno Gutenberg
+J Robert Oppenheimer
+Jacques Monod
+William B Shockley
+Linus C Pauling
+Carl Sagan
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are, however, some interestingly noisy clusters, like cluster 12. With
+people like Queen Victoria and William McKinley in this cluster, it at first
+appears to be about national leaders of various sorts, but the inclusion of
+others like Al Capone (the gangster) and Ernie Pyle (a journalist) complicate
+this. If you take a closer look, what really seems to be tying these obituaries
+together is war. Nearly everyone here was involved in war in some fashion or
+another – save for Capone, whose inclusion makes for strange bedfellows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">vis</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">vis</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Robert E Lee
+Bedford Forrest
+Ulysses Grant
+William McKinley
+Queen Victoria
+Geronimo
+John P Holland
+Alfred Thayer Mahan
+Ernie Pyle
+George Patton
+Al Capone
+John Pershing
+Douglas MacArthur
+Chester Nimitz
+Florence Blanchfield
+The Duke of Windsor
+</pre></div>
+</div>
+</div>
+</div>
+<p>Depending on your task, these detailed distinctions may not be so desirable.
+But for us, the document embeddings provide a wonderfully nuanced view of the
+kinds of people in the obituaries. From here, further exploration might involve
+focusing on misfits and outliers. Why, for example, is Capone in cluster 12? Or
+why is Lou Gehrig all by himself in his own cluster? Of course, we could always
+re-cluster this data, which would redraw such groupings, but perhaps there is
+something indeed significant about the way things are divided up as they stand.
+Word embeddings help bring us to a point where we can begin to undertake such
+investigations – what comes next depends on which questions we want to ask.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_classification-and-feature-engineering.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Classification and Feature Engineering</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="90_assessment.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Assessment</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings-introduction">4.1. Word Embeddings: Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">4.2. Preliminaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-an-embeddings-model">4.3. Using an Embeddings Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-model">4.3.1. Loading a model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#token-mappings">4.3.2. Token mappings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#out-of-vocabulary-tokens">4.3.3. Out-of-vocabulary tokens</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-relationships">4.4. Word Relationships</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#similar-tokens">4.4.1. Similar tokens</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concept-modeling">4.4.2. Concept modeling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analogies">4.4.3. Analogies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#document-similarity">4.5. Document Similarity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding">4.5.1. Encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing">4.5.2. Visualizing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering">4.5.3. Clustering</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Tyler Shoemaker and Carl Stahmer
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg"> 
+</a>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

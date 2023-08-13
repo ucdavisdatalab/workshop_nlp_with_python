@@ -1,0 +1,1238 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en-us" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>3. Classification and Feature Engineering &#8212; Natural Language Processing with Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/03_classification-and-feature-engineering';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Word Embeddings" href="04_word-embeddings.html" />
+    <link rel="prev" title="2. Text Annotation with spaCy" href="02_text-annotation-with-spacy.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en-us"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/datalab-logo-full-color-rgb.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/datalab-logo-full-color-rgb.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_logistics.html">1. Before We Begin…</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_text-annotation-with-spacy.html">2. Text Annotation with spaCy</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Classification and Feature Engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_word-embeddings.html">4. Word Embeddings</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Assessment</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="90_assessment.html">Assessment</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ucdavisdatalab/workshop_nlp_with_python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ucdavisdatalab/workshop_nlp_with_python/issues/new?title=Issue%20on%20page%20%2Fchapters/03_classification-and-feature-engineering.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/chapters/03_classification-and-feature-engineering.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Classification and Feature Engineering</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">3.1. Preliminaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-i">3.2. Modeling I</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-idf-vectors">3.2.1. Tf-idf vectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-idf-model">3.2.2. Tf-idf model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-engineering">3.3. Feature Engineering</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">3.3.1. Overview</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#document-length">3.3.2. Document length</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hapax-richness">3.3.3. Hapax richness</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#active-and-passive-voice">3.3.4. Active and passive voice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-nouns">3.3.5. Abstract nouns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cardinal-numbers">3.3.6. Cardinal numbers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-ii">3.4. Modeling II</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="classification-and-feature-engineering">
+<h1><span class="section-number">3. </span>Classification and Feature Engineering<a class="headerlink" href="#classification-and-feature-engineering" title="Permalink to this headline">#</a></h1>
+<p>This chapter demonstrates how to apply what we’ve learned so far about document
+annotation to build a text classifier. Our emphasis will be on <strong>engineering</strong>
+features for a model. While, in NLP, token counts are often sufficient for
+various tasks, there are other features we can use to represent information
+about our texts; document annotation gives us a way to create them.</p>
+<p>We’ll work with a small corpus to test out some of these features. Admittedly,
+the documents therein are a bit of a weird mix: our corpus is comprised of ~50
+Sherlock Holmes short stories (courtesy of the McGill <a class="reference external" href="https://txtlab.org">txtLAB</a>), 100
+movie summaries from the <a class="reference external" href="http://www.cs.cmu.edu/~ark/personas/">CMU Movie Summary Corpus</a>, and 100 <a class="reference external" href="https://journals.plos.org/plosone/">PLOS
+ONE</a> biomedical abstracts. Why such a disparate corpus? Well, our focus
+here is on how different approaches to feature engineering might help you
+partition texts in your own corpora, so our intent is less about showing you a
+completely real word situation and more about outlining a few options you might
+pursue when using NLP methods in your research.</p>
+<div class="admonition-learning-objectives admonition">
+<p class="admonition-title">Learning objectives</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul class="simple">
+<li><p>Build a naive Bayes classification model</p></li>
+<li><p>Recognize whether a model might be overfitted</p></li>
+<li><p>Identify possible feature sets to engineer for text data</p></li>
+<li><p>Engineer those features using <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s document annotation model</p></li>
+<li><p>Validate your engineered features</p></li>
+</ul>
+</div>
+<section id="preliminaries">
+<h2><span class="section-number">3.1. </span>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">#</a></h2>
+<p>These are the libraries you will need for this chapter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span> <span class="nn">spacy</span>
+<span class="kn">from</span> <span class="nn">spacy.tokens</span> <span class="kn">import</span> <span class="n">Doc</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span><span class="p">,</span> <span class="n">MultinomialNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll also set up an input directory and our model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/session_two&quot;</span><span class="p">)</span>
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;en_core_web_md&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we’ll load a document manifest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">manifest</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">indir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;manifest.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">manifest</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Index: 256 entries, 0 to 255
+Data columns (total 3 columns):
+ #   Column     Non-Null Count  Dtype 
+---  ------     --------------  ----- 
+ 0   file_name  256 non-null    object
+ 1   label      256 non-null    object
+ 2   label_int  256 non-null    int64 
+dtypes: int64(1), object(2)
+memory usage: 8.0+ KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we’ll load our corpus. Our corpus documents have already been
+annotated with the model above and saved as JSON files. A corpus of this size
+makes this a reasonable storage solution, though <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> recommends looking to
+<a class="reference external" href="https://www.dask.org/">Dask</a> or <a class="reference external" href="https://spark.apache.org/">Spark</a> for bigger datasets. The code below shows you
+how to load our documents. Note that you need to have the model vocabulary
+to do this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_doc</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a json file as a spaCy doc.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fin</span><span class="p">:</span>
+        <span class="n">feats</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">Doc</span><span class="p">(</span><span class="n">nlp</span><span class="o">.</span><span class="n">vocab</span><span class="p">)</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">feats</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">doc</span>
+
+<span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;file_name&#39;</span><span class="p">]:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">load_doc</span><span class="p">(</span><span class="n">indir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;input/</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="modeling-i">
+<h2><span class="section-number">3.2. </span>Modeling I<a class="headerlink" href="#modeling-i" title="Permalink to this headline">#</a></h2>
+<section id="tf-idf-vectors">
+<h3><span class="section-number">3.2.1. </span>Tf-idf vectors<a class="headerlink" href="#tf-idf-vectors" title="Permalink to this headline">#</a></h3>
+<p>Before we begin feature engineering, we’ll build a baseline model against which
+to compare those features. Our comparison model will be one built with tf-idf
+vectors. These vectors are the product of fitting a <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>
+<code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> on cleaned versions of the corpus documents. They’re stored
+in the document-term matrix (DTM) below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tfidf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">indir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;tfidf.csv&quot;</span><span class="p">),</span> <span class="n">index_col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Words in the tf-idf vectors:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tfidf</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Words in the tf-idf vectors: 18697
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we build models, we use a portion of our data to <strong>train</strong> the model and a
+smaller portion of it to <strong>test</strong> the model. The workflow goes like this.
+First, we train the model, then we give it our test data, which it hasn’t yet
+seen. We, on the other hand, have seen this data, and we know which labels the
+model <em>should</em> assign when it makes its predictions. By measuring those
+predictions against labels that we know to be correct, we’re thus able to
+appraise a model’s performance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has functionality to split our data into training and test sets
+with <code class="docutils literal notranslate"><span class="pre">train_test_split()</span></code>. This will output training data/labels and test
+data/labels. We’ll also specify what percentage of the corpus we devote to
+training and what percentage we devote to testing. For this task, we’ll use an
+70/30 split.</p>
+<div class="admonition-be-sure-to-shuffle-the-data admonition">
+<p class="admonition-title">Be sure to shuffle the data!</p>
+<p>Right now, our labels are all grouped together, so an even split wouldn’t give
+the model an adequate representation of the data.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">tfidf</span>
+    <span class="p">,</span> <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;label_int&#39;</span><span class="p">]</span>
+    <span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">357</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now build a model. One of the most popular model types for text
+classification is a naive Bayes classifier. While we won’t be diving into the
+details of modeling, it’s still good to know in a general sense how such a
+model works. It’s based on Bayes’ theorem, which states that the probability of
+an event can be gleaned from prior knowledge about the conditions that relate
+to that event. Formally, we express this theorem like so:</p>
+<div class="math notranslate nohighlight">
+\[
+P(y|x_1,...,x_n) = \frac{P(y)P(x_1,...,x_n|y)}{P(x_1,...,x_n)}
+\]</div>
+<p>That is, given the probability of class <span class="math notranslate nohighlight">\(y\)</span> in a dataset, what is the
+conditional probability of a set of features <span class="math notranslate nohighlight">\((x_1,...,x_n)\)</span> occurring within
+<span class="math notranslate nohighlight">\(y\)</span>? We derive this by taking the product of these two probabilities (for the
+class and for the features) over the features’ probabilities.</p>
+<p>In our case, <span class="math notranslate nohighlight">\((x_1,...,x_n)\)</span> is the set of <span class="math notranslate nohighlight">\(n\)</span> tokens represented by the
+columns in our document-term matrix. For a given document, the classifier will
+examine the conditional probabilities of its tokens according to each of the
+classes we’re training it on. Ideally, the token distributions for each class
+will be different from one another, and this in turn conditions the probability
+of a set of tokens appearing together with a particular set of values. Once the
+classifier has considered each case, it will select the class that maximizes
+the probability of a document’s tokens appearing together with its specific
+frequency values. This is known as an <a class="reference external" href="https://en.wikipedia.org/wiki/Arg_max">argmax</a> classifier.</p>
+</section>
+<section id="tf-idf-model">
+<h3><span class="section-number">3.2.2. </span>Tf-idf model<a class="headerlink" href="#tf-idf-model" title="Permalink to this headline">#</a></h3>
+<p>If this seems like a lot, don’t worry. While it can take a while to get a grip
+on the underlying logic of such a classifier, at the very least it’s easy
+enough to implement the code for it. <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has a built-in model object
+for naive Bayes. We just need to load itand call <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> to train it on our
+training data/labels. With that done, we use <code class="docutils literal notranslate"><span class="pre">.predict()</span></code> to generate a set of
+predicted labels from the test data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we generate a report of how well the model performed by comparing the
+predicted labels against the testing labels. <code class="docutils literal notranslate"><span class="pre">classification_report()</span></code> will
+give us information about three key metrics, all of which have to do with
+balancing <strong>true positive</strong> and <strong>true negative</strong> predictions (i.e. correct
+labels) from <strong>false positive</strong> and <strong>false negative</strong> predictions (i.e.
+incorrect labels):</p>
+<ol class="arabic simple">
+<li><p>Precision: the proportion of labels that are actually correct</p></li>
+<li><p>Recall: the proportion of correct labels the model was able to find</p></li>
+<li><p>F1 score: a weighted score of the first two</p></li>
+</ol>
+<aside class="margin sidebar">
+<p class="sidebar-title">For more on these metrics…</p>
+<p>Take a look at the <a class="reference external" href="https://developers.google.com/machine-learning/crash-course/classification/precision-and-recall">classification module</a> on Google’s Machine Learning
+Crash Course to see how these metrics are calculated.</p>
+</aside>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_names</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;fiction&#39;</span><span class="p">,</span> <span class="s1">&#39;summaries&#39;</span><span class="p">,</span> <span class="s1">&#39;abstract&#39;</span><span class="p">)</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">target_names</span> <span class="o">=</span> <span class="n">target_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+     fiction       1.00      1.00      1.00        22
+   summaries       1.00      0.88      0.94        33
+    abstract       0.85      1.00      0.92        22
+
+    accuracy                           0.95        77
+   macro avg       0.95      0.96      0.95        77
+weighted avg       0.96      0.95      0.95        77
+</pre></div>
+</div>
+</div>
+</div>
+<p>Not bad at all! In fact, this model is probably a little <em>too</em> good: those
+straight 1.00 readings likely indicate that the model is <a class="reference external" href="https://www.ibm.com/cloud/learn/overfitting">overfit</a>;
+when you’re working with your own data, you’ll almost never see first round
+results like this. This is almost certainly due to the hodgepodge nature of our
+corpus, where the divisions between different document classes is particularly
+clear. In such a scenario, the model has learned to distinguish idiosyncracies
+of our corpus, rather than certain general features about what, say,
+constitutes a short story versus an abstract. There are a number of ways to
+mitigate this problem, ranging from pruning the vocabulary we use in our DTM to
+sending a model entirely different features. The rest of this chapter is
+dedicated to this latter strategy.</p>
+</section>
+</section>
+<section id="feature-engineering">
+<h2><span class="section-number">3.3. </span>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">#</a></h2>
+<section id="overview">
+<h3><span class="section-number">3.3.1. </span>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">#</a></h3>
+<p>Training a classifier with tf-idf scores is an absolutely valid method. But
+there are other features we can use to train a classifier, which don’t rely so
+heavily on particular words. There are a number of scenarios for which you
+might consider using such features. Among such scenarios is the one above,
+where word types are so closely bound to document classes that a model overfits
+itself. What would happen, for example, if we sent this classifier a document
+that doesn’t contain any of the outlier words that help the model make a
+decision? Or what if we sent it a short story that contains word types classed
+as biomedical abstracts? In such instances, the model would likely fail in its
+predictions. We need, then, another set of features to make decisions about
+document types.</p>
+<p>There are two key aspects of feature engineering. You need to know:</p>
+<ol class="arabic simple">
+<li><p>What you want to learn about your corpus</p></li>
+<li><p>What kind of features might characterize your corpus</p></li>
+</ol>
+<p>The first point is straightforward but very important. Your underlying research
+question must drive your computational work. Though we’re working in an
+exploratory mode, there’s actually a research question here: what features best
+characterize the different genres in our corpus?</p>
+<p>The second point is a little fuzzier. It’s likely that you’ll know at least a
+few things about your corpus. For instance, even knowing where the data comes
+from can serve as an important frame with which to begin asking informed
+questions. While there’s always going to be some fishing involved in
+exploratory work, you can keep your explorations somewhat focused by leveraging
+your prior knowledge about your data.</p>
+<p>In our case, we already know that there are three different genres in our
+corpus. We also know in a general sense some things about each of these genres.
+Abstracts, for example, are brief, fairly objective documents; often, they’re
+written in the third person with passive voice. The same goes for plot
+summaries, though we might expect the formality of the language in summaries to
+be different than abstracts. On the other hand, fiction tends to be longer than
+the other two genres, and it also tends to have a more varied vocabulary.</p>
+<p>Below, we define functions to product metrics that represent these differences.
+Before doing so, we’ll define a brief plotting function to show the per-genre
+distribution of metrics. This graph is a good indicator of whether a feature is
+useful: if the distributions are different for a feature (i.e., they’re
+“separable”), that feature is likely to be good fodder for a model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">histplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">15</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a histogram plot.&quot;&quot;&quot;</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">feature</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="n">hue</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
+    <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="document-length">
+<h3><span class="section-number">3.3.2. </span>Document length<a class="headerlink" href="#document-length" title="Permalink to this headline">#</a></h3>
+<p>The first of our metrics is a simple one: document length. Document length is a
+surprisingly effective indicator of different genres, and, even better, it’s
+very easy information to collect. In fact, there’s no need to write custom
+code; just use <code class="docutils literal notranslate"><span class="pre">len()</span></code>. We assign the result to a new column in our manifest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lengths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span>
+<span class="n">manifest</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lengths</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="s1">&#39;length&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/cfe75314bbe54479957b22a7332dfb6695eec7833b4970aa8a1ff0ff6fb0cc6d.png" src="../_images/cfe75314bbe54479957b22a7332dfb6695eec7833b4970aa8a1ff0ff6fb0cc6d.png" />
+</div>
+</div>
+</section>
+<section id="hapax-richness">
+<h3><span class="section-number">3.3.3. </span>Hapax richness<a class="headerlink" href="#hapax-richness" title="Permalink to this headline">#</a></h3>
+<p>Our second metric is <strong>hapax richness</strong>. If you’ll recall from the <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/04_corpus-analytics.html#raw-metrics-terms">second
+day</a> of our Getting Started with Textual Data workshop series, a hapax
+(short for “hapax legomenon”) is a word that occurs only once in a document.
+Researchers, especially those working in authorship attribution, will use such
+words to create a measure of a document’s lexical complexity: the more hapaxes
+in a document, the more lexically complex that document is said to be.</p>
+<p>Generating a hapax richness metric involves finding all hapaxes in a document.
+Once we’ve done so, we simply take the sum of those tokens over the total
+number of tokens in a document.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">A note on vocabulary</p>
+<p>For this function, we only count alphabetic tokens.</p>
+</aside>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hapax_richness</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the hapax richness for a document.&quot;&quot;&quot;</span>
+    <span class="n">toklist</span> <span class="o">=</span> <span class="p">[</span><span class="n">tok</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">]</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tok</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">toklist</span><span class="p">)</span>
+    <span class="n">hapaxes</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tok</span> <span class="k">for</span> <span class="n">tok</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">hapaxes</span><span class="o">.</span><span class="n">total</span><span class="p">()</span> <span class="o">/</span> <span class="n">counts</span><span class="o">.</span><span class="n">total</span><span class="p">()</span>
+
+<span class="n">hapaxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">hapax_richness</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span>
+<span class="n">manifest</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;hapax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hapaxes</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="s1">&#39;hapax&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/42d043ebe1874f104bef5d8996bda01da19e9dd76cdbccfdf7b443437a3aff39.png" src="../_images/42d043ebe1874f104bef5d8996bda01da19e9dd76cdbccfdf7b443437a3aff39.png" />
+</div>
+</div>
+<p>Let’s pause and look at our two metrics with some <code class="docutils literal notranslate"><span class="pre">.groupby()</span></code> views in
+<code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<p>Mean distribution of features:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">manifest</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)[[</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="s1">&#39;hapax&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>length</th>
+      <th>hapax</th>
+    </tr>
+    <tr>
+      <th>label</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>abstract</th>
+      <td>1285.600000</td>
+      <td>0.288841</td>
+    </tr>
+    <tr>
+      <th>fiction</th>
+      <td>10649.107143</td>
+      <td>0.135776</td>
+    </tr>
+    <tr>
+      <th>summaries</th>
+      <td>412.910000</td>
+      <td>0.485768</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Determining whether features are correlated is also useful:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">manifest</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)[[</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="s1">&#39;hapax&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>length</th>
+      <th>hapax</th>
+    </tr>
+    <tr>
+      <th>label</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">abstract</th>
+      <th>length</th>
+      <td>1.000000</td>
+      <td>-0.502604</td>
+    </tr>
+    <tr>
+      <th>hapax</th>
+      <td>-0.502604</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">fiction</th>
+      <th>length</th>
+      <td>1.000000</td>
+      <td>-0.819036</td>
+    </tr>
+    <tr>
+      <th>hapax</th>
+      <td>-0.819036</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">summaries</th>
+      <th>length</th>
+      <td>1.000000</td>
+      <td>-0.811724</td>
+    </tr>
+    <tr>
+      <th>hapax</th>
+      <td>-0.811724</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>It makes sense that length and hapax richness tend to be negatively correlated:
+the longer a text is, the more likely we are to see repeated words. In this
+sense, as it stands our hapax feature might not be as representative as we’d
+like it to be, especially when it comes to a document class like fiction.
+Surely there are rare, potentially important words in the fiction, but they’re
+largely blurred by the length of the documents. To mitigate this, we could use
+a <strong>window size</strong> to determine hapax richness, modifying the code above, for
+example, to break texts into smaller chunks and get a mean hapax score for all
+chunks. We won’t do this now, but keep in mind that you may have to make such
+modifications when engineering features.</p>
+</section>
+<section id="active-and-passive-voice">
+<h3><span class="section-number">3.3.4. </span>Active and passive voice<a class="headerlink" href="#active-and-passive-voice" title="Permalink to this headline">#</a></h3>
+<p>From here, our features will be a little more complex. That complexity is
+twofold. First, these features require more coding work than the ones above;
+and second, they require us to think more carefully about relationships across
+our corpus.</p>
+<p>To wit: this next feature concerns the distinction between active and passive
+voice. The hypothesis here is that the objective, report-like nature of
+abstracts (and perhaps summaries) will have more passive voice overall than in
+fiction, which tends to be focused on present action. To measure this, we’ll
+use <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s dependency parser to identify the percentage of passive voice
+subjects in a document, versus active subjects.</p>
+<p>We’ll implement this in a function, which counts the number of passive subjects
+and the number of active subjects in each sentence of the document. Then, it
+sums the total number of subjects and divides the number of passive subjects by
+that total.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">score_passive</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score the passiveness of a document.&quot;&quot;&quot;</span>
+    <span class="n">subj</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;passive&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">sent</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">dep_</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;nsubj&#39;</span><span class="p">,</span> <span class="s1">&#39;csubj&#39;</span><span class="p">):</span>
+                <span class="n">subj</span><span class="p">[</span><span class="s1">&#39;active&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">tok</span><span class="o">.</span><span class="n">dep_</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;nsubjpass&#39;</span><span class="p">,</span> <span class="s1">&#39;csubjpass&#39;</span><span class="p">):</span>
+                <span class="n">subj</span><span class="p">[</span><span class="s1">&#39;passive&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">subj</span><span class="p">[</span><span class="s1">&#39;passive&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">subj</span><span class="o">.</span><span class="n">total</span><span class="p">()</span>
+
+<span class="n">passivity</span> <span class="o">=</span> <span class="p">[</span><span class="n">score_passive</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span>
+<span class="n">manifest</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;passivity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">passivity</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="s1">&#39;passivity&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b36fbf9218ec17d484f3795b8faa84dbe95da21b30c417eb97e4040fd046c2fa.png" src="../_images/b36fbf9218ec17d484f3795b8faa84dbe95da21b30c417eb97e4040fd046c2fa.png" />
+</div>
+</div>
+</section>
+<section id="abstract-nouns">
+<h3><span class="section-number">3.3.5. </span>Abstract nouns<a class="headerlink" href="#abstract-nouns" title="Permalink to this headline">#</a></h3>
+<p>The following code follows a similar structure to the code above. Below, we use
+<code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tags to identify nouns in a document. Then we
+determine whether these are abstract nouns, on the theory that abstracts and
+summaries are likely to have more nouns that denote ideas, qualities,
+relationships, etc. than fiction.</p>
+<p>But how do we find an abstract noun? One simple way is to consider a noun’s
+suffix. Suffixes like <em>-acy</em> or <em>-ism</em> (e.g. accuracy, isomorphism) and <em>-hip</em>
+or <em>-ity</em> (e.g. relationship, fixity) are good, general markers of abstract
+nouns. They’re not always a perfect match, but they can give us a general sense
+of what kind of noun it is that we’re working with.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ABSTRACT_SUFFIX</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;acy&#39;</span><span class="p">,</span> <span class="s1">&#39;ncy&#39;</span><span class="p">,</span> <span class="s1">&#39;nce&#39;</span><span class="p">,</span> <span class="s1">&#39;ism&#39;</span><span class="p">,</span> <span class="s1">&#39;ity&#39;</span><span class="p">,</span> <span class="s1">&#39;ty&#39;</span><span class="p">,</span> <span class="s1">&#39;ent&#39;</span><span class="p">,</span> <span class="s1">&#39;ess&#39;</span><span class="p">,</span> <span class="s1">&#39;hip&#39;</span><span class="p">,</span> <span class="s1">&#39;ion&#39;</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">score_abstract</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score the abstractness of a document.&quot;&quot;&quot;</span>
+    <span class="n">nouns</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;abstract&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;not&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">tok</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s1">&#39;NOUN&#39;</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">suffix_</span> <span class="ow">in</span> <span class="n">ABSTRACT_SUFFIX</span><span class="p">:</span>
+            <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;abstract&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;not&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;abstract&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">nouns</span><span class="o">.</span><span class="n">total</span><span class="p">()</span>
+
+<span class="n">abstractness</span> <span class="o">=</span> <span class="p">[</span><span class="n">score_abstract</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span>
+<span class="n">manifest</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;abstractness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">abstractness</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="s1">&#39;abstractness&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dca2f9d2eb9813c064e2ad2c1da33a36b1e995bb069674259c6bc4f9756c856e.png" src="../_images/dca2f9d2eb9813c064e2ad2c1da33a36b1e995bb069674259c6bc4f9756c856e.png" />
+</div>
+</div>
+</section>
+<section id="cardinal-numbers">
+<h3><span class="section-number">3.3.6. </span>Cardinal numbers<a class="headerlink" href="#cardinal-numbers" title="Permalink to this headline">#</a></h3>
+<p>So far we’ve been eliding potentially important differences between abstracts
+and summaries. Let’s develop a metric that might help us distinguish between
+the two of them. One such metric could be a simple count of the number of
+cardinal numbers in a document: we’d expect summaries to have less than
+abstracts (whether because the latter reports various metrics, or because they
+often contain citations, dates, etc.). Using <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s part-of-speech tagger
+will help us identify these tokens. We count these tokens and divide that
+number by the length of the document.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">score_cardinals</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get number of cardinal numbers and normalize on document length.&quot;&quot;&quot;</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tok</span><span class="o">.</span><span class="n">tag_</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">doc</span> <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">tag_</span> <span class="o">==</span> <span class="s1">&#39;CD&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">counts</span><span class="o">.</span><span class="n">total</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+<span class="n">cardinals</span> <span class="o">=</span> <span class="p">[</span><span class="n">score_cardinals</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span>
+<span class="n">manifest</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;cardinals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cardinals</span>
+<span class="n">histplot</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="s1">&#39;cardinals&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/443f9609a87df62a52fee6a11ff463e1e812f261bf0c82f0403e75360337ac83.png" src="../_images/443f9609a87df62a52fee6a11ff463e1e812f261bf0c82f0403e75360337ac83.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="modeling-ii">
+<h2><span class="section-number">3.4. </span>Modeling II<a class="headerlink" href="#modeling-ii" title="Permalink to this headline">#</a></h2>
+<p>With our features engineered, it’s time to build another model. This time,
+however, we send it a much smaller set of features, rather than that giant DTM
+of tf-idf vectors. The workflow is almost entirely the same, save for two
+changes:</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">More about distributions</p>
+<p>See this <a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/05.05-naive-bayes.html">excerpt</a> from the <em>Python Data Science Handbook</em> for a
+detailed explanation of the differences between distribution types in Bayesian
+modeling.</p>
+</aside>
+<ol class="arabic simple">
+<li><p>We scale our data and normalize features to a <code class="docutils literal notranslate"><span class="pre">[0,1]</span></code> scale.</p></li>
+<li><p>We change the type of distribution our model assumes. A multinomial
+distribution is the norm for text, as it works well with categorical counts.
+But we’re no longer working with text data per se; we’re working with data
+<em>about</em> text, and the values represented therein are continuous. Because of
+this, we need to use a model that assumes a Gaussian (or normal)
+distribution.</p></li>
+</ol>
+<p>First, let’s get our features.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">feats</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="s1">&#39;hapax&#39;</span><span class="p">,</span> <span class="s1">&#39;passivity&#39;</span><span class="p">,</span> <span class="s1">&#39;abstractness&#39;</span><span class="p">,</span> <span class="s1">&#39;cardinals&#39;</span><span class="p">]</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">manifest</span><span class="p">[</span><span class="n">feats</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, we scale them with <code class="docutils literal notranslate"><span class="pre">MinMaxScaler</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">minmax</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">scaled</span> <span class="o">=</span> <span class="n">minmax</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The rest should feel familiar: split the data…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">scaled</span>
+    <span class="p">,</span> <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;label_int&#39;</span><span class="p">]</span>
+    <span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">357</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>…and train the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>How did we do?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">report</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">test_labels</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">target_names</span> <span class="o">=</span> <span class="n">target_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+
+     fiction       1.00      1.00      1.00        22
+   summaries       0.97      1.00      0.99        33
+    abstract       1.00      0.95      0.98        22
+
+    accuracy                           0.99        77
+   macro avg       0.99      0.98      0.99        77
+weighted avg       0.99      0.99      0.99        77
+</pre></div>
+</div>
+</div>
+</div>
+<p>Surprisingly well, actually! In fact, this second model is arguably <em>better</em>
+than the first one we built. It’s probably still overfitted to fiction, but the
+scores for the other document classes indicate that it’s been able to
+generalize out from specific words to a broader class of features that typify
+one kind of document from the next. And – just as important – it’s been able to
+do so with a far smaller set of features. Whereas the DTM we used to train the
+first model had ~18.5k features, this one only needs five.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_text-annotation-with-spacy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Text Annotation with spaCy</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_word-embeddings.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Word Embeddings</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">3.1. Preliminaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-i">3.2. Modeling I</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-idf-vectors">3.2.1. Tf-idf vectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tf-idf-model">3.2.2. Tf-idf model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-engineering">3.3. Feature Engineering</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">3.3.1. Overview</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#document-length">3.3.2. Document length</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hapax-richness">3.3.3. Hapax richness</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#active-and-passive-voice">3.3.4. Active and passive voice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-nouns">3.3.5. Abstract nouns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cardinal-numbers">3.3.6. Cardinal numbers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-ii">3.4. Modeling II</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Tyler Shoemaker and Carl Stahmer
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg"> 
+</a>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

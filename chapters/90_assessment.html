@@ -1,0 +1,691 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en-us" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Assessment &#8212; Natural Language Processing with Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/90_assessment';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="4. Word Embeddings" href="04_word-embeddings.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en-us"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/datalab-logo-full-color-rgb.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/datalab-logo-full-color-rgb.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Overview
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapters</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_logistics.html">1. Before We Begin…</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_text-annotation-with-spacy.html">2. Text Annotation with spaCy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_classification-and-feature-engineering.html">3. Classification and Feature Engineering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_word-embeddings.html">4. Word Embeddings</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Assessment</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Assessment</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/ucdavisdatalab/workshop_nlp_with_python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/ucdavisdatalab/workshop_nlp_with_python/issues/new?title=Issue%20on%20page%20%2Fchapters/90_assessment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/chapters/90_assessment.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Assessment</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-and-file-setup">Environment and File Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rubric">Rubric</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompts">Prompts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#processing">Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-documents-with-word-embeddings">Clustering documents with word embeddings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unique-words">Unique words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linguistic-features">Linguistic features</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="assessment">
+<h1>Assessment<a class="headerlink" href="#assessment" title="Permalink to this headline">#</a></h1>
+<p><strong>Instructions</strong></p>
+<p>To earn a micro-badge for this workshop, write code for/answer the prompts on
+the next page. You should do your work in a code environment (like Jupyter);
+include all code, code outputs, and short answers directly in your notebook.
+Submit this notebook to GradPathways by exporting it to an <code class="docutils literal notranslate"><span class="pre">html</span></code> file (in
+Jupyter Notebooks, you can do this by going to <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Save</span> <span class="pre">Page</span> <span class="pre">As</span></code> in your
+browser).</p>
+<p><strong>Links</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ucd.badgr.com/public/badges/mugtjcgjSCirltrfe_91NA">GradPathways Badge</a></p></li>
+<li><p><a class="reference external" href="https://datalab.ucdavis.edu/eventscalendar/natural-language-processing-with-python-3-part-series-3/">Event page</a></p></li>
+<li><p><a class="reference external" href="https://ucdavisdatalab.github.io/workshop_nlp_with_python/">Workshop reader</a></p></li>
+</ul>
+<section id="environment-and-file-setup">
+<h2>Environment and File Setup<a class="headerlink" href="#environment-and-file-setup" title="Permalink to this headline">#</a></h2>
+<p>For this assessment, you will extract linguistic information about a corpus of
+texts and use this to model the texts. We intend this both to reinforce the
+materials covered in the workshop sessions and to serve as an occasion with
+which you can practice NLP methods for your own research. To wit: you are
+invited to use your <em>own</em> corpus of text files to complete the assessment; by
+the time you’ve finished, you’ll have built a foundation for a research project
+with NLP.</p>
+<p>If you don’t want to use your own corpus, or if you don’t have one ready to
+hand, we’ve also provided you one. Under <code class="docutils literal notranslate"><span class="pre">data/sherlock</span></code> you’ll find 56
+Sherlock Holmes short stories. You can find a corresponding file manifest at
+<code class="docutils literal notranslate"><span class="pre">data/manifest.csv</span></code>, which you should use as a reference when doing your work.
+If you choose to use your own corpus, we suggest using somewhere between 50-100
+documents. But note: 100 novels is far more material than 100 short stories.
+Try to aim for a corpus that has <strong>at least 150,000 total words.</strong></p>
+<p>This assessment does not require you to generate and store new files, but you
+are welcome to do so as you see fit.</p>
+<p>While we ask that you do this work in a code notebook, you may use a local
+environment on your own computer or Google Colab. Regardless of which
+environment you use, you will need to make sure that you have all required
+packages installed. The requirements file for these packages is under
+<code class="docutils literal notranslate"><span class="pre">data/requirements.txt</span></code>.</p>
+<p>The directory structure for this assessment is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>requirements.txt                A list of required packages
+text_mining_assessment.pdf      These instructions
+data/                           The data directory
+|-- manifest.csv                A file manifest
+`-- sherlock/                   Plaintext files of 56 Sherlock Holmes stories
+</pre></div>
+</div>
+</section>
+<section id="rubric">
+<h2>Rubric<a class="headerlink" href="#rubric" title="Permalink to this headline">#</a></h2>
+<p>Readers at GradPathways will be looking for a few things in this assessment:</p>
+<ol class="arabic simple">
+<li><p>Working code: were you able to successfully implement code for each prompt?</p></li>
+<li><p>Understanding the code: can you explain what your code does and why you
+implemented it?</p></li>
+<li><p>Supported examples and materials: have you used graphs and other results to
+produce evidence for your findings?</p></li>
+<li><p>Critical reflection: do your short answers provide context (conceptual,
+domain-specific, etc.) for your findings and observations? Can you use your
+results to reason about your corpus, or even provide preliminary hypotheses?</p></li>
+</ol>
+</section>
+<section id="prompts">
+<h2>Prompts<a class="headerlink" href="#prompts" title="Permalink to this headline">#</a></h2>
+<section id="processing">
+<h3>Processing<a class="headerlink" href="#processing" title="Permalink to this headline">#</a></h3>
+<ol class="arabic simple">
+<li><p>Load the following data into your environment, assigning each to their
+respective variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nlp</span></code>: <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s <code class="docutils literal notranslate"><span class="pre">en_core_web_md</span></code> model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">manifest</span></code>: file manifest for the corpus files</p></li>
+</ul>
+</li>
+<li><p>Load your files and process them with <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>. Assign the output to a
+variable named <code class="docutils literal notranslate"><span class="pre">corpus</span></code></p></li>
+<li><p>By default, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> assigns word embedding vectors to both individual tokens
+and to the document as a whole. You can access these with the <code class="docutils literal notranslate"><span class="pre">.vector</span></code>
+attribute. Use a list comprehension to get the <strong>document</strong> vectors from
+each file in the corpus and store the output in a <code class="docutils literal notranslate"><span class="pre">vecs</span></code> variable. Wrap this
+list in a <code class="docutils literal notranslate"><span class="pre">NumPy</span></code> array</p></li>
+</ol>
+</section>
+<section id="clustering-documents-with-word-embeddings">
+<h3>Clustering documents with word embeddings<a class="headerlink" href="#clustering-documents-with-word-embeddings" title="Permalink to this headline">#</a></h3>
+<ol class="arabic simple">
+<li><p>With the embedding vectors extracted, you can cluster and visualize the
+corpus. Use the <code class="docutils literal notranslate"><span class="pre">AgglomerativeClustering</span></code> object from <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> to do
+the clustering on the vectors. Then, run a dimensionality reduction with
+<code class="docutils literal notranslate"><span class="pre">TSNE</span></code> (also in <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>) to create two-dimensional (XY)
+representations of the vectors. Use the following values for <code class="docutils literal notranslate"><span class="pre">TSNE</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">init</span></code>: pca</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">learning_rate</span></code>: auto</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">angle</span></code>: any float under 0.3</p></li>
+<li><p><strong>Hint:</strong> if you’re unsure about the syntax here, refer to the final
+section in chapter three of the workshop reader</p></li>
+</ul>
+</li>
+<li><p>Convert your XY data into a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> DataFrame called <code class="docutils literal notranslate"><span class="pre">vis_data</span></code>. Assign two
+new columns to this dataframe: 1) <code class="docutils literal notranslate"><span class="pre">title</span></code>: title of each story (available in
+<code class="docutils literal notranslate"><span class="pre">manifest</span></code>); 2) <code class="docutils literal notranslate"><span class="pre">label</span></code>: output clusters from <code class="docutils literal notranslate"><span class="pre">AgglomerativeClustering</span></code>
+(accessible via the <code class="docutils literal notranslate"><span class="pre">.labels_</span></code> attribute). Use <code class="docutils literal notranslate"><span class="pre">altair</span></code> to make a
+scatter plot of this data. The plot’s <code class="docutils literal notranslate"><span class="pre">color</span></code> argument should take in the
+<code class="docutils literal notranslate"><span class="pre">label</span></code> column (use <code class="docutils literal notranslate"><span class="pre">label:N</span></code> to get the coloring right); <code class="docutils literal notranslate"><span class="pre">tooltip</span></code> should
+take in <code class="docutils literal notranslate"><span class="pre">name</span></code>. Don’t forget to set the plot to its interactive mode!</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AgglomerativeClustering</span></code> defaults to two clusters. Based on a visual
+inspection of the plot you’ve made, do you think this number of clusters is
+adequate for your corpus? Why not or why not?</p></li>
+<li><p>Re-cluster your data a few times with a different number of clusters. Find
+what you think is the optimal number of clusters for the corpus. Explain
+your reasoning for doing so, using supporting visualizations as you see fit</p>
+<ul class="simple">
+<li><p><strong>Hint:</strong> If you’re having trouble dividing up your documents into groups
+in the visualization, try adjusting the parameters of <code class="docutils literal notranslate"><span class="pre">TSNE</span></code> to better
+reflect what the <code class="docutils literal notranslate"><span class="pre">AgglomerativeClustering</span></code> object analyzes. A good place
+to start is <code class="docutils literal notranslate"><span class="pre">angle</span></code></p></li>
+<li><p><strong>Note:</strong> Clustering almost always involves some element of
+interpretation, but, in your own work, you can also use empirical measures
+to help you set an appropriate number of clusters. Silhouette scoring is a
+common strategy for doing so</p></li>
+</ul>
+</li>
+<li><p>Once you’ve picked your optimal number of clusters, assign the cluster
+labels to a <code class="docutils literal notranslate"><span class="pre">cluster</span></code> column in <code class="docutils literal notranslate"><span class="pre">manifest</span></code>. Use a <code class="docutils literal notranslate"><span class="pre">groupby</span></code> to count the
+number of documents in each cluster</p></li>
+</ol>
+</section>
+<section id="unique-words">
+<h3>Unique words<a class="headerlink" href="#unique-words" title="Permalink to this headline">#</a></h3>
+<ol class="arabic simple">
+<li><p>It’s now to time to explore the actual words in your corpus. First, you’ll
+look at intersecting words across the clusters you’ve created. To do so,
+create a list of sets, where each set corresponds to the unique tokens in a
+corpus text. Be sure to use the <code class="docutils literal notranslate"><span class="pre">.text</span></code> attribute when compiling these sets
+from <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> documents. Assign this list to a new column in <code class="docutils literal notranslate"><span class="pre">manifest</span></code>
+called <code class="docutils literal notranslate"><span class="pre">types</span></code></p></li>
+<li><p>In a for loop, step through each unique cluster in <code class="docutils literal notranslate"><span class="pre">manifest</span></code>. Use
+<code class="docutils literal notranslate"><span class="pre">.groupby('cluster').get_group(&lt;cluster_num&gt;)['types']</span></code> to extract all the
+sets for a given cluster. Perform a <strong>set intersection</strong> on the list, add
+the result to a dictionary called <code class="docutils literal notranslate"><span class="pre">doc_intersections</span></code> (use the cluster
+number as a key), and print the following to screen:</p>
+<ul class="simple">
+<li><p>Cluster number</p></li>
+<li><p>Number of elements in a set</p></li>
+<li><p><strong>Hint:</strong> not sure how to do a set intersection? Take a look at this
+<a class="reference external" href="https://www.programiz.com/python-programming/methods/set/intersection">link</a></p></li>
+</ul>
+</li>
+<li><p>Get the intersection of <code class="docutils literal notranslate"><span class="pre">doc_intersections</span></code> and store it in a variable named
+<code class="docutils literal notranslate"><span class="pre">corpus_intersections</span></code> (the result should be relatively short). This is the
+overlap between all unique words in all clusters</p></li>
+<li><p>Return to your dictionary of sets and build one more for loop to step
+through each one. Within the for loop, use
+<code class="docutils literal notranslate"><span class="pre">&lt;set&gt;.difference(corpus_intersections)</span></code> to get the difference between the
+current set of words and the intersection across the corpus. Print the
+result of <code class="docutils literal notranslate"><span class="pre">.difference()</span></code> to screen along with the cluster number and
+inspect the contents. What do you see? Can you discern any patterns among
+these words that might help you understand why they’ve been grouped
+together?</p></li>
+</ol>
+</section>
+<section id="linguistic-features">
+<h3>Linguistic features<a class="headerlink" href="#linguistic-features" title="Permalink to this headline">#</a></h3>
+<ol class="arabic simple">
+<li><p>In the question above, you created sets from the corpus texts using
+<code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s <code class="docutils literal notranslate"><span class="pre">.text</span></code> attribute. But as you know from our series, <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>
+provides several other document and token annotations, ranging from entities
+to part-of-speech tags and syntactic dependencies. Select three such
+attributes and for each one, write a function that will gather information
+about this attribute from the corpus texts</p>
+<ul class="simple">
+<li><p><strong>Hint:</strong> You’re probably going to be counting attributes. If so, it’s
+best to normalize those counts, usually by dividing them against the
+document as a whole (refer to the advanced feature engineering section of
+the second chapter in the corpus reader)</p></li>
+</ul>
+</li>
+<li><p>Before running these functions on the corpus text, explain your reasoning
+for selecting each attribute in a sentence or two. Make a prediction: do you
+think your attribute will help you discern differences between your
+clusters?</p></li>
+<li><p>Run the functions and assign the result of each to columns in <code class="docutils literal notranslate"><span class="pre">manifest</span></code>.
+Then group <code class="docutils literal notranslate"><span class="pre">manifest</span></code> by <code class="docutils literal notranslate"><span class="pre">cluster</span></code> and make a histogram of each attribute
+you created. Based on what you see, do you think these attributes
+successfully partition the corpus along the lines your clustering has
+defined? Explain why or why not</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./chapters"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_word-embeddings.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Word Embeddings</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-and-file-setup">Environment and File Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rubric">Rubric</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompts">Prompts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#processing">Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clustering-documents-with-word-embeddings">Clustering documents with word embeddings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unique-words">Unique words</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linguistic-features">Linguistic features</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Tyler Shoemaker and Carl Stahmer
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+  <img alt="CC BY-SA 4.0" src="https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg"> 
+</a>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
