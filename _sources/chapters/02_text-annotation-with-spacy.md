@@ -80,9 +80,9 @@ spaCy Language Models
 
 ```{margin} Want to know more?
 Explosion, the company behind `spaCy`, has a series of useful videos
-introducing the framework. [This one] is a good place to start.
+introducing the framework. [This one][video] is a good place to start.
 
-[This one]: https://www.youtube.com/watch?v=9k_EfV7Cns0&t=1365s
+[video]: https://www.youtube.com/watch?v=9k_EfV7Cns0&t=1365s
 ```
 
 ### `spaCy` pipelines
@@ -238,7 +238,7 @@ odyssey = nlp(book11)
 ```
 
 Now we pass our noun chunks to the `Counter`. Be sure to grab only the `.text`
-attribute from each token. We'll explain why shortly.
+attribute from each token; we don't need the other attributes.
 
 ```{code-cell}
 counts = Counter([chunk.text for chunk in odyssey.noun_chunks])
@@ -290,7 +290,7 @@ set(e.text for e in odyssey.ents if e.label_ == 'PERSON')
 
 Don't see an entity that you know to be in your document? You can add more to
 the `spaCy` model. Doing so is beyond the scope of our workshop session, but
-the library's `EntityRuler()` [documentation][doc] will show you how.
+the library's `EntityRuler` [documentation][doc] will show you how.
 
 [doc]: https://spacy.io/api/entityruler
 
@@ -343,11 +343,8 @@ print(tabulate(attributes, ['Text', 'Is punctuation', 'Is a URL']))
 
 We'll discuss some of the more complex annotations later on, both in this
 session and others. For now, let's collect some simple information about each
-of the tokens in our document. We'll use list comprehension to do so. We'll
-also use the `.text` attribute for each token, since we only want the text
-representation. Otherwise, we'd be creating a list of generators, where each
-generator has all those attribute for every token! (This is why we made sure to
-only use `.text` in our work with _The Odyssey_ above.)
+of the tokens in our document. To do so, we use a list comprehension on the
+`.text` attribute of each token.
 
 ```{code-cell}
 words = ' '.join(tok.text for tok in carafe if tok.is_alpha)
@@ -563,9 +560,9 @@ the travelers, and peppered throughout Book XI are expressions of grief.
 
 With `.lemma_`, we can search for these expressions. We'll roll through the
 text and determine whether a token lemma matches one of a selected set. When we
-find a match, we'll get the subtree of this token's _head_. That is, we'll find
-the head upon which this token depends, and then we'll use that to reconstruct
-the local context for the token.
+find a match, we get the subtree of this token's _head_. That is, we find the
+head upon which this token depends, and then we use that to reconstruct the
+local context for the token.
 
 ```{code-cell}
 target = ('cry', 'grief', 'grieve', 'sad', 'sorrow', 'tear', 'weep')

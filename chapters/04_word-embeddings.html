@@ -359,7 +359,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings-introduction">4.1. Word Embeddings: Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-it-works">4.1. How It Works</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">4.2. Preliminaries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-an-embeddings-model">4.3. Using an Embeddings Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-model">4.3.1. Loading a model</a></li>
@@ -422,8 +422,8 @@ considerably more feature-rich than what we could achieve with tf-idf alone.</p>
 <li><p>Encode documents with a word embeddings model</p></li>
 </ul>
 </div>
-<section id="word-embeddings-introduction">
-<h2><span class="section-number">4.1. </span>Word Embeddings: Introduction<a class="headerlink" href="#word-embeddings-introduction" title="Permalink to this headline">#</a></h2>
+<section id="how-it-works">
+<h2><span class="section-number">4.1. </span>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">#</a></h2>
 <p>Prior to the advent of <a class="reference external" href="https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)">Transformer</a> models, word embedding served
 as a state-of-the-art technique for representing semantic relationships between
 tokens. The technique was first introduced in 2013, and it spawned a host of
@@ -450,7 +450,7 @@ more information-rich than tf-idf. As a result, embeddings tend to be capable
 of representing more nuanced relationships between corpus words – a performance
 improvement that is further boosted by the fact that many of the most popular
 models had the advantage of being trained on billions and billions of tokens.</p>
-<p>The other major difference between tehse vectors and tf-idf lies in how the
+<p>The other major difference between these vectors and tf-idf lies in how the
 former are created. While at root, word embeddings represent token
 co-occurrence data (just like a document-term matrix), they are the product of
 millions of guesses made by a neural network. Training this network involves
@@ -475,7 +475,7 @@ updating its weights accordingly over the course of training. Words that
 repeatedly appear in similar contexts will help shape thse weights, and in turn
 the model will associate such words with similar vector representations. If
 you’d like to see all this in action, Xin Rong has produced a <a class="reference external" href="https://ronxin.github.io/wevi/">fantastic
-interactive visualization</a>of how word embedding models learn.</p>
+interactive visualization</a> of how word embedding models learn.</p>
 <p>Of course, the other way to understand how word embeddings work is to use them
 yourself. We’ll move on to doing so now.</p>
 </section>
@@ -1811,14 +1811,14 @@ documentation.</p>
 <p>Later on we’ll use GloVe to encode our corpus texts. But before we do, it’s
 worth demonstrating more generally some of the properties of word vectors.
 Vector representations of text allow us to perform various mathematical
-operations on our corpus that approximate (though maybe <em>only</em> approximate)
-semantics. The most common among these operations is finding the <strong>cosine
-similarity</strong> between two vectors. Our Getting Started with Textual Data series
-has a whole <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/05_clustering-and-classification.html">chapter</a> on this measure, so if you haven’t encountered
-it before, we recommend you read that. But in short: cosine similarity measures
-the difference between vectors’ orientation in a feature space (here, the
-feature space is comprised of each of the vectors’ 200 dimensions). The closer
-two vectors are, the more likely they are to share semantic similarities.</p>
+operations on our corpus that approximate semantics. The most common among
+these operations is finding the <strong>cosine similarity</strong> between two vectors. Our
+Getting Started with Textual Data series has a whole <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/05_clustering-and-classification.html">chapter</a> on this
+measure, so if you haven’t encountered it before, we recommend you read that.
+But in short: cosine similarity measures the difference between vectors’
+orientation in a feature space (here, the feature space is comprised of each of
+the vectors’ 200 dimensions). The closer two vectors are, the more likely they
+are to share semantic similarities.</p>
 <section id="similar-tokens">
 <h3><span class="section-number">4.4.1. </span>Similar tokens<a class="headerlink" href="#similar-tokens" title="Permalink to this headline">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">gensim</span></code> provides easy access to this measure and other such vector space
@@ -2587,7 +2587,7 @@ investigations – what comes next depends on which questions we want to ask.</p
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#word-embeddings-introduction">4.1. Word Embeddings: Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-it-works">4.1. How It Works</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">4.2. Preliminaries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-an-embeddings-model">4.3. Using an Embeddings Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-a-model">4.3.1. Loading a model</a></li>

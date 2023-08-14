@@ -520,13 +520,13 @@ in the document-term matrix (DTM) below.</p>
 smaller portion of it to <strong>test</strong> the model. The workflow goes like this.
 First, we train the model, then we give it our test data, which it hasn’t yet
 seen. We, on the other hand, have seen this data, and we know which labels the
-model <em>should</em> assign when it makes its predictions. By measuring those
+model should assign when it makes its predictions. By measuring those
 predictions against labels that we know to be correct, we’re thus able to
 appraise a model’s performance.</p>
 <p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> has functionality to split our data into training and test sets
 with <code class="docutils literal notranslate"><span class="pre">train_test_split()</span></code>. This will output training data/labels and test
 data/labels. We’ll also specify what percentage of the corpus we devote to
-training and what percentage we devote to testing. For this task, we’ll use an
+training and what percentage we devote to testing. For this task, we use a
 70/30 split.</p>
 <div class="admonition-be-sure-to-shuffle-the-data admonition">
 <p class="admonition-title">Be sure to shuffle the data!</p>
@@ -910,7 +910,7 @@ that total.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">score_passive</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Score the passiveness of a document.&quot;&quot;&quot;</span>
-    <span class="n">subj</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;passive&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="n">subj</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">passive</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">active</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">sent</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">dep_</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;nsubj&#39;</span><span class="p">,</span> <span class="s1">&#39;csubj&#39;</span><span class="p">):</span>
@@ -953,14 +953,14 @@ of what kind of noun it is that we’re working with.</p>
 
 <span class="k">def</span> <span class="nf">score_abstract</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Score the abstractness of a document.&quot;&quot;&quot;</span>
-    <span class="n">nouns</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">({</span><span class="s1">&#39;abstract&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;not&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+    <span class="n">nouns</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">abstract</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">not_abstract</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">tok</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s1">&#39;NOUN&#39;</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">suffix_</span> <span class="ow">in</span> <span class="n">ABSTRACT_SUFFIX</span><span class="p">:</span>
             <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;abstract&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;not&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;not_abstract&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="k">return</span> <span class="n">nouns</span><span class="p">[</span><span class="s1">&#39;abstract&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">nouns</span><span class="o">.</span><span class="n">total</span><span class="p">()</span>
 

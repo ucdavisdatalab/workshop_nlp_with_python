@@ -664,7 +664,7 @@ identify these in Homer’s text. Below, we’ll do so with <em>The Odyssey</em>
 </div>
 </div>
 <p>Now we pass our noun chunks to the <code class="docutils literal notranslate"><span class="pre">Counter</span></code>. Be sure to grab only the <code class="docutils literal notranslate"><span class="pre">.text</span></code>
-attribute from each token. We’ll explain why shortly.</p>
+attribute from each token; we don’t need the other attributes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">([</span><span class="n">chunk</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">odyssey</span><span class="o">.</span><span class="n">noun_chunks</span><span class="p">])</span>
@@ -812,7 +812,7 @@ we’re using.</p>
 </div>
 <p>Don’t see an entity that you know to be in your document? You can add more to
 the <code class="docutils literal notranslate"><span class="pre">spaCy</span></code> model. Doing so is beyond the scope of our workshop session, but
-the library’s <code class="docutils literal notranslate"><span class="pre">EntityRuler()</span></code> <a class="reference external" href="https://spacy.io/api/entityruler">documentation</a> will show you how.</p>
+the library’s <code class="docutils literal notranslate"><span class="pre">EntityRuler</span></code> <a class="reference external" href="https://spacy.io/api/entityruler">documentation</a> will show you how.</p>
 </section>
 <section id="token-annotations">
 <h3><span class="section-number">2.4.2. </span>Token annotations<a class="headerlink" href="#token-annotations" title="Permalink to this headline">#</a></h3>
@@ -996,11 +996,8 @@ spreading    False             False
 </div>
 <p>We’ll discuss some of the more complex annotations later on, both in this
 session and others. For now, let’s collect some simple information about each
-of the tokens in our document. We’ll use list comprehension to do so. We’ll
-also use the <code class="docutils literal notranslate"><span class="pre">.text</span></code> attribute for each token, since we only want the text
-representation. Otherwise, we’d be creating a list of generators, where each
-generator has all those attribute for every token! (This is why we made sure to
-only use <code class="docutils literal notranslate"><span class="pre">.text</span></code> in our work with <em>The Odyssey</em> above.)</p>
+of the tokens in our document. To do so, we use a list comprehension on the
+<code class="docutils literal notranslate"><span class="pre">.text</span></code> attribute of each token.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">words</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tok</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">carafe</span> <span class="k">if</span> <span class="n">tok</span><span class="o">.</span><span class="n">is_alpha</span><span class="p">)</span>
@@ -1477,9 +1474,9 @@ with her. The whole trip to Hades is an emotionally tumultuous experience for
 the travelers, and peppered throughout Book XI are expressions of grief.</p>
 <p>With <code class="docutils literal notranslate"><span class="pre">.lemma_</span></code>, we can search for these expressions. We’ll roll through the
 text and determine whether a token lemma matches one of a selected set. When we
-find a match, we’ll get the subtree of this token’s <em>head</em>. That is, we’ll find
-the head upon which this token depends, and then we’ll use that to reconstruct
-the local context for the token.</p>
+find a match, we get the subtree of this token’s <em>head</em>. That is, we find the
+head upon which this token depends, and then we use that to reconstruct the
+local context for the token.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;cry&#39;</span><span class="p">,</span> <span class="s1">&#39;grief&#39;</span><span class="p">,</span> <span class="s1">&#39;grieve&#39;</span><span class="p">,</span> <span class="s1">&#39;sad&#39;</span><span class="p">,</span> <span class="s1">&#39;sorrow&#39;</span><span class="p">,</span> <span class="s1">&#39;tear&#39;</span><span class="p">,</span> <span class="s1">&#39;weep&#39;</span><span class="p">)</span>

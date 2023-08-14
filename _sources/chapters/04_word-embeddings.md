@@ -54,8 +54,8 @@ By the end of this chapter, you will be able to:
 + Encode documents with a word embeddings model
 ```
 
-Word Embeddings: Introduction
------------------------------
+How It Works
+------------
 
 Prior to the advent of [Transformer][transformer] models, word embedding served
 as a state-of-the-art technique for representing semantic relationships between
@@ -89,7 +89,7 @@ models had the advantage of being trained on billions and billions of tokens.
 
 [curse]: https://en.wikipedia.org/wiki/Curse_of_dimensionality
 
-The other major difference between tehse vectors and tf-idf lies in how the
+The other major difference between these vectors and tf-idf lies in how the
 former are created. While at root, word embeddings represent token
 co-occurrence data (just like a document-term matrix), they are the product of
 millions of guesses made by a neural network. Training this network involves
@@ -118,7 +118,7 @@ updating its weights accordingly over the course of training. Words that
 repeatedly appear in similar contexts will help shape thse weights, and in turn
 the model will associate such words with similar vector representations. If
 you'd like to see all this in action, Xin Rong has produced a [fantastic
-interactive visualization][vis]of how word embedding models learn.
+interactive visualization][vis] of how word embedding models learn.
 
 [vis]: https://ronxin.github.io/wevi/
 
@@ -350,14 +350,14 @@ Word Relationships
 Later on we'll use GloVe to encode our corpus texts. But before we do, it's
 worth demonstrating more generally some of the properties of word vectors.
 Vector representations of text allow us to perform various mathematical
-operations on our corpus that approximate (though maybe _only_ approximate)
-semantics. The most common among these operations is finding the **cosine
-similarity** between two vectors. Our Getting Started with Textual Data series
-has a whole [chapter][chapter] on this measure, so if you haven't encountered
-it before, we recommend you read that. But in short: cosine similarity measures
-the difference between vectors' orientation in a feature space (here, the
-feature space is comprised of each of the vectors' 200 dimensions). The closer
-two vectors are, the more likely they are to share semantic similarities.
+operations on our corpus that approximate semantics. The most common among
+these operations is finding the **cosine similarity** between two vectors. Our
+Getting Started with Textual Data series has a whole [chapter][chapter] on this
+measure, so if you haven't encountered it before, we recommend you read that.
+But in short: cosine similarity measures the difference between vectors'
+orientation in a feature space (here, the feature space is comprised of each of
+the vectors' 200 dimensions). The closer two vectors are, the more likely they
+are to share semantic similarities.
 
 [chapter]: https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/05_clustering-and-classification.html
 
