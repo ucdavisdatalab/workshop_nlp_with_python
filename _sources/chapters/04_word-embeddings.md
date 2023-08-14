@@ -219,7 +219,7 @@ from gensim.models import Word2Vec
 n_dimensions = 100
 model = Word2Vec(n_dimensions)
 model.build_vocab(corpus)
-model.train(corpus, total_words=model.corpus_total_words, epochs=5)
+model.train(corpus, total_words = model.corpus_total_words, epochs = 5)
 ```
 
 Another problem has to do with the data GloVe was trained on. It's so large
@@ -239,7 +239,8 @@ this when working with the data.
 
 ### Loading a model
 
-With all that said, we can move on. Below, we load GloVe embeddings into our workspace using a `gensim` wrapper.
+With all that said, we can move on. Below, we load GloVe embeddings into our
+workspace using a `gensim` wrapper.
 
 ```{code-cell}
 model_path = indir.joinpath("glove/glove-wiki-gigaword_200d.bin")
@@ -322,6 +323,7 @@ the model. We identify whether the model has a token using its
 ```{code-cell}
 vocab = set(tok for doc in corpus for tok in doc)
 in_glove = set(tok for tok in vocab if model.has_index_for(tok))
+
 print("Total words in the corpus vocabulary:", len(vocab))
 print("Words not in GloVe:", len(vocab) - len(in_glove))
 ```
@@ -337,10 +339,10 @@ tokens. This, at the very least, enables you to have _some_ representation of
 your data. A more complex approach involves taking the mean embedding of the
 word vectors surrounding an unknown token; and depending on the model, you can
 also train it further, adding extra tokens from your domain-specific text.
-Instructions for this last option are available [here][here] in the `gensim`
+Instructions for this last option are available [here][train] in the `gensim`
 documentation.
 
-[here]: https://radimrehurek.com/gensim/models/word2vec.html#usage-examples
+[train]: https://radimrehurek.com/gensim/models/word2vec.html#usage-examples
 
 Word Relationships
 ------------------
@@ -351,8 +353,8 @@ Vector representations of text allow us to perform various mathematical
 operations on our corpus that approximate (though maybe _only_ approximate)
 semantics. The most common among these operations is finding the **cosine
 similarity** between two vectors. Our Getting Started with Textual Data series
-has a whole [chapter][chaper] on this measure, so if you haven't encountered it
-before, we recommend you read that. But in short: cosine similarity measures
+has a whole [chapter][chapter] on this measure, so if you haven't encountered
+it before, we recommend you read that. But in short: cosine similarity measures
 the difference between vectors' orientation in a feature space (here, the
 feature space is comprised of each of the vectors' 200 dimensions). The closer
 two vectors are, the more likely they are to share semantic similarities.
@@ -414,7 +416,7 @@ is, its antonym – is "evil." But in the world of vector spaces, the least
 similar word to "good" is:
 
 ```{code-cell}
-model.most_similar('good', topn=len(model))[-1]
+model.most_similar('good', topn = len(model))[-1]
 ```
 
 Just noise! Relatively speaking, the vectors for "good" and "evil" are actually
@@ -473,15 +475,15 @@ synthetic vectors, they're often in the top-10 most similar results.
 
 ### Analogies
 
-Most famously, word embeddings enable quasi-logical reasoning. Though, as we
-mentioned earlier, relationships between antonyms and synonyms do not
-necessarily map to a vector space, certain analogies do – at least under the
-right circumstances, and with particular training data. The logic here is that
-we identify a relationship between two words and we subtract one of those
-words' vectors from the other. To that new vector we add in a vector for a
-target word, which forms the analogy. Querying for the word closest to this
-modified vector should produce a similar relation between the result and the
-target word as that between the original pair.
+Most famously, word embeddings enable quasi-logical reasoning. Though
+relationships between antonyms and synonyms do not necessarily map to a vector
+space, certain analogies do – at least under the right circumstances, and with
+particular training data. The logic here is that we identify a relationship
+between two words and we subtract one of those words' vectors from the other.
+To that new vector we add in a vector for a target word, which forms the
+analogy. Querying for the word closest to this modified vector should produce a
+similar relation between the result and the target word as that between the
+original pair.
 
 Here, we ask: "strong is to stronger what clear is to X?" Ideally, we'd get
 "clearer."

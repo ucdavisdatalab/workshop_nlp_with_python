@@ -584,7 +584,7 @@ them in the <a class="reference external" href="https://radimrehurek.com/gensim/
 <span class="n">n_dimensions</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span><span class="n">n_dimensions</span><span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">build_vocab</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">total_words</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">corpus_total_words</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">total_words</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">corpus_total_words</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Another problem has to do with the data GloVe was trained on. It’s so large
@@ -600,7 +600,8 @@ shape how we represent our corpus, and it’s important to keep an eye out for
 this when working with the data.</p>
 <section id="loading-a-model">
 <h3><span class="section-number">4.3.1. </span>Loading a model<a class="headerlink" href="#loading-a-model" title="Permalink to this headline">#</a></h3>
-<p>With all that said, we can move on. Below, we load GloVe embeddings into our workspace using a <code class="docutils literal notranslate"><span class="pre">gensim</span></code> wrapper.</p>
+<p>With all that said, we can move on. Below, we load GloVe embeddings into our
+workspace using a <code class="docutils literal notranslate"><span class="pre">gensim</span></code> wrapper.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_path</span> <span class="o">=</span> <span class="n">indir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;glove/glove-wiki-gigaword_200d.bin&quot;</span><span class="p">)</span>
@@ -1651,7 +1652,7 @@ index.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The index position for &#39;perspiration&#39; is 62606
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The index position for &#39;narborough&#39; is 185814
 </pre></div>
 </div>
 </div>
@@ -1664,46 +1665,46 @@ index.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 0.34274  , -0.096346 , -0.068774 ,  0.27166  ,  0.58393  ,
-        0.4885   ,  0.35937  , -0.011953 , -0.39845  , -0.089788 ,
-        0.15603  ,  0.8506   , -0.33452  ,  0.15425  , -0.63728  ,
-        0.36981  ,  0.29442  ,  0.16697  ,  0.39557  ,  0.087274 ,
-       -0.63985  , -0.78824  ,  0.12963  , -0.30478  ,  0.30588  ,
-       -0.9428   , -0.71538  ,  0.63288  , -0.3758   ,  0.0089048,
-       -0.20389  , -0.03423  ,  0.50402  ,  0.57832  , -0.05915  ,
-        0.58003  ,  0.11094  ,  0.23777  , -0.49017  ,  0.4157   ,
-        1.0752   , -0.27932  ,  0.042422 ,  0.69469  ,  0.42245  ,
-       -0.24776  , -0.085015 ,  0.74555  , -0.44582  ,  0.48842  ,
-       -0.45176  , -0.52999  , -0.21545  ,  0.01058  , -0.59661  ,
-       -0.84596  ,  0.37354  ,  0.36735  , -0.53753  , -0.090848 ,
-       -0.60677  , -0.52517  ,  0.59226  , -0.049745 , -0.29077  ,
-        0.1218   , -0.5877   , -0.12355  , -0.5767   , -0.81741  ,
-       -0.19884  ,  0.082269 , -0.38773  ,  0.018241 ,  0.87612  ,
-       -0.38079  , -0.32783  , -0.9378   , -0.83587  , -0.092289 ,
-       -0.01572  ,  0.38923  , -0.23625  , -0.30967  ,  0.21328  ,
-        0.13814  ,  0.61855  , -0.0563   ,  0.33381  , -0.60672  ,
-       -0.12138  , -0.29229  , -0.41458  ,  0.21075  ,  0.38038  ,
-       -0.44073  , -0.51294  ,  0.051154 ,  0.22223  , -0.32179  ,
-       -0.38819  , -0.0084361, -0.22002  ,  0.036284 , -0.71559  ,
-       -0.49694  , -0.30757  ,  0.85428  ,  0.11685  ,  0.1431   ,
-        0.34186  ,  0.56951  ,  0.44928  , -0.57333  ,  0.14289  ,
-       -0.20371  ,  0.25883  ,  0.22851  , -0.12032  ,  0.12165  ,
-        0.17145  , -0.13162  , -0.036695 ,  0.56897  , -0.2752   ,
-        0.052002 ,  0.32764  , -0.22634  , -0.4181   , -0.68478  ,
-       -0.45577  ,  0.047108 , -0.46204  ,  0.13557  ,  0.020219 ,
-        0.7134   , -0.21565  , -0.11103  , -0.15503  , -0.38013  ,
-        0.2318   ,  0.27972  ,  0.47752  , -0.43355  ,  0.14412  ,
-       -0.090529 ,  0.22596  ,  0.32498  , -0.48716  ,  0.38307  ,
-        0.34578  ,  0.30773  ,  0.2491   , -0.14593  , -0.56034  ,
-       -0.25143  , -0.26341  ,  0.11263  , -0.038317 ,  0.75337  ,
-        0.23006  , -0.23176  ,  0.21418  , -0.15695  ,  0.47327  ,
-       -0.32796  ,  0.36439  ,  0.097745 ,  0.17429  , -0.27614  ,
-        0.18461  ,  0.8482   ,  0.26821  ,  0.90364  ,  0.0064597,
-       -0.39557  , -0.14116  ,  0.10965  ,  0.075364 ,  0.23136  ,
-       -0.035852 , -0.063888 , -0.374    , -0.025579 ,  0.15312  ,
-        0.086371 , -0.69916  , -1.007    , -0.53633  ,  0.028306 ,
-        0.21238  ,  0.099689 ,  0.076415 , -0.41107  , -0.2494   ,
-       -0.97005  ,  0.3576   , -0.12426  , -0.40634  , -0.39888  ],
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.017698 , -0.089192 ,  0.40982  ,  0.88682  , -0.062031 ,
+       -0.69808  ,  0.57703  , -0.36114  ,  0.22246  , -0.082976 ,
+        0.11398  , -0.69007  ,  0.24121  ,  0.41111  , -0.29863  ,
+       -0.27989  ,  0.30533  , -0.26442  ,  0.19096  ,  0.44702  ,
+       -0.32693  , -0.90316  ,  0.88914  ,  0.38268  ,  0.14944  ,
+       -0.81196  ,  0.38611  ,  0.39796  , -0.044545 ,  0.17571  ,
+        0.13694  ,  0.096035 , -0.072519 ,  0.016245 , -0.18048  ,
+       -0.60836  ,  0.36774  ,  0.31124  , -0.41398  , -0.15075  ,
+       -0.40834  ,  0.24408  ,  0.22506  ,  0.32014  , -0.007082 ,
+        0.2941   ,  0.018836 , -0.69725  ,  0.3429   , -0.14691  ,
+        0.43286  , -0.16064  ,  0.40059  , -0.073743 ,  0.67017  ,
+        0.25837  ,  0.50325  ,  0.01543  ,  0.32641  , -0.24724  ,
+        0.43441  , -0.053716 , -0.011572 , -0.58694  ,  0.42764  ,
+       -0.094219 , -0.036764 , -0.19051  , -0.20119  ,  0.0055347,
+       -0.15694  , -0.28896  ,  0.028967 , -0.27545  , -0.74461  ,
+       -0.48326  ,  0.63549  , -0.11666  ,  0.47227  , -0.044874 ,
+        0.44747  ,  0.0044749, -0.65886  , -0.14546  ,  0.091734 ,
+       -0.085443 ,  0.18391  , -0.28744  , -0.3601   ,  0.50839  ,
+       -0.45706  , -0.19985  ,  0.35185  ,  0.1931   , -0.19362  ,
+        0.57572  ,  0.31761  ,  0.34308  , -0.52223  , -0.1635   ,
+       -0.0090849,  0.19723  , -0.7448   ,  0.41182  ,  0.11783  ,
+        0.11816  ,  0.013444 , -0.63074  ,  0.21882  , -0.14492  ,
+       -0.14312  ,  0.15537  , -0.61474  , -0.38435  , -0.14175  ,
+       -0.053322 , -0.32864  , -0.23835  ,  0.42184  , -0.10257  ,
+        0.049433 , -0.13573  , -0.59587  , -0.16894  , -0.14438  ,
+        0.053455 , -0.079963 ,  0.030502 , -0.33703  ,  0.49101  ,
+        0.39456  , -0.18674  , -0.07638  ,  0.13759  , -0.1819   ,
+        0.25851  ,  0.01651  , -0.10031  ,  0.3655   , -0.17147  ,
+        0.19275  ,  0.11795  , -0.074792 , -0.28335  , -0.361    ,
+        0.18744  , -0.23677  ,  0.28772  , -0.52739  , -0.35344  ,
+       -0.19736  , -0.21643  ,  0.36791  ,  0.008264 , -0.019233 ,
+        0.094026 ,  0.13588  ,  0.073462 ,  0.24546  ,  0.14442  ,
+        0.41013  , -0.27442  , -0.12367  , -0.45887  , -0.46172  ,
+        0.04526  ,  0.20564  ,  0.35914  ,  0.45364  , -0.4018   ,
+       -0.19412  ,  0.21178  , -0.24946  , -0.41591  , -0.24927  ,
+        0.23502  ,  0.47596  , -0.084612 ,  0.087151 , -0.36939  ,
+       -0.49462  ,  0.090011 , -0.51494  ,  0.063694 , -0.23376  ,
+       -0.05024  ,  0.17234  , -0.40709  , -0.19606  , -0.052453 ,
+        0.25926  , -0.36918  ,  0.15382  , -0.15752  , -0.0071243,
+        0.031985 , -0.28296  , -0.20109  ,  0.5583   ,  0.37039  ],
       dtype=float32)
 </pre></div>
 </div>
@@ -1718,16 +1719,16 @@ index.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>phadungsil
-cornellà
-jadranka
-goshen
-ranco
-hominoid
-disposals
-brownridge
-fellbach
-annibale
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tchotchkes
+starosta
+fonoti
+mpeg4
+smaller
+dabolim
+buzzmetrics
+gudgeon
+tinderbox
+mitzeee
 </pre></div>
 </div>
 </div>
@@ -1778,6 +1779,7 @@ the model. We identify whether the model has a token using its
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vocab</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tok</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">corpus</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">)</span>
 <span class="n">in_glove</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tok</span> <span class="k">for</span> <span class="n">tok</span> <span class="ow">in</span> <span class="n">vocab</span> <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">has_index_for</span><span class="p">(</span><span class="n">tok</span><span class="p">))</span>
+
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total words in the corpus vocabulary:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Words not in GloVe:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_glove</span><span class="p">))</span>
 </pre></div>
@@ -1812,8 +1814,8 @@ Vector representations of text allow us to perform various mathematical
 operations on our corpus that approximate (though maybe <em>only</em> approximate)
 semantics. The most common among these operations is finding the <strong>cosine
 similarity</strong> between two vectors. Our Getting Started with Textual Data series
-has a whole [chapter][chaper] on this measure, so if you haven’t encountered it
-before, we recommend you read that. But in short: cosine similarity measures
+has a whole <a class="reference external" href="https://ucdavisdatalab.github.io/workshop_getting_started_with_textual_data/05_clustering-and-classification.html">chapter</a> on this measure, so if you haven’t encountered
+it before, we recommend you read that. But in short: cosine similarity measures
 the difference between vectors’ orientation in a feature space (here, the
 feature space is comprised of each of the vectors’ 200 dimensions). The closer
 two vectors are, the more likely they are to share semantic similarities.</p>
@@ -1873,85 +1875,84 @@ arguments.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokens most similar to &#39;muddles&#39;
-
-Word            Score
------------  --------
-muddling     0.543004
-traipses     0.521494
-sleepwalks   0.520099
-sifts        0.490618
-trundles     0.4882
-ambles       0.485887
-limps        0.484122
-tsuchihashi  0.482688
-riffling     0.475503
-part-way     0.473
-
-
-Tokens most similar to &#39;heartbeat&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tokens most similar to &#39;moḩammadābād-e&#39;
 
 Word             Score
 ------------  --------
-heartbeats    0.625575
-irregular     0.541087
-pulse         0.533149
-arrhythmia    0.52514
-fibrillation  0.516604
-palpitations  0.499957
-pacemaker     0.497751
-rhythm        0.489455
-atrial        0.48542
-cardiac       0.478375
+tāzehābād-e   0.863895
+tāzehābād     0.850876
+moḩammadābād  0.849943
+mehdīābād     0.828674
+āgh           0.815305
+aḩmadābād-e   0.811629
+qāsemābād     0.80808
+akbarābād     0.791679
+eslāmābād-e   0.791298
+choqā         0.789468
 
 
-Tokens most similar to &#39;gloire&#39;
+Tokens most similar to &#39;clin&#39;
 
-Word              Score
--------------  --------
-méduse         0.588436
-minerve        0.581787
-patrie         0.558383
-década         0.548176
-l&#39;ange         0.544956
-redoutable     0.544414
-vénus          0.542301
-galissonnière  0.538082
-provinciën     0.528588
-qieyun         0.528
-
-
-Tokens most similar to &#39;petroleo&#39;
-
-Word                 Score
-----------------  --------
-brasileiro        0.714216
-petrobras         0.644095
-petroleos         0.566684
-brasileiras       0.527277
-ypf               0.517058
-mexicanos         0.514246
-empresa           0.4809
-siderurgica       0.478339
-ipiranga          0.468173
-telecomunicacoes  0.467728
+Word           Score
+----------  --------
+biol        0.569155
+physiol     0.539857
+surg        0.445492
+ophthalmol  0.423995
+daara       0.415892
+syst        0.405262
+j           0.401821
+exp         0.388299
+sarvepalli  0.381818
+των         0.381374
 
 
-Tokens most similar to &#39;talvin&#39;
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Word          Score
----------  --------
-jagdeep    0.591266
-pargat     0.555065
-satnam     0.554991
-lyallpuri  0.552406
-majithia   0.550709
-gurbaksh   0.550496
-gurdial    0.549251
-jaspreet   0.548922
-4-112      0.548149
-alpana     0.547274
+Tokens most similar to &#39;korthsptimes.com&#39;
+
+Word                    Score
+-------------------  --------
+lreileysptimes.com   0.804706
+zuccosptimes.com     0.793974
+hundleysptimes.com   0.784107
+fluto                0.782202
+adairsptimes.com     0.780705
+alodersptimes.com    0.778358
+271-8978             0.777102
+shinzawa             0.774799
+893-8810             0.772986
+levesquesptimes.com  0.769854
+
+
+Tokens most similar to &#39;65.10&#39;
+
+  Word     Score
+------  --------
+ 68.81  0.639593
+ 60.02  0.631994
+ 62.7   0.627355
+ 58.3   0.626802
+ 69.8   0.623692
+ 61.7   0.623306
+ 63.98  0.621503
+ 73.32  0.617899
+ 63.8   0.616034
+ 66.3   0.615333
+
+
+Tokens most similar to &#39;tandil&#39;
+
+Word             Score
+------------  --------
+kabirwala     0.529432
+pergamino     0.520529
+đakovica      0.497476
+kumbo         0.4968
+dipolog       0.495652
+balanga       0.489524
+stryj         0.480757
+mont-laurier  0.479071
+ituzaingó     0.477405
+necochea      0.476401
 </pre></div>
 </div>
 </div>
@@ -1964,7 +1965,7 @@ is, its antonym – is “evil.” But in the world of vector spaces, the least
 similar word to “good” is:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="n">topn</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="n">topn</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -2124,15 +2125,15 @@ synthetic vectors, they’re often in the top-10 most similar results.</p>
 </section>
 <section id="analogies">
 <h3><span class="section-number">4.4.3. </span>Analogies<a class="headerlink" href="#analogies" title="Permalink to this headline">#</a></h3>
-<p>Most famously, word embeddings enable quasi-logical reasoning. Though, as we
-mentioned earlier, relationships between antonyms and synonyms do not
-necessarily map to a vector space, certain analogies do – at least under the
-right circumstances, and with particular training data. The logic here is that
-we identify a relationship between two words and we subtract one of those
-words’ vectors from the other. To that new vector we add in a vector for a
-target word, which forms the analogy. Querying for the word closest to this
-modified vector should produce a similar relation between the result and the
-target word as that between the original pair.</p>
+<p>Most famously, word embeddings enable quasi-logical reasoning. Though
+relationships between antonyms and synonyms do not necessarily map to a vector
+space, certain analogies do – at least under the right circumstances, and with
+particular training data. The logic here is that we identify a relationship
+between two words and we subtract one of those words’ vectors from the other.
+To that new vector we add in a vector for a target word, which forms the
+analogy. Querying for the word closest to this modified vector should produce a
+similar relation between the result and the target word as that between the
+original pair.</p>
 <p>Here, we ask: “strong is to stronger what clear is to X?” Ideally, we’d get
 “clearer.”</p>
 <div class="cell docutils container">
