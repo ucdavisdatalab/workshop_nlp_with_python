@@ -135,14 +135,14 @@ When we build models, we use a portion of our data to **train** the model and a
 smaller portion of it to **test** the model. The workflow goes like this.
 First, we train the model, then we give it our test data, which it hasn't yet
 seen. We, on the other hand, have seen this data, and we know which labels the
-model _should_ assign when it makes its predictions. By measuring those
+model should assign when it makes its predictions. By measuring those
 predictions against labels that we know to be correct, we're thus able to
 appraise a model's performance.
 
 `scikit-learn` has functionality to split our data into training and test sets
 with `train_test_split()`. This will output training data/labels and test
 data/labels. We'll also specify what percentage of the corpus we devote to
-training and what percentage we devote to testing. For this task, we'll use an
+training and what percentage we devote to testing. For this task, we use a
 70/30 split.
 
 ```{admonition} Be sure to shuffle the data!
@@ -392,7 +392,7 @@ that total.
 ```{code-cell}
 def score_passive(doc):
     """Score the passiveness of a document."""
-    subj = Counter({'passive': 0, 'active': 0})
+    subj = Counter(passive = 0, active = 0)
     for sent in doc.sents:
         for tok in sent:
             if tok.dep_ in ('nsubj', 'csubj'):
@@ -430,14 +430,14 @@ ABSTRACT_SUFFIX = (
 
 def score_abstract(doc):
     """Score the abstractness of a document."""
-    nouns = Counter({'abstract': 0, 'not': 0})
+    nouns = Counter(abstract = 0, not_abstract = 0)
     for tok in doc:
         if not tok.pos_ == 'NOUN':
             continue
         if tok.suffix_ in ABSTRACT_SUFFIX:
             nouns['abstract'] += 1
         else:
-            nouns['not'] += 1
+            nouns['not_abstract'] += 1
 
     return nouns['abstract'] / nouns.total()
 
