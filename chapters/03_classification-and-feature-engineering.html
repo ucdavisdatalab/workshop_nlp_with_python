@@ -408,7 +408,7 @@ pursue when using NLP methods in your research.</p>
 <p class="admonition-title">Learning objectives</p>
 <p>By the end of this chapter, you will be able to:</p>
 <ul class="simple">
-<li><p>Build a naive Bayes classification model</p></li>
+<li><p>Build a naive Bayes text classification model</p></li>
 <li><p>Recognize whether a model might be overfitted</p></li>
 <li><p>Identify possible feature sets to engineer for text data</p></li>
 <li><p>Engineer those features using <code class="docutils literal notranslate"><span class="pre">spaCy</span></code>’s document annotation model</p></li>
@@ -536,11 +536,11 @@ the model an adequate representation of the data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">tfidf</span>
-    <span class="p">,</span> <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;label_int&#39;</span><span class="p">]</span>
-    <span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.3</span>
-    <span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">357</span>
+    <span class="n">tfidf</span><span class="p">,</span>
+    <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;label_int&#39;</span><span class="p">],</span>
+    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">random_state</span> <span class="o">=</span> <span class="mi">357</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -1048,11 +1048,11 @@ distribution.</p></li>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">,</span> <span class="n">test_labels</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-    <span class="n">scaled</span>
-    <span class="p">,</span> <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;label_int&#39;</span><span class="p">]</span>
-    <span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.3</span>
-    <span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">357</span>
+    <span class="n">scaled</span><span class="p">,</span>
+    <span class="n">manifest</span><span class="p">[</span><span class="s1">&#39;label_int&#39;</span><span class="p">],</span>
+    <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">random_state</span> <span class="o">=</span> <span class="mi">357</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
