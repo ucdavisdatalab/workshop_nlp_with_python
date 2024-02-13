@@ -43,7 +43,7 @@ pursue when using NLP methods in your research.
 ```{admonition} Learning objectives
 By the end of this chapter, you will be able to:
 
-+ Build a naive Bayes classification model
++ Build a naive Bayes text classification model
 + Recognize whether a model might be overfitted
 + Identify possible feature sets to engineer for text data
 + Engineer those features using `spaCy`'s document annotation model
@@ -152,11 +152,11 @@ the model an adequate representation of the data.
 
 ```{code-cell}
 train_data, test_data, train_labels, test_labels = train_test_split(
-    tfidf
-    , manifest['label_int']
-    , test_size = 0.3
-    , shuffle = True
-    , random_state = 357
+    tfidf,
+    manifest['label_int'],
+    test_size = 0.3,
+    shuffle = True,
+    random_state = 357,
 )
 ```
 
@@ -511,11 +511,11 @@ The rest should feel familiar: split the data...
 
 ```{code-cell}
 train_data, test_data, train_labels, test_labels = train_test_split(
-    scaled
-    , manifest['label_int']
-    , test_size = 0.3
-    , shuffle = True
-    , random_state = 357
+    scaled,
+    manifest['label_int'],
+    test_size = 0.3,
+    shuffle = True,
+    random_state = 357,
 )
 ```
 

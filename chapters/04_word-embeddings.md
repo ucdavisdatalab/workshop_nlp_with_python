@@ -458,9 +458,9 @@ in the vector space? Using the `.similar_by_vector()` method, we can find out.
 ```{code-cell}
 :tags: ["output_scroll"]
 concepts = {
-    'beach': ('sand', 'ocean')
-    , 'hotel': ('vacation', 'room')
-    , 'airplane': ('air', 'car')
+    'beach': ('sand', 'ocean'),
+    'hotel': ('vacation', 'room'),
+    'airplane': ('air', 'car')
 }
 for concept in concepts:
     a, b = concepts[concept]
@@ -490,9 +490,9 @@ Here, we ask: "strong is to stronger what clear is to X?" Ideally, we'd get
 
 ```{code-cell}
 show_most_similar(
-    func = model.most_similar
-    , positive = ['stronger', 'clear']
-    , negative = ['strong']
+    func = model.most_similar,
+    positive = ['stronger', 'clear'],
+    negative = ['strong']
 )
 ```
 
@@ -500,9 +500,9 @@ show_most_similar(
 
 ```{code-cell}
 show_most_similar(
-    func = model.most_similar
-    , positive = ['france', 'berlin']
-    , negative = ['paris']
+    func = model.most_similar,
+    positive = ['france', 'berlin'],
+    negative = ['paris']
 )
 ```
 
@@ -511,9 +511,9 @@ Consider the following: "arm is to hand what leg is to X?" We'd expect "foot."
 
 ```{code-cell}
 show_most_similar(
-    func = model.most_similar
-    , positive = ['hand', 'leg']
-    , negative = ['arm']
+    func = model.most_similar,
+    positive = ['hand', 'leg'],
+    negative = ['arm']
 )
 ```
 
@@ -587,11 +587,11 @@ Started With Textual Data.
 
 ```{code-cell}
 reducer = TSNE(
-    n_components = 2
-    , learning_rate = 'auto'
-    , init = 'random'
-    , random_state = 357
-    , n_jobs = -1
+    n_components = 2,
+    learning_rate = 'auto',
+    init = 'random',
+    random_state = 357,
+    n_jobs = -1
 )
 reduced = reducer.fit_transform(embeddings)
 vis = pd.DataFrame({'x': reduced[:,0], 'y': reduced[:,1], 'label': manifest['name']})
@@ -606,9 +606,9 @@ def sim_plot(data, hue = None, labels = None, n_colors = 3):
     fig, ax = plt.subplots(figsize = (10, 10))
     pal = sns.color_palette('colorblind', n_colors = n_colors) if hue else None
     g = sns.scatterplot(
-        x = 'x', y = 'y'
-        , hue = hue, palette = pal, alpha = 0.8
-        , data = data, ax = ax
+        x = 'x', y = 'y',
+        hue = hue, palette = pal, alpha = 0.8,
+        data = data, ax = ax
     )
     g.set(xticks = [], yticks = [], xlabel = 'Dim. 1', ylabel = 'Dim. 2')
 
@@ -616,7 +616,7 @@ def sim_plot(data, hue = None, labels = None, n_colors = 3):
         to_label = data[data['label'].isin(labels)]
         to_label[['x', 'y', 'label']].apply(lambda x: g.text(*x), axis = 1)
 
-    plt.show();
+    plt.show()
 
 people = ('Jackie Robinson', 'Lou Gehrig', 'Cy Young')
 sim_plot(vis, labels = people)
